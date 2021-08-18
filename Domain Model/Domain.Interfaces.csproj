@@ -2,7 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <RootNamespace>Domain_Model</RootNamespace>
+    <RootNamespace>DomainLayer.DomainInterfaces</RootNamespace>
+    <AssemblyName>DomainLayer.DomainInterfaces</AssemblyName>
   </PropertyGroup>
 
 </Project>

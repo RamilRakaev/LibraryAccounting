@@ -1,13 +1,19 @@
-﻿using System;
+﻿using Domain.Interfaces;
 
-namespace DomainLayer.DomainModel
+namespace Domain.Model
 {
-    public abstract class AbstractBook
+    public class Book: IElement
     {
         public int Id { get; set; }
         public string Title { get; set; }
         public string Author { get; set; }
         public string Genre { get; set; }
         public string Publisher { get; set; }
+
+        public void Accept(IVisitor<Book> visitor)
+        {
+            visitor.Visit(this);
+        }
+
     }
 }
