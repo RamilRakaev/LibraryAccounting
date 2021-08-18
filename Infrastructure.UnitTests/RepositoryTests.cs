@@ -14,7 +14,7 @@ namespace Infrastructure.UnitTests
     public class RepositoryTests
     {
         private IRepository<Book> BookRepository;
-        private IRepository<User> UserRepository;
+        private IRepository<PersonAccount> PersonRepository;
         private IRepository<Booking> BookingsRepository;
         readonly private DbContextOptions<DataContext> options = new DbContextOptionsBuilder<DataContext>().
                 UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=LibraryAccounting;Trusted_Connection=True;").Options;
@@ -45,7 +45,7 @@ namespace Infrastructure.UnitTests
             using (DataContext db = new DataContext(options))
             {
                 BookRepository = new BookRepository(db);
-                UserRepository = new UserRepository(db);
+                PersonRepository = new PersonRepository(db);
                 BookingsRepository = new BookingsRepository(db);
                 Book book = new Book()
                 {
@@ -53,18 +53,18 @@ namespace Infrastructure.UnitTests
                     Author = "Мэтт Ридли",
                     Publisher = "ООО Издетельство \"Эксмо\""
                 };
-                User user = new User()
+                PersonAccount person = new PersonAccount()
                 {
                     Name = "Иван",
                     Password = "1234",
                     Email = "IVAN228@gmail.com"
                 };
                 book = (Book)IRepositoryTest(BookRepository, book);
-                user = (User)IRepositoryTest(UserRepository, user);
+                person = (PersonAccount)IRepositoryTest(PersonRepository, person);
                 Booking booking = new Booking()
                 {
                     BookId = book.Id,
-                    UserId = user.Id,
+                    PersonAccountId = person.Id,
                     IsTransmitted = true,
                     IsReturned = false,
                     TransferDate = DateTime.Today

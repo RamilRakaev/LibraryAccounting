@@ -61,15 +61,4 @@ namespace Infrastructure.Visitors
             element.Title = Publisher;
         }
     }
-
-    public class BookAtuhorVisitor : BookPropertyVisitor, IVisitor<Book>
-    {
-        public BookAtuhorVisitor(string line) : base(line)
-        { }
-
-        protected override void Operation(Book book)
-        {
-            book.Author = Line;
-        }
-    }
 }

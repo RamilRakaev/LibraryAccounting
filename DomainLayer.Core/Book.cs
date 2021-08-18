@@ -10,10 +10,5 @@ namespace Domain.Model
         public string Genre { get; set; }
         public string Publisher { get; set; }
 
-        public void Accept(IVisitor<Book> visitor)
-        {
-            visitor.Visit(this);
-        }
-
     }
 }

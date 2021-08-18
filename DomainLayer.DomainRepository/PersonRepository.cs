@@ -5,31 +5,31 @@ using System.Linq;
 
 namespace Infrastructure.Repositories
 {
-    public class UserRepository : IRepository<User>
+    public class PersonRepository : IRepository<PersonAccount>
     {
         readonly private DataContext db;
 
-        public UserRepository(DataContext context)
+        public PersonRepository(DataContext context)
         {
             db = context;
         }
 
-        public IEnumerable<User> GetAll()
+        public IEnumerable<PersonAccount> GetAll()
         {
             return db.Users;
         }
 
-        public User Find(int id)
+        public PersonAccount Find(int id)
         {
             return db.Users.FirstOrDefault(u => u.Id == id);
         }
 
-        public void Add(User element)
+        public void Add(PersonAccount element)
         {
             db.Users.Add(element);
         }
 
-        public void Remove(User element)
+        public void Remove(PersonAccount element)
         {
             db.Users.Remove(element);
         }

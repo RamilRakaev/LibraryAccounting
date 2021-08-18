@@ -5,9 +5,9 @@ namespace Domain.Interfaces
     {
         public int Id { get; set; }
 
-        public bool Accept(IVisitor<IElement> visitor)
+        public void Accept(IVisitor<IElement> visitor)
         {
-            return visitor.Visit(this);
+            visitor.Visit(this);
         }
     }
 }
