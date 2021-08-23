@@ -1,7 +1,6 @@
-﻿using Domain.Interfaces;
-using Domain.Model;
+﻿using LibraryAccounting.Domain.Interfaces.DataManagement;
+using LibraryAccounting.Domain.Model;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Infrastructure.Repositories
 {

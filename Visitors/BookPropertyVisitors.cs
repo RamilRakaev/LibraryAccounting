@@ -1,5 +1,5 @@
-﻿using Domain.Interfaces;
-using Domain.Model;
+﻿using LibraryAccounting.Domain.Interfaces.DataManagement;
+using LibraryAccounting.Domain.Model;
 
 namespace Infrastructure.Visitors
 {
@@ -12,9 +12,10 @@ namespace Infrastructure.Visitors
             Title = title;
         }
 
-        public void Visit(Book element)
+        public bool Visit(Book element)
         {
             element.Title = Title;
+            return true;
         }
     }
     public class BookAuthorVisitor : IVisitor<Book>
@@ -26,9 +27,10 @@ namespace Infrastructure.Visitors
             Author = author;
         }
 
-        public void Visit(Book element)
+        public bool Visit(Book element)
         {
-            element.Title = Author;
+            element.Author = Author;
+            return true;
         }
     }
 
@@ -41,9 +43,10 @@ namespace Infrastructure.Visitors
             Genre = genre;
         }
 
-        public void Visit(Book element)
+        public bool Visit(Book element)
         {
-            element.Title = Genre;
+            element.Genre = Genre;
+            return true;
         }
     }
 
@@ -56,9 +59,10 @@ namespace Infrastructure.Visitors
             Publisher = publisher;
         }
 
-        public void Visit(Book element)
+        public bool Visit(Book element)
         {
-            element.Title = Publisher;
+            element.Publisher = Publisher;
+            return true;
         }
     }
 }

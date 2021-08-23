@@ -1,10 +1,13 @@
-﻿using Domain.Interfaces;
+﻿using LibraryAccounting.Domain.Interfaces.DataManagement;
+using LibraryAccounting.Domain.Interfaces.PocessingRequests;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 
 namespace Infrastructure.ObjectStructure
 {
-    public class CompositeElement : IElement
+    public class CompositeElement<Element> : IElement<Element>
     {
         public int Id
         {
@@ -12,28 +15,39 @@ namespace Infrastructure.ObjectStructure
             set { }
         }
 
-        readonly private IRepository<IElement> Repository;
-        private IEnumerable<IElement> Elements;
+        private IEnumerable<Element> Elements;
 
-        public CompositeElement(IRepository<IElement> repository)
+        public CompositeElement(IEnumerable<Element> elements)
         {
-            Repository = repository;
-            Elements = Repository.GetAll();
+            Type type = elements.ElementAt(0).GetType();
+            if (type.GetInterfaces().Contains(typeof(IElement<Element>)))
+                Elements = elements;
+            else
+                throw new Exception("The elements does not implements the interface IElement");
         }
 
-        public void Accept(IVisitor<IElement> visitor)
+        public bool Accept(IVisitor<Element> visitor, IRequestsHandlerComponent<Element> handler)
         {
+
+            bool successfulCompletion = true;
+            if (handler != null)
+            {
+                handler.Handle(ref Elements);
+            }
+            handler.Handle(ref Elements);
+            var elements = (IEnumerable<IElement>)Elements;
+            var IElementVisisor = (IVisitor<IElement>)visitor;
             for (int i = 0; i < Elements.Count(); i++)
             {
-                Elements.ElementAt(i).Accept(visitor);
-                Repository.Save();
+                if (!elements.ElementAt(i).Accept(IElementVisisor))
+                    successfulCompletion = false;
             }
+            return successfulCompletion;
         }
 
-        public void ConcreteElementAccept(IVisitor<IElement> visitor, int id)
+        public bool Accept(IVisitor<Element> visitor)
         {
-            Repository.Find(id).Accept(visitor);
-            Repository.Save();
+            return Accept(visitor, null);
         }
     }
 }

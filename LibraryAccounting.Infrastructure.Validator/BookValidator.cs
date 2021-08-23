@@ -1,8 +1,5 @@
-﻿using Domain.Model;
-using FluentValidation;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using FluentValidation;
+using LibraryAccounting.Domain.Model;
 
 namespace LibraryAccounting.Infrastructure.Validator
 {

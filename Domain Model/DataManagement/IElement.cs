@@ -1,13 +1,13 @@
 ﻿
-namespace Domain.Interfaces
+namespace LibraryAccounting.Domain.Interfaces.DataManagement
 {
-    public interface IElement
+    public interface IElement<Element>
     {
         public int Id { get; set; }
+        public bool Accept(IVisitor<Element> visitor);
+    }
 
-        public void Accept(IVisitor<IElement> visitor)
-        {
-            visitor.Visit(this);
-        }
+    public interface IElement : IElement<IElement>
+    {
     }
 }

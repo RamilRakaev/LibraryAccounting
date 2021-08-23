@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Domain.Interfaces
+namespace LibraryAccounting.Domain.Interfaces.DataManagement
 {
     public interface IRepository<Element>
     {

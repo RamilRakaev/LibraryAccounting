@@ -1,10 +1,9 @@
-﻿using Domain.Model;
-using FluentValidation;
-using System;
+﻿using FluentValidation;
+using LibraryAccounting.Domain.Model;
 
 namespace LibraryAccounting.Infrastructure.Validator
 {
-    public class PersonValidator : AbstractValidator<PersonAccount>
+    public class PersonValidator : AbstractValidator<User>
     {
         public PersonValidator()
         {

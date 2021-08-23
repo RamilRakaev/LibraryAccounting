@@ -14,8 +14,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Domain Model\Domain.Interfaces.csproj" />
-    <ProjectReference Include="..\DomainLayer.Core\Domain.Model.csproj" />
+    <ProjectReference Include="..\Domain Model\LibraryAccounting.Domain.Interfaces.csproj" />
+    <ProjectReference Include="..\DomainLayer.Core\LibraryAccounting.Domain.Model.csproj" />
     <ProjectReference Include="..\DomainLayer.DomainRepository\Infrastructure.Repositories.csproj" />
   </ItemGroup>
 

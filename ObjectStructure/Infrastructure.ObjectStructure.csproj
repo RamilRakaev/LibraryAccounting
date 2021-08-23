@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Domain Model\Domain.Interfaces.csproj" />
+    <ProjectReference Include="..\Domain Model\LibraryAccounting.Domain.Interfaces.csproj" />
   </ItemGroup>
 
 </Project>

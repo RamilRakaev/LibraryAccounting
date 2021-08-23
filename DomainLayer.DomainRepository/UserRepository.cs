@@ -1,35 +1,35 @@
-﻿using Domain.Model;
-using Domain.Interfaces;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using LibraryAccounting.Domain.Interfaces.DataManagement;
+using LibraryAccounting.Domain.Model;
 
 namespace Infrastructure.Repositories
 {
-    public class PersonRepository : IRepository<PersonAccount>
+    public class UserRepository : IRepository<User>
     {
         readonly private DataContext db;
 
-        public PersonRepository(DataContext context)
+        public UserRepository(DataContext context)
         {
             db = context;
         }
 
-        public IEnumerable<PersonAccount> GetAll()
+        public IEnumerable<User> GetAll()
         {
             return db.Users;
         }
 
-        public PersonAccount Find(int id)
+        public User Find(int id)
         {
             return db.Users.FirstOrDefault(u => u.Id == id);
         }
 
-        public void Add(PersonAccount element)
+        public void Add(User element)
         {
             db.Users.Add(element);
         }
 
-        public void Remove(PersonAccount element)
+        public void Remove(User element)
         {
             db.Users.Remove(element);
         }

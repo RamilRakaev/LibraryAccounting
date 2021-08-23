@@ -1,34 +1,39 @@
-﻿using Domain.Interfaces;
+﻿using LibraryAccounting.Domain.Interfaces.PocessingRequests;
 using System.Collections.Generic;
+using System.Linq;
 
-namespace Infrastructure.ObjectStructure
+namespace Infrastructure.Handlers
 {
-    public class DecoratorHandler<Element> : HandlerComponent<Element>
+    public class DecoratorHandler<Element> : IRequestsHandlerComponent<Element>
     {
-        readonly private IEnumerable<HandlerComponent<Element>> HandlerComponents;
+        readonly private List<IRequestsHandlerComponent<Element>> HandlerComponents;
 
-        public DecoratorHandler(IEnumerable<Element> elements)
-        {
-            Elements = elements;
-        }
-
-        public DecoratorHandler(IEnumerable<HandlerComponent<Element>> handlers, IEnumerable<Element> elements)
+        public DecoratorHandler(List<IRequestsHandlerComponent<Element>> handlers)
         {
             HandlerComponents = handlers;
-            Elements = elements;
         }
 
-        public override IEnumerable<Element> Handle()
+        public DecoratorHandler(IRequestsHandlerComponent<Element> handler)
         {
-            if (HandlerComponents != null)
+            HandlerComponents = new List<IRequestsHandlerComponent<Element>>();
+            HandlerComponents.Add(handler);
+        }
+
+        public void Handle(ref IEnumerable<Element> elements)
+        {
+            foreach (var handler in HandlerComponents)
             {
-                foreach (var handler in HandlerComponents)
-                {
-                    handler.SetElements(Elements);
-                    Elements = handler.Handle();
-                }
+                handler.Handle(ref elements);
             }
-            return Elements;
+        }
+
+        public Element ConcreteElement(IEnumerable<Element> elements)
+        {
+            foreach (var handler in HandlerComponents)
+            {
+                handler.Handle(ref elements);
+            }
+            return elements.FirstOrDefault();
         }
     }
 }

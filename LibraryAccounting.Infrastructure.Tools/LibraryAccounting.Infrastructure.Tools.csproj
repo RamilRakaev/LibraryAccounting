@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Domain Model\LibraryAccounting.Domain.Interfaces.csproj" />
+    <ProjectReference Include="..\DomainLayer.Core\LibraryAccounting.Domain.Model.csproj" />
+    <ProjectReference Include="..\DomainLayer.DomainRepository\Infrastructure.Repositories.csproj" />
+    <ProjectReference Include="..\Handlers\Infrastructure.Handlers.csproj" />
+    <ProjectReference Include="..\Librarian'sTools\ToolsInterfaces.csproj" />
+    <ProjectReference Include="..\ObjectStructure\Infrastructure.ObjectStructure.csproj" />
+    <ProjectReference Include="..\Visitors\Infrastructure.Visitors.csproj" />
+  </ItemGroup>
+
+</Project>

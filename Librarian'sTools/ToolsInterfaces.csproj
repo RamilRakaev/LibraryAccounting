@@ -2,11 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <RootNamespace>Librarian_sTools</RootNamespace>
   </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.9" />
-  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Domain Model\LibraryAccounting.Domain.Interfaces.csproj" />
