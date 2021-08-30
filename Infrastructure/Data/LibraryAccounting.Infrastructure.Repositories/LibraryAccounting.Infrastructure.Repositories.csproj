@@ -10,8 +10,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Domain Model\LibraryAccounting.Domain.Interfaces.csproj" />
-    <ProjectReference Include="..\DomainLayer.Core\LibraryAccounting.Domain.Model.csproj" />
+    <ProjectReference Include="..\..\..\Domain\LibraryAccounting.Domain.Interfaces\LibraryAccounting.Domain.Interfaces.csproj" />
+    <ProjectReference Include="..\..\..\Domain\LibraryAccounting.Domain.Model\LibraryAccounting.Domain.Model.csproj" />
   </ItemGroup>
 
 </Project>

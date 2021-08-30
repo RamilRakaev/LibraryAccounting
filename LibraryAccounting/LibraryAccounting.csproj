@@ -10,11 +10,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DomainLayer.DomainRepository\LibraryAccounting.Infrastructure.Repositories.csproj" />
-    <ProjectReference Include="..\Handlers\LibraryAccounting.LibraryAccounting.Infrastructure.Handlers.csproj" />
-    <ProjectReference Include="..\Librarian'sTools\ToolInterfaces.csproj" />
-    <ProjectReference Include="..\LibraryAccounting.Infrastructure.Tools\LibraryAccounting.Infrastructure.Tools.csproj" />
-    <ProjectReference Include="..\LibraryAccounting.Infrastructure.Validator\LibraryAccounting.Infrastructure.Validator.csproj" />
+    <ProjectReference Include="..\Domain\LibraryAccounting.Domain.Interfaces\LibraryAccounting.Domain.Interfaces.csproj" />
+    <ProjectReference Include="..\Domain\LibraryAccounting.Domain.Model\LibraryAccounting.Domain.Model.csproj" />
+    <ProjectReference Include="..\Infrastructure\Data\LibraryAccounting.Infrastructure.ObjectStructure\LibraryAccounting.Infrastructure.ObjectStructure.csproj" />
+    <ProjectReference Include="..\Infrastructure\Data\LibraryAccounting.Infrastructure.Repositories\LibraryAccounting.Infrastructure.Repositories.csproj" />
+    <ProjectReference Include="..\Infrastructure\Data\LibraryAccounting.Infrastructure.Validator\LibraryAccounting.Infrastructure.Validator.csproj" />
+    <ProjectReference Include="..\Infrastructure\LibraryAccounting.Infrastructure.Tools\LibraryAccounting.Infrastructure.Tools.csproj" />
+    <ProjectReference Include="..\Infrastructure\LibraryAccounting.Infrastructure.UnitTests\LibraryAccounting.Infrastructure.UnitTests.csproj" />
+    <ProjectReference Include="..\Infrastructure\Methods\LibraryAccounting.Infrastructure.Handlers\LibraryAccounting.Infrastructure.Handlers.csproj" />
+    <ProjectReference Include="..\Infrastructure\Methods\LibraryAccounting.Infrastructure.Visitors\LibraryAccounting.Infrastructure.Visitors.csproj" />
+    <ProjectReference Include="..\Services\LibraryAccounting.Services.ToolInterfaces.csproj" />
   </ItemGroup>
 
 </Project>

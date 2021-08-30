@@ -3,7 +3,7 @@ using LibraryAccounting.Domain.Interfaces.PocessingRequests;
 using LibraryAccounting.Domain.Model;
 using System.Collections.Generic;
 
-namespace LibraryAccounting.Domain.ToolInterfaces
+namespace LibraryAccounting.Services.ToolInterfaces
 {
     public interface IAdminTools
     {

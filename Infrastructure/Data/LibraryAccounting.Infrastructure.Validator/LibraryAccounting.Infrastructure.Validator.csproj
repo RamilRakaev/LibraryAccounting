@@ -9,7 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DomainLayer.Core\LibraryAccounting.Domain.Model.csproj" />
+    <ProjectReference Include="..\..\..\Domain\LibraryAccounting.Domain.Model\LibraryAccounting.Domain.Model.csproj" />
   </ItemGroup>
 
 </Project>

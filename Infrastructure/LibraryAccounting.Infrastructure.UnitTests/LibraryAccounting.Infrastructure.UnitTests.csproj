@@ -14,12 +14,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Domain Model\LibraryAccounting.Domain.Interfaces.csproj" />
-    <ProjectReference Include="..\DomainLayer.Core\LibraryAccounting.Domain.Model.csproj" />
-    <ProjectReference Include="..\DomainLayer.DomainRepository\LibraryAccounting.Infrastructure.Repositories.csproj" />
-    <ProjectReference Include="..\Handlers\LibraryAccounting.LibraryAccounting.Infrastructure.Handlers.csproj" />
-    <ProjectReference Include="..\Librarian'sTools\ToolInterfaces.csproj" />
+    <ProjectReference Include="..\..\Domain\LibraryAccounting.Domain.Model\LibraryAccounting.Domain.Model.csproj" />
+    <ProjectReference Include="..\..\Services\LibraryAccounting.Services.ToolInterfaces.csproj" />
+    <ProjectReference Include="..\Data\LibraryAccounting.Infrastructure.Repositories\LibraryAccounting.Infrastructure.Repositories.csproj" />
     <ProjectReference Include="..\LibraryAccounting.Infrastructure.Tools\LibraryAccounting.Infrastructure.Tools.csproj" />
+    <ProjectReference Include="..\Methods\LibraryAccounting.Infrastructure.Handlers\LibraryAccounting.Infrastructure.Handlers.csproj" />
+    <ProjectReference Include="..\Methods\LibraryAccounting.Infrastructure.Visitors\LibraryAccounting.Infrastructure.Visitors.csproj" />
   </ItemGroup>
 
 </Project>

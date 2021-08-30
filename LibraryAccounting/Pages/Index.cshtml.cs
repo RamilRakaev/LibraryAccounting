@@ -1,6 +1,6 @@
 ﻿using LibraryAccounting.Infrastructure.Handlers;
 using LibraryAccounting.Domain.Model;
-using LibraryAccounting.Domain.ToolInterfaces;
+using LibraryAccounting.Services.ToolInterfaces;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 
 namespace LibraryAccounting.Pages
 {
@@ -20,7 +21,6 @@ namespace LibraryAccounting.Pages
         public string Message { get; set; }
         private readonly IAdminTools AdminTools;
 
-
         public IndexModel(ILogger<IndexModel> logger, IAdminTools adminTools)
         {
             _logger = logger;
@@ -30,7 +30,7 @@ namespace LibraryAccounting.Pages
 
         public void OnGet(string message)
         {
-            
+
             Message = message;
         }
 
@@ -42,7 +42,7 @@ namespace LibraryAccounting.Pages
                 if (user != null)
                 {
                     Authenticate(user);
-                    switch (User.Claims.ElementAt(1).Value)
+                    switch (HttpContext.User.Claims.ElementAt(1).Value)
                     {
                         case "client":
                             return RedirectToPage("/ClientPages/BookCatalog");

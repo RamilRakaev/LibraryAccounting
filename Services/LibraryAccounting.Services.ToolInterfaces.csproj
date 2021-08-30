@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <RootNamespace>Librarian_sTools</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Domain\LibraryAccounting.Domain.Interfaces\LibraryAccounting.Domain.Interfaces.csproj" />
+    <ProjectReference Include="..\Domain\LibraryAccounting.Domain.Model\LibraryAccounting.Domain.Model.csproj" />
+  </ItemGroup>
+
+</Project>
