@@ -1,4 +1,32 @@
 ﻿@page
 @model LibraryAccounting.Pages.AdminPages.UserFormModel
 @{
+    ViewData["AdminPages/UserForm"] = "disabled";
 }
+<div class="container mt-3">
+    <div class="row justify-content-center">
+        <div class="col-5">
+            <form method="post">
+                <input type="hidden" asp-for="@Model.UserInfo.Id" />
+                <div class="form-group">
+                    <label>Имя</label>
+                    <input type="text" asp-for="@Model.UserInfo.Name" class="form-control" placeholder="Введите имя" />
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" asp-for="@Model.UserInfo.Email" class="form-control" placeholder="Введите email" />
+                </div>
+                <div class="form-group">
+                    <label>Пароль</label>
+                    <input type="password" asp-for="@Model.UserInfo.Password" class="form-control" placeholder="Введите пароль" />
+                </div>
+                <div class="form-group">
+                    <label>Роль</label>
+                    <select class="form-control" asp-for="@Model.UserInfo.RoleId" asp-items="@Model.Roles">
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-dark">Отправить</button>
+            </form>
+        </div>
+    </div>
+</div>

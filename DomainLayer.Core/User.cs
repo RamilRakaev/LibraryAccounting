@@ -11,9 +11,30 @@ namespace LibraryAccounting.Domain.Model
         public string Password { get; set; }
         public string Email { get; set; }
 
+        public User()
+        {
+        }
+
+        public User(string name, string email, string password, Role role)
+        {
+            Name = name;
+            Email = email;
+            Password = password;
+            Role = role;
+            RoleId = role.Id;
+        }
+
+        public User(string name, string email, string password, int roleId)
+        {
+            Name = name;
+            Email = email;
+            Password = password;
+            RoleId = roleId;
+        }
+
         public bool Accept(IVisitor<User> visitor)
         {
-                return visitor.Visit(this);
+            return visitor.Visit(this);
         }
     }
 }

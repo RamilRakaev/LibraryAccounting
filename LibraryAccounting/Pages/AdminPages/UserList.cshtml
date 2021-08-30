@@ -1,4 +1,27 @@
 ﻿@page
 @model LibraryAccounting.Pages.AdminPages.UserListModel
 @{
+    ViewData["AdminPages/UserList"] = "disabled";
 }
+<div class="container mt-3">
+    <div class="row justify-content-center">
+        @foreach (LibraryAccounting.Domain.Model.User user in Model.Users)
+        {
+            <div class="col-lg-3 col-md-2 col-12">
+                <p>Имя: @user.Name</p>
+                <p>Почта: @user.Email</p>
+                <p>Роль: @user.Role.Name</p>
+                <p>Пароль: @user.Password</p>
+                <form method="post">
+                    <input type="hidden" asp-for="@user.Id" />
+                    <input type="hidden" asp-for="@user.Name" />
+                    <input type="hidden" asp-for="@user.Email" />
+                    <input type="hidden" asp-for="@user.Password" />
+                    <input type="hidden" asp-for="@user.RoleId" />
+                    <button type="submit" class="btn btn-danger booking-btn" asp-page="UserList">Удалить</button>
+                </form>
+                <a class="btn btn-info" asp-page="/AdminPages/UserForm" asp-route-id="@user.Id">Редактировать</a>
+            </div>
+        }
+    </div>
+</div>

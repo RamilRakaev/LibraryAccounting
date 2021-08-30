@@ -27,7 +27,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{2F
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibraryAccounting.Infrastructure.Validator", "LibraryAccounting.Infrastructure.Validator\LibraryAccounting.Infrastructure.Validator.csproj", "{F5490DE2-49A2-4DDC-81B2-DC00A1E59CB7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ToolsInterfaces", "Librarian'sTools\ToolsInterfaces.csproj", "{23083759-A74F-4788-9B71-DDC706E891AF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ToolInterfaces", "Librarian'sTools\ToolInterfaces.csproj", "{23083759-A74F-4788-9B71-DDC706E891AF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{9E477758-1345-45EA-AFFA-0E5946A2E65C}"
 EndProject

@@ -15,13 +15,13 @@ namespace Infrastructure.ObjectStructure
             set { }
         }
 
-        private IEnumerable<Element> Elements;
+        private List<Element> Elements;
 
         public CompositeElement(IEnumerable<Element> elements)
         {
             Type type = elements.ElementAt(0).GetType();
             if (type.GetInterfaces().Contains(typeof(IElement<Element>)))
-                Elements = elements;
+                Elements = elements.ToList();
             else
                 throw new Exception("The elements does not implements the interface IElement");
         }

@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace LibraryAccounting.Pages.LibrarianPages
 {
-    public class BoolListModel : PageModel
+    public class BookedBooksModel : PageModel
     {
         public void OnGet()
         {

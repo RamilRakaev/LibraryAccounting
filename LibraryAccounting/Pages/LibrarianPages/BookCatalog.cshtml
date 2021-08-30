@@ -1,0 +1,44 @@
+﻿@page
+@model LibraryAccounting.Pages.LibrarianPages.BookCatalogModel
+@{
+    ViewData["LibrarianPages/BookCatalog"] = "disabled";
+}
+<div class="container mt-3">
+    <div class="row justify-content-md-start">
+        @foreach (var book in Model.Books)
+        {
+            <div class="col-lg-3 col-md-2 col-12">
+                <a>
+                    <h4>@book.Key.Title</h4>
+                    <p>Автор: @book.Key.Author <br />Жанр: @book.Key.Genre <br />Издатель: @book.Key.Publisher</p>
+                </a>
+                @if (book.Value)
+                {
+                    <p>В наличии</p>
+                }
+                else
+                {
+                    <p>Забронировано @Model.Users[Model.Bookings[book.Key.Id].ClientId].Name @Model.Bookings[book.Key.Id].BookingDate</p>
+                    if (Model.Bookings[book.Key.Id].IsTransmitted)
+                    {
+                        <p>Передано @Model.Bookings[book.Key.Id].TransferDate</p>
+                        if (Model.Bookings[book.Key.Id].IsReturned)
+                        {
+                            <p>Принято @Model.Bookings[book.Key.Id].ReturnDate</p>
+                        }
+                        else
+                        {
+                            <a class="btn btn-info booking-btn">Принять</a>
+                        }
+                    }
+                    else
+                    {
+                        <p>Не передано</p>
+                        <a class="btn btn-danger booking-btn">Передать</a>
+                    }
+                }
+                <a class="btn btn-warning booking-btn">Редактировать</a>
+            </div>
+        }
+    </div>
+</div>

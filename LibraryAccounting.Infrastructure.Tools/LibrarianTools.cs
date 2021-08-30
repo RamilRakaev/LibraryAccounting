@@ -5,23 +5,24 @@ using Infrastructure.Visitors;
 using LibraryAccounting.Domain.Interfaces.DataManagement;
 using LibraryAccounting.Domain.Interfaces.PocessingRequests;
 using LibraryAccounting.Domain.Model;
-using LibraryAccounting.Domain.ToolsInterfaces;
+using LibraryAccounting.Domain.ToolInterfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace LibraryAccounting.Infrastructure.Tools
 {
-    public class LibrarianTools : ILibrarianTools
+    public class LibrarianTools : ClientTools, ILibrarianTools
     {
-        readonly private IRepository<Book> BookRepository;
-        readonly private IRepository<Booking> BookingsRepository;
         private CompositeElement<Book> CompositeElement;
+        readonly private IRepository<User> UserRepository;
 
-        public LibrarianTools(IRepository<Booking> bookingsRepository, IRepository<Book> bookRepository)
+        public LibrarianTools(IRepository<Booking> bookingsRepository, 
+            IRepository<Book> bookRepository, 
+            IRepository<User> userRepository) : 
+            base(bookingsRepository, bookRepository)
         {
-            BookingsRepository = bookingsRepository;
-            BookRepository = bookRepository;
+            UserRepository = userRepository;
         }
 
         #region add and remove
@@ -38,42 +39,41 @@ namespace LibraryAccounting.Infrastructure.Tools
         }
         #endregion
 
-        #region reception and delivery of books
-        public bool GetBookFromClient(int bookId, int clientId)
+        #region booking books
+        public void EditBooking(IVisitor<Booking> visitor, IReturningResultHandler<Booking, Booking> resultHandler)
         {
-            var handler = new BookingsByClientIdHandler(bookId);
-            var elements = BookingsRepository.GetAll();
-            handler.Handle(ref elements);
-            return elements.First().Accept(new GetBookFromClientVisitor());
+            resultHandler.Handle(BookingRepository.GetAll()).Accept(visitor);
+            BookingRepository.Save();
         }
 
-        public bool GiveBookToClient(int bookId, int clientId)
+        public Booking GetBooking(IReturningResultHandler<Booking, Booking> requestsHandler)
         {
-            var handler = new BookingsByClientIdHandler(bookId);
-            var elements = BookingsRepository.GetAll();
-            handler.Handle(ref elements);
-            return elements.First().Accept(new GiveBookToClientVisitor());
+            var bookings = BookingRepository.GetAll().ToList();
+            return requestsHandler.Handle(bookings);
         }
         #endregion
 
-        #region books requests
-        public Book GetBook(IRequestsHandlerComponent<Book> handlerComponent)
+        #region get users
+        public User GetUser(int id)
         {
-            var elements = BookRepository.GetAll();
-            handlerComponent.Handle(ref elements);
-            return elements.FirstOrDefault();
+            return UserRepository.Find(id);
         }
 
-        public IEnumerable<Book> GetBooks(IRequestsHandlerComponent<Book> handlerComponent)
+        public User GetUser(IReturningResultHandler<User, User> resultHandler)
         {
-            var elements = BookRepository.GetAll();
+            return resultHandler.Handle(UserRepository.GetAll().ToList());
+        }
+
+        public IEnumerable<User> GetUsers(IRequestsHandlerComponent<User> handlerComponent)
+        {
+            var elements = UserRepository.GetAll().ToList();
             handlerComponent.Handle(ref elements);
             return elements;
         }
 
-        public IEnumerable<Book> GetAllBooks()
+        public IEnumerable<User> GetAllUsers()
         {
-            return BookRepository.GetAll();
+            return UserRepository.GetAll();
         }
         #endregion
 
@@ -88,7 +88,7 @@ namespace LibraryAccounting.Infrastructure.Tools
 
         public void EditBooks(IVisitor<Book> visitor, IRequestsHandlerComponent<Book> handlerComponent = null)
         {
-            CompositeElement = new CompositeElement<Book>(BookRepository.GetAll());
+            CompositeElement = new CompositeElement<Book>(BookRepository.GetAll().ToList());
             if (!CompositeElement.Accept(visitor, handlerComponent))
             {
                 throw new Exception("Error when editing books");

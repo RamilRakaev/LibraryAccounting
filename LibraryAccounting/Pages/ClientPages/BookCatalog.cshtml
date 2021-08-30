@@ -1,4 +1,29 @@
 ﻿@page
 @model LibraryAccounting.Pages.ClientPages.BookCatalogModel
 @{
+
+    ViewData["ClientPages/BookCatalog"] = "disabled";
 }
+<div class="container">
+    <div class="row justify-content-md-start">
+        @foreach (var book in Model.Books)
+        {
+            <div class="col-lg-2 col-md-2 col-12 m-3">
+                <a asp-page="ConcreteBook" asp-route-id="@book.Key.Id" asp-route-isBooking="@book.Value">
+                    <img class="img-fluid" src="~/img/@(book.Key.Title).jpg" />
+                    <p class="title-book">@book.Key.Title</p>
+                    <p class="author-book">@book.Key.Author</p>
+                </a>
+                @if (book.Value)
+                {
+                    <p class="available-in">Есть в наличии</p>
+                    <a class="btn btn-dark booking-btn">Забронировать</a>
+                }
+                else
+                {
+                    <p class="out-of-stock">Нет в наличии</p>
+                }
+            </div>
+        }
+    </div>
+</div>

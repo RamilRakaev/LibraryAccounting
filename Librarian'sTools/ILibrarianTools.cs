@@ -3,22 +3,42 @@ using LibraryAccounting.Domain.Interfaces.PocessingRequests;
 using LibraryAccounting.Domain.Model;
 using System.Collections.Generic;
 
-namespace LibraryAccounting.Domain.ToolsInterfaces
+namespace LibraryAccounting.Domain.ToolInterfaces
 {
     public interface ILibrarianTools
     {
         #region add and remove
         void RemoveBook(Book book);
+
         void AddBook(Book book);
         #endregion
 
         #region reception and delivery of books
-        bool GiveBookToClient(int bookId, int clientId);
-        bool GetBookFromClient(int bookId, int clientId);
+        void AddReservation(Booking booking);
+
+        void EditBooking(IVisitor<Booking> visitor, IReturningResultHandler<Booking, Booking> resultHandler);
+
+        Booking GetBooking(IReturningResultHandler<Booking, Booking> requestsHandler);
+
+        IEnumerable<Booking> GetBookings(IRequestsHandlerComponent<Booking> requestsHandler);
+
+        IEnumerable<Booking> GetAllBookings();
+        #endregion
+
+        #region users
+        User GetUser(int id);
+
+        User GetUser(IReturningResultHandler<User, User> resultHandler);
+
+        IEnumerable<User> GetUsers(IRequestsHandlerComponent<User> resultHandler);
+
+        IEnumerable<User> GetAllUsers();
         #endregion
 
         #region books requests
-        Book GetBook(IRequestsHandlerComponent<Book> handlerComponent);
+        Book GetBook(int id);
+
+        Book GetBook(IReturningResultHandler<Book, Book> resultHandler);
 
         IEnumerable<Book> GetBooks(IRequestsHandlerComponent<Book> handlerComponent);
 

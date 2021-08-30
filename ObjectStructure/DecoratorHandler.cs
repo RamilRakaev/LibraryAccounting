@@ -19,7 +19,7 @@ namespace Infrastructure.Handlers
             HandlerComponents.Add(handler);
         }
 
-        public void Handle(ref IEnumerable<Element> elements)
+        public void Handle(ref List<Element> elements)
         {
             foreach (var handler in HandlerComponents)
             {
@@ -27,7 +27,7 @@ namespace Infrastructure.Handlers
             }
         }
 
-        public Element ConcreteElement(IEnumerable<Element> elements)
+        public Element ConcreteElement(List<Element> elements)
         {
             foreach (var handler in HandlerComponents)
             {

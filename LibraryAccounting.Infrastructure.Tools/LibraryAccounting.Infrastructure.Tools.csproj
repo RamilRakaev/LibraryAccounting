@@ -9,7 +9,7 @@
     <ProjectReference Include="..\DomainLayer.Core\LibraryAccounting.Domain.Model.csproj" />
     <ProjectReference Include="..\DomainLayer.DomainRepository\Infrastructure.Repositories.csproj" />
     <ProjectReference Include="..\Handlers\Infrastructure.Handlers.csproj" />
-    <ProjectReference Include="..\Librarian'sTools\ToolsInterfaces.csproj" />
+    <ProjectReference Include="..\Librarian'sTools\ToolInterfaces.csproj" />
     <ProjectReference Include="..\ObjectStructure\Infrastructure.ObjectStructure.csproj" />
     <ProjectReference Include="..\Visitors\Infrastructure.Visitors.csproj" />
   </ItemGroup>

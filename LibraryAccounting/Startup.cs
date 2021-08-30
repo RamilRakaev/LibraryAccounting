@@ -1,6 +1,16 @@
+using FluentValidation;
+using FluentValidation.AspNetCore;
+using Infrastructure.Repositories;
+using LibraryAccounting.Domain.Interfaces.DataManagement;
+using LibraryAccounting.Domain.Model;
+using LibraryAccounting.Domain.ToolInterfaces;
+using LibraryAccounting.Infrastructure.Tools;
+using LibraryAccounting.Infrastructure.Validator;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -23,7 +33,31 @@ namespace LibraryAccounting
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddRazorPages();
+            string connnectionString = "Server=(localdb)\\mssqllocaldb;Database=LibraryAccounting;Trusted_Connection=True;";
+            DbContextOptions<DataContext> options = new DbContextOptionsBuilder<DataContext>().
+               UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=LibraryAccounting;Trusted_Connection=True;").Options;
+            services.AddDbContext<DataContext>(options => options.UseSqlServer(connnectionString));
+
+            services.AddTransient<IRepository<Book>, BookRepository>();
+            services.AddTransient<IRepository<Booking>, BookingRepository>();
+            services.AddTransient<IRepository<User>, UserRepository>();
+            services.AddTransient<IStorageRequests<Role>, RoleRequests>();
+            services.AddRazorPages().AddFluentValidation();
+
+            services.AddTransient<IValidator<Book>, BookValidator>();
+            services.AddTransient<IValidator<Booking>, BookingValidator>();
+            services.AddTransient<IValidator<User>, UserValidator>();
+
+            services.AddTransient<ILibrarianTools, LibrarianTools>();
+            services.AddTransient<IClientTools, ClientTools>();
+            services.AddTransient<IAdminTools, AdminTools>();
+
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(
+                opt =>
+                {
+                    opt.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Index");
+                    opt.AccessDeniedPath = new Microsoft.AspNetCore.Http.PathString("/Index");
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -45,6 +79,7 @@ namespace LibraryAccounting
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

@@ -69,3 +69,31 @@ body {
   white-space: nowrap;
   line-height: 60px; /* Vertically center the text there */
 }
+
+.booking-btn {
+    color: white !important;
+    margin: 0.5em 0;
+}
+.available-in {
+    margin: 0.6em 0 0.6em 0;
+    color: forestgreen;
+}
+
+.out-of-stock {
+    margin: 0.6em 0 0.6em 0;
+    color: red;
+}
+
+.title-book {
+    font-size: 1em;
+    margin: 1em 0 0.3em 0;
+}
+
+.author-book, .genre-book, .publisher-book {
+    font-size: 0.9em;
+    margin: 0;
+}
+
+.concrete-book-property p {
+    font-size: 1.2em;
+}

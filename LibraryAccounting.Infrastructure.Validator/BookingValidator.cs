@@ -10,7 +10,7 @@ namespace LibraryAccounting.Infrastructure.Validator
             RuleFor(b => b.Id).NotNull();
             RuleFor(b => b.BookId).NotNull();
             RuleFor(b => b.ClientId).NotNull();
-            RuleFor(b => b.TransferDate).NotNull();
+            RuleFor(b => b.TransferDate).NotNull().When(b => b.IsTransmitted);
             RuleFor(b => b.ReturnDate).NotNull().When(b => b.IsReturned);
         }
     }

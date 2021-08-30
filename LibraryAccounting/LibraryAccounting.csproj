@@ -4,4 +4,12 @@
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\DomainLayer.DomainRepository\Infrastructure.Repositories.csproj" />
+    <ProjectReference Include="..\Handlers\Infrastructure.Handlers.csproj" />
+    <ProjectReference Include="..\Librarian'sTools\ToolInterfaces.csproj" />
+    <ProjectReference Include="..\LibraryAccounting.Infrastructure.Tools\LibraryAccounting.Infrastructure.Tools.csproj" />
+    <ProjectReference Include="..\LibraryAccounting.Infrastructure.Validator\LibraryAccounting.Infrastructure.Validator.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -1,10 +1,11 @@
 ﻿using LibraryAccounting.Domain.Interfaces.DataManagement;
 using LibraryAccounting.Domain.Model;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Infrastructure.Repositories
 {
-    public class BookRepository:IRepository<Book>
+    public class BookRepository : IRepository<Book>
     {
         readonly private DataContext db;
 
@@ -15,7 +16,8 @@ namespace Infrastructure.Repositories
 
         public IEnumerable<Book> GetAll()
         {
-            return db.Books;
+            var result = new List<Book>(db.Books);
+            return result;
         }
 
         public Book Find(int id)
@@ -30,7 +32,8 @@ namespace Infrastructure.Repositories
 
         public void Remove(Book element)
         {
-            db.Books.Remove(element);
+            if (db.Books.Contains(element))
+                db.Books.Remove(element);
         }
 
         public void Save()

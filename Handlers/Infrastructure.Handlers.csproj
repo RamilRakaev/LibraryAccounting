@@ -9,4 +9,8 @@
     <ProjectReference Include="..\DomainLayer.DomainRepository\Infrastructure.Repositories.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="BookingsHandlers\" />
+  </ItemGroup>
+
 </Project>

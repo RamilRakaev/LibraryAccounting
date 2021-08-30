@@ -1,14 +1,16 @@
 ﻿using LibraryAccounting.Domain.Interfaces.DataManagement;
 using LibraryAccounting.Domain.Model;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Infrastructure.Repositories
 {
-    public class BookingsRepository : IRepository<Booking>
+    public class BookingRepository : IRepository<Booking>
     {
         readonly private DataContext db;
 
-        public BookingsRepository(DataContext context)
+        public BookingRepository(DataContext context)
         {
             db = context;
         }
@@ -30,12 +32,14 @@ namespace Infrastructure.Repositories
 
         public void Remove(Booking element)
         {
+            if(db.Bookings.Contains(element))
             db.Bookings.Remove(element);
         }
 
         public void Save()
         {
             db.SaveChanges();
+            //db.Dispose();
         }
     }
 }

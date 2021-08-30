@@ -2,6 +2,7 @@
 using System.Linq;
 using LibraryAccounting.Domain.Interfaces.DataManagement;
 using LibraryAccounting.Domain.Model;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories
 {
@@ -16,7 +17,7 @@ namespace Infrastructure.Repositories
 
         public IEnumerable<User> GetAll()
         {
-            return db.Users;
+            return db.Users.Include(u => u.Role);
         }
 
         public User Find(int id)
@@ -31,7 +32,8 @@ namespace Infrastructure.Repositories
 
         public void Remove(User element)
         {
-            db.Users.Remove(element);
+            if (db.Users.Contains(element))
+                db.Users.Remove(element);
         }
 
         public void Save()

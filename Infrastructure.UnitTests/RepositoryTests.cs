@@ -88,7 +88,7 @@ namespace LibraryAccounting.Infrastructure.UnitTests
         {
             using (DataContext db = new DataContext(options))
             {
-                BookingsRepository = new BookingsRepository(db);
+                BookingsRepository = new BookingRepository(db);
                 booking = new Booking(1, 1)
                 {
                     IsTransmitted = true,

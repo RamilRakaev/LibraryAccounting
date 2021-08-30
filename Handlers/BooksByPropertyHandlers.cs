@@ -13,9 +13,9 @@ namespace Infrastructure.Handlers
             Author = author;
         }
 
-        public void Handle(ref IEnumerable<Book> elements)
+        public void Handle(ref List<Book> elements)
         {
-            elements = elements.Where(b => b.Author == Author);
+            elements = elements.Where(b => b.Author == Author).ToList();
         }
     }
 
@@ -27,9 +27,9 @@ namespace Infrastructure.Handlers
             Genre = genre;
         }
 
-        public void Handle(ref IEnumerable<Book> elements)
+        public void Handle(ref List<Book> elements)
         {
-            elements = elements.Where(b => b.Genre == Genre);
+            elements = elements.Where(b => b.Genre == Genre).ToList();
         }
     }
 
@@ -41,9 +41,21 @@ namespace Infrastructure.Handlers
             Publisher = genre;
         }
 
-        public void Handle(ref IEnumerable<Book> elements)
+        public void Handle(ref List<Book> elements)
         {
-            elements = elements.Where(b => b.Publisher == Publisher);
+            elements = elements.Where(b => b.Publisher == Publisher).ToList();
+        }
+    }
+    public class BookByTitleHandler : IReturningResultHandler<Book, Book>
+    {
+        private string Title;
+        public BookByTitleHandler(string title)
+        {
+            Title = title;
+        }
+        public Book Handle(IEnumerable<Book> elements)
+        {
+            return elements.FirstOrDefault(b => b.Title == Title);
         }
     }
 }
