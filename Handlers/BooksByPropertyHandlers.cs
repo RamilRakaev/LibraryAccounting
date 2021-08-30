@@ -15,7 +15,8 @@ namespace Infrastructure.Handlers
 
         public void Handle(ref List<Book> elements)
         {
-            elements = elements.Where(b => b.Author == Author).ToList();
+            if (Author != "emtpy")
+                elements = elements.Where(b => b.Author == Author).ToList();
         }
     }
 
@@ -29,7 +30,8 @@ namespace Infrastructure.Handlers
 
         public void Handle(ref List<Book> elements)
         {
-            elements = elements.Where(b => b.Genre == Genre).ToList();
+            if (Genre != "emtpy")
+                elements = elements.Where(b => b.Genre == Genre).ToList();
         }
     }
 
@@ -43,7 +45,8 @@ namespace Infrastructure.Handlers
 
         public void Handle(ref List<Book> elements)
         {
-            elements = elements.Where(b => b.Publisher == Publisher).ToList();
+            if (Publisher != "emtpy")
+                elements = elements.Where(b => b.Publisher == Publisher).ToList();
         }
     }
     public class BookByTitleHandler : IReturningResultHandler<Book, Book>

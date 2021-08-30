@@ -8,9 +8,26 @@ namespace Infrastructure.Handlers
     {
         readonly private List<IRequestsHandlerComponent<Element>> HandlerComponents;
 
-        public DecoratorHandler(List<IRequestsHandlerComponent<Element>> handlers)
+        public DecoratorHandler()
         {
-            HandlerComponents = handlers;
+            HandlerComponents = new List<IRequestsHandlerComponent<Element>>();
+        }
+
+        public DecoratorHandler(List<IRequestsHandlerComponent<Element>> requestsHandlers)
+        {
+            HandlerComponents = requestsHandlers;
+        }
+
+        public void Add(IRequestsHandlerComponent<Element> requestsHandler)
+        {
+            if(requestsHandler != null)
+            HandlerComponents.Add(requestsHandler);
+        }
+
+        public void Remove(IRequestsHandlerComponent<Element> requestsHandler)
+        {
+            if (requestsHandler != null)
+                HandlerComponents.Remove(requestsHandler);
         }
 
         public DecoratorHandler(IRequestsHandlerComponent<Element> handler)

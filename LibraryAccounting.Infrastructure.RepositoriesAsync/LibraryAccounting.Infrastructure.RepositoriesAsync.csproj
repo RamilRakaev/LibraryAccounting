@@ -5,11 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.9" />
-    <PackageReference Include="System.Linq.Async" Version="5.0.0" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Domain Model\LibraryAccounting.Domain.Interfaces.csproj" />
     <ProjectReference Include="..\DomainLayer.Core\LibraryAccounting.Domain.Model.csproj" />
   </ItemGroup>

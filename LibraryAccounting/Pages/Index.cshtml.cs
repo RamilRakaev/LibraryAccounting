@@ -31,6 +31,7 @@ namespace LibraryAccounting.Pages
 
         public void OnGet(string message)
         {
+            
             Message = message;
         }
 
@@ -41,7 +42,7 @@ namespace LibraryAccounting.Pages
                 var user = AdminTools.GetUser(new UserLoginHandlerAsync(login.Email, login.Password));
                 if (user != null)
                 {
-                    AuthenticateAsync(user);
+                    Authenticate(user);
                     switch (User.Claims.ElementAt(1).Value)
                     {
                         case "client":
@@ -49,7 +50,7 @@ namespace LibraryAccounting.Pages
                         case "librarian":
                             return RedirectToPage("/LibrarianPages/BookCatalog");
                         case "admin":
-                            return RedirectToPage("/AdminPages/UserList.cshtml");
+                            return RedirectToPage("/AdminPages/UserList");
                     }
                     ModelState.AddModelError("", "there is no such role");
                 }
@@ -63,7 +64,7 @@ namespace LibraryAccounting.Pages
             return RedirectToPage("/Index");
         }
 
-        public void AuthenticateAsync(User user)
+        public void Authenticate(User user)
         {
             var claims = new List<Claim> {
             new Claim(ClaimsIdentity.DefaultNameClaimType, user.Email),

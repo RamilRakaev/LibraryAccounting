@@ -38,6 +38,13 @@ namespace LibraryAccounting
                UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=LibraryAccounting;Trusted_Connection=True;").Options;
             services.AddDbContext<DataContext>(options => options.UseSqlServer(connnectionString));
 
+
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(
+                opt =>
+                {
+                    opt.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Index");
+                });
+
             services.AddTransient<IRepository<Book>, BookRepository>();
             services.AddTransient<IRepository<Booking>, BookingRepository>();
             services.AddTransient<IRepository<User>, UserRepository>();
@@ -51,13 +58,6 @@ namespace LibraryAccounting
             services.AddTransient<ILibrarianTools, LibrarianTools>();
             services.AddTransient<IClientTools, ClientTools>();
             services.AddTransient<IAdminTools, AdminTools>();
-
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(
-                opt =>
-                {
-                    opt.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Index");
-                    opt.AccessDeniedPath = new Microsoft.AspNetCore.Http.PathString("/Index");
-                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

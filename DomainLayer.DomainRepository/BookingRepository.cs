@@ -32,14 +32,13 @@ namespace Infrastructure.Repositories
 
         public void Remove(Booking element)
         {
-            if(db.Bookings.Contains(element))
-            db.Bookings.Remove(element);
+            if (db.Bookings.Contains(element))
+                db.Bookings.Remove(element);
         }
 
         public void Save()
         {
             db.SaveChanges();
-            //db.Dispose();
         }
     }
 }

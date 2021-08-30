@@ -5,16 +5,24 @@
 }
 <div class="container mt-3">
     <ul class="list-group">
-        <li class="list-group-item mb-2">
-            <p>Алгоритмы. Руководство по разработке. Стивен Скиена</p>
-            <p>Статус: забронировано, не выдано</p>
-            <p>Дата бронировки: 24.08.2021.</p>
-            <a class="btn btn-dark booking-btn">Отменить бронировку</a>
-        </li>
-        <li class="list-group-item mb-2">
-            <p>Алгоритмы. Руководство по разработке. Стивен Скиена</p>
-            <p>Статус: забронировано, выдано</p>
-            <p>Дата бронировки: 24.08.2021.</p>
-        </li>
+        @foreach (var book in Model.BookingBooks)
+        {
+            <li class="list-group-item mb-2">
+                <p>@book.Value.Title</p>
+                @if (@book.Key.IsTransmitted)
+                {
+                    <p>Статус: забронировано, выдано</p>
+                }
+                else
+                {
+                    <p>Статус: забронировано, не выдано</p>
+                    <form method="post">
+                        <input type="hidden" name="idBooking" value="@book.Key.Id" />
+                        <button type="submit" class="btn btn-dark booking-btn">Отменить бронировку</button>
+                    </form>
+                }
+                <p>Дата бронировки: @book.Key.BookingDate</p>
+            </li>
+        }
     </ul>
 </div>

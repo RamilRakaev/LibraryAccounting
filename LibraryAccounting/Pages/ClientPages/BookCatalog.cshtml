@@ -5,6 +5,29 @@
     ViewData["ClientPages/BookCatalog"] = "disabled";
 }
 <div class="container">
+    <form class="form-inline" method="post">
+        <div class="form-group">
+            <label class="m-2">Автор: </label>
+            <select name="author" class="form-control" asp-items="Model.Authors">
+                <option value="emtpy">Пусто</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label class="m-2">Жанр: </label>
+            <select name="genre" class="form-control" asp-items="Model.Genres">
+                <option value="emtpy">Пусто</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label class="m-2">Издатель: </label>
+            <select name="publisher" class="form-control" asp-items="Model.Publishers">
+                <option value="emtpy">Пусто</option>
+            </select>
+        </div>
+        <button class="btn btn-info m-2" type="submit">Фильтровать</button>
+    </form>
+</div>
+<div class="container">
     <div class="row justify-content-md-start">
         @foreach (var book in Model.Books)
         {
@@ -17,11 +40,15 @@
                 @if (book.Value)
                 {
                     <p class="available-in">Есть в наличии</p>
-                    <a class="btn btn-dark booking-btn">Забронировать</a>
+                    <form method="post" asp-page="/ClientPages/ConcreteBook">
+                        <input type="hidden" name="bookId" value="@book.Key.Id" />
+                        <input type="hidden" name="userId" value="@Model.ClientId" />
+                        <button type="submit" class="btn btn-dark booking-btn">Забронировать</button>
+                    </form>
                 }
                 else
                 {
-                    <p class="out-of-stock">Нет в наличии</p>
+                    <p class="out-of-stock">Забронировано</p>
                 }
             </div>
         }

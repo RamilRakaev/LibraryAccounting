@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Infrastructure.Handlers;
 using LibraryAccounting.Domain.Model;
 using LibraryAccounting.Domain.ToolInterfaces;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -13,24 +14,40 @@ namespace LibraryAccounting.Pages.ClientPages
     public class BookedBooksModel : PageModel
     {
         readonly private IClientTools ClientTools;
-        private Dictionary<Booking, Book> BookingBooks;
-
-        public BookedBooksModel(IClientTools clientTools)
+        public Dictionary<Booking, Book> BookingBooks;
+        public int ClientId { get; set; }
+        public BookedBooksModel(IClientTools clientTools, IHttpContextAccessor httpContext)
         {
             ClientTools = clientTools;
             BookingBooks = new Dictionary<Booking, Book>();
+            if (httpContext.HttpContext.User.Identity.IsAuthenticated)
+                ClientId = Convert.ToInt32(httpContext.HttpContext.User.Claims.ElementAt(2).Value);
+            else
+            {
+                RedirectToPage("/Index");
+            }
         }
 
         public void OnGet()
         {
-            int id = 1;
-            var clientBooking = ClientTools.GetBookings(new BookingsByClientIdHandler(id)).ToList();
-            new SortingByBookingDateHandler().Handle(ref clientBooking);
-            var clientBooks = ClientTools.GetBooks(new BookingBooksHandler(clientBooking)).ToList();
-            if (clientBooking.Count() == clientBooks.Count())
+            Initialize();
+        }
+
+        public void OnPost(int idBooking)
+        {
+            ClientTools.RemoveReservation(idBooking);
+            Initialize();
+        }
+
+        private void Initialize()
+        {
+            var clientBookings = ClientTools.GetBookings(new BookingsByClientIdHandler(ClientId)).ToList();
+            new SortingByBookingDateHandler().Handle(ref clientBookings);
+            var clientBooks = ClientTools.GetBooks(new BookingBooksHandler(clientBookings)).ToList();
+            if (clientBookings.Count() == clientBooks.Count())
                 for (int i = 0; i < clientBooks.Count(); i++)
                 {
-                    BookingBooks.Add(clientBooking[i], clientBooks[i]);
+                    BookingBooks.Add(clientBookings[i], clientBooks[i]);
                 }
         }
     }

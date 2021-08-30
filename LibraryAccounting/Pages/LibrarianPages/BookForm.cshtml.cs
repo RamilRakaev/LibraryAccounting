@@ -1,9 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using LibraryAccounting.Domain.Model;
 using LibraryAccounting.Domain.ToolInterfaces;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -12,10 +15,13 @@ namespace LibraryAccounting.Pages.LibrarianPages
     public class BookFormModel : PageModel
     {
         readonly private ILibrarianTools LibrarianTools;
+        readonly private IWebHostEnvironment Environment;
         public Book Book { get; set; }
-        public BookFormModel(ILibrarianTools librarianTools)
+        public BookFormModel(ILibrarianTools librarianTools, IWebHostEnvironment environment)
         {
             LibrarianTools = librarianTools;
+            Environment = environment;
+            Book = new Book();
         }
 
         public void OnGet(int? id)
@@ -24,18 +30,20 @@ namespace LibraryAccounting.Pages.LibrarianPages
             {
                 Book = LibrarianTools.GetBook(Convert.ToInt32(id));
             }
-            else
-            {
-                Book = new Book();
-            }
         }
 
-        public IActionResult OnPost(Book book)
+        public async Task<IActionResult> OnPost(Book book, IFormFile cover)
         {
+            if(cover != null)
             if (ModelState.IsValid)
             {
+                string path = "/img/" + book.Title + ".jpg";
+                using(var fileStream = new FileStream(Environment.WebRootPath + path, FileMode.Create))
+                {
+                    await cover.CopyToAsync(fileStream);
+                }
                 LibrarianTools.AddBook(book);
-                return RedirectToPage("/Librarian/BookCatalog");
+                return RedirectToPage("/LibrarianPages/BookCatalog");
             }
             return RedirectToPage("/LibrarianPages/BookForm");
         }
