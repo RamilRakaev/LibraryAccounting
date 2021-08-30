@@ -13,13 +13,13 @@ namespace LibraryAccounting.Timer
 
             IJobDetail job = JobBuilder.Create<DeletingOverdueBookings>().Build();
 
-            ITrigger trigger = TriggerBuilder.Create()  // создаем триггер
-                .WithIdentity("deleting all expired user bookings", "bookings")     // идентифицируем триггер с именем и группой
-                .StartNow()                            // запуск сразу после начала выполнения
-                .WithSimpleSchedule(x => x            // настраиваем выполнение действия
-                    .WithIntervalInHours(Days * 24)          // через 1 минуту
-                    .RepeatForever())                   // бесконечное повторение
-                .Build();                               // создаем триггер
+            ITrigger trigger = TriggerBuilder.Create()
+                .WithIdentity("deleting all expired user bookings", "bookings")
+                .StartNow()
+                .WithSimpleSchedule(x => x
+                    .WithIntervalInHours(Days * 24)
+                    .RepeatForever())
+                .Build();
 
             await scheduler.ScheduleJob(job, trigger);
         }
