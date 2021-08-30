@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace Infrastructure.ObjectStructure
+namespace LibraryAccounting.Infrastructure.ObjectStructure
 {
     public class CompositeElement<Element> : IElement<Element>
     {

@@ -3,7 +3,7 @@ using LibraryAccounting.Domain.Model;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Infrastructure.Repositories
+namespace LibraryAccounting.Infrastructure.Repositories
 {
     public class BookRepository : IRepository<Book>
     {

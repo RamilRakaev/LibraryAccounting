@@ -16,8 +16,8 @@
   <ItemGroup>
     <ProjectReference Include="..\Domain Model\LibraryAccounting.Domain.Interfaces.csproj" />
     <ProjectReference Include="..\DomainLayer.Core\LibraryAccounting.Domain.Model.csproj" />
-    <ProjectReference Include="..\DomainLayer.DomainRepository\Infrastructure.Repositories.csproj" />
-    <ProjectReference Include="..\Handlers\Infrastructure.Handlers.csproj" />
+    <ProjectReference Include="..\DomainLayer.DomainRepository\LibraryAccounting.Infrastructure.Repositories.csproj" />
+    <ProjectReference Include="..\Handlers\LibraryAccounting.LibraryAccounting.Infrastructure.Handlers.csproj" />
     <ProjectReference Include="..\Librarian'sTools\ToolInterfaces.csproj" />
     <ProjectReference Include="..\LibraryAccounting.Infrastructure.Tools\LibraryAccounting.Infrastructure.Tools.csproj" />
   </ItemGroup>

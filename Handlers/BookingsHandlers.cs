@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Infrastructure.Handlers
+namespace LibraryAccounting.Infrastructure.Handlers
 {
     public class BookingsByClientIdHandler : IRequestsHandlerComponent<Booking>
     {

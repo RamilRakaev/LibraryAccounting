@@ -2,10 +2,8 @@
 using LibraryAccounting.Domain.Interfaces.PocessingRequests;
 using LibraryAccounting.Domain.Model;
 using LibraryAccounting.Domain.ToolInterfaces;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace LibraryAccounting.Infrastructure.Tools
 {

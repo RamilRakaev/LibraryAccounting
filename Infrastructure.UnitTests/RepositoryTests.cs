@@ -1,4 +1,4 @@
-using Infrastructure.Repositories;
+using LibraryAccounting.Infrastructure.Repositories;
 using LibraryAccounting.Domain.Interfaces.DataManagement;
 using LibraryAccounting.Domain.Model;
 using Microsoft.EntityFrameworkCore;

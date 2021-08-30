@@ -4,7 +4,7 @@ using LibraryAccounting.Domain.Interfaces.DataManagement;
 using LibraryAccounting.Domain.Model;
 using Microsoft.EntityFrameworkCore;
 
-namespace Infrastructure.Repositories
+namespace LibraryAccounting.Infrastructure.Repositories
 {
     public class UserRepository : IRepository<User>
     {

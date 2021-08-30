@@ -1,10 +1,7 @@
 ﻿using LibraryAccounting.Domain.Interfaces.DataManagement;
 using LibraryAccounting.Domain.Model;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace Infrastructure.Visitors
+namespace LibraryAccounting.Infrastructure.Visitors
 {
     public class ChangePasswordVisitor : IVisitor<User>
     {

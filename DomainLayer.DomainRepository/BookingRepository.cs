@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Infrastructure.Repositories
+namespace LibraryAccounting.Infrastructure.Repositories
 {
     public class BookingRepository : IRepository<Booking>
     {

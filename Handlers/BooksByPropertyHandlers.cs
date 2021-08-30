@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using LibraryAccounting.Domain.Interfaces.PocessingRequests;
 using LibraryAccounting.Domain.Model;
 
-namespace Infrastructure.Handlers
+namespace LibraryAccounting.Infrastructure.Handlers
 {
     public class BooksByAuthorHandler : IRequestsHandlerComponent<Book>
     {

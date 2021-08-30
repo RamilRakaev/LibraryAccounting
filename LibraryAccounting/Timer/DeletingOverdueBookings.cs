@@ -1,13 +1,10 @@
-﻿using Infrastructure.Handlers;
-using Infrastructure.Repositories;
+﻿using LibraryAccounting.Infrastructure.Handlers;
+using LibraryAccounting.Infrastructure.Repositories;
 using LibraryAccounting.Domain.ToolInterfaces;
 using LibraryAccounting.Infrastructure.Tools;
 using Microsoft.EntityFrameworkCore;
 using Quartz;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace LibraryAccounting.Timer

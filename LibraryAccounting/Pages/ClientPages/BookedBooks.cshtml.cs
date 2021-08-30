@@ -1,12 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using Infrastructure.Handlers;
+using LibraryAccounting.Infrastructure.Handlers;
 using LibraryAccounting.Domain.Model;
 using LibraryAccounting.Domain.ToolInterfaces;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace LibraryAccounting.Pages.ClientPages

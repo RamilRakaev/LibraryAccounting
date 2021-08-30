@@ -1,7 +1,7 @@
 ﻿using LibraryAccounting.Domain.Model;
 using Microsoft.EntityFrameworkCore;
 
-namespace Infrastructure.Repositories
+namespace LibraryAccounting.Infrastructure.Repositories
 {
     public class DataContext : DbContext
     {

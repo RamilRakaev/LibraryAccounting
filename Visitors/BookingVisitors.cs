@@ -2,7 +2,7 @@
 using LibraryAccounting.Domain.Model;
 using System;
 
-namespace Infrastructure.Visitors
+namespace LibraryAccounting.Infrastructure.Visitors
 {
     public class GetBookFromClientVisitor : IVisitor<Booking>
     {

@@ -1,7 +1,7 @@
 ﻿using LibraryAccounting.Domain.Interfaces.DataManagement;
 using LibraryAccounting.Domain.Model;
 
-namespace Infrastructure.Visitors
+namespace LibraryAccounting.Infrastructure.Visitors
 {
     public class BookTitleVisitor : IVisitor<Book>
     {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Infrastructure.Handlers
+namespace LibraryAccounting.Infrastructure.Handlers
 {
     public class DecoratorHandler<Element> : IRequestsHandlerComponent<Element>
     {

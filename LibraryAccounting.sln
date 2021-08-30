@@ -9,13 +9,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{3AF623
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibraryAccounting.Domain.Interfaces", "Domain Model\LibraryAccounting.Domain.Interfaces.csproj", "{D2AE1AD0-51D6-4120-BF86-9865013E06D4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.Repositories", "DomainLayer.DomainRepository\Infrastructure.Repositories.csproj", "{0EA7E2FC-3314-41FF-9F79-5909C6B72902}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibraryAccounting.Infrastructure.Repositories", "DomainLayer.DomainRepository\LibraryAccounting.Infrastructure.Repositories.csproj", "{0EA7E2FC-3314-41FF-9F79-5909C6B72902}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.Visitors", "Visitors\Infrastructure.Visitors.csproj", "{F8D4EB5D-F262-4E61-8241-986F09914D14}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibraryAccounting.Infrastructure.Visitors", "Visitors\LibraryAccounting.Infrastructure.Visitors.csproj", "{F8D4EB5D-F262-4E61-8241-986F09914D14}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.ObjectStructure", "ObjectStructure\Infrastructure.ObjectStructure.csproj", "{0F972841-3B1C-498E-89C7-EC502BF9FFA4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibraryAccounting.Infrastructure.ObjectStructure", "ObjectStructure\LibraryAccounting.Infrastructure.ObjectStructure.csproj", "{0F972841-3B1C-498E-89C7-EC502BF9FFA4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.Handlers", "Handlers\Infrastructure.Handlers.csproj", "{6851A115-9E7E-47C7-8546-02D0212E9275}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibraryAccounting.LibraryAccounting.Infrastructure.Handlers", "Handlers\LibraryAccounting.LibraryAccounting.Infrastructure.Handlers.csproj", "{6851A115-9E7E-47C7-8546-02D0212E9275}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibraryAccounting.Domain.Model", "DomainLayer.Core\LibraryAccounting.Domain.Model.csproj", "{5B0E8710-1A99-4C66-8F5C-B8E05827A95D}"
 EndProject

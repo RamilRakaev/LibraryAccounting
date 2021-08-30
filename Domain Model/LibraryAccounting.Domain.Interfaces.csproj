@@ -2,8 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <RootNamespace>LibraryAccounting.Domain.DomainInterfaces</RootNamespace>
-    <AssemblyName>LibraryAccounting.Domain.DomainInterfaces</AssemblyName>
+    <RootNamespace>LibraryAccounting.Domain.Interfaces</RootNamespace>
+    <AssemblyName>LibraryAccounting.Domain.Interfaces</AssemblyName>
   </PropertyGroup>
 
 </Project>

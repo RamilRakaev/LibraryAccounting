@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Infrastructure.Repositories
+namespace LibraryAccounting.Infrastructure.Repositories
 {
     public class RoleRequests : IStorageRequests<Role>
     {

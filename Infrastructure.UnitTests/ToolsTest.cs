@@ -1,6 +1,6 @@
-﻿using Infrastructure.Handlers;
-using Infrastructure.Repositories;
-using Infrastructure.Visitors;
+﻿using LibraryAccounting.Infrastructure.Handlers;
+using LibraryAccounting.Infrastructure.Repositories;
+using LibraryAccounting.Infrastructure.Visitors;
 using LibraryAccounting.Domain.Interfaces.DataManagement;
 using LibraryAccounting.Domain.Interfaces.PocessingRequests;
 using LibraryAccounting.Domain.Model;
@@ -8,10 +8,8 @@ using LibraryAccounting.Domain.ToolInterfaces;
 using LibraryAccounting.Infrastructure.Tools;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace LibraryAccounting.Infrastructure.UnitTests
 {
@@ -21,7 +19,8 @@ namespace LibraryAccounting.Infrastructure.UnitTests
         private IRepository<User> UserRepository;
         private IRepository<Book> BookRepository;
         private IRepository<Booking> BookingRepository;
-        readonly private DbContextOptions<DataContext> options = new DbContextOptionsBuilder<DataContext>().
+        private IStorageRequests<Role> RoleRequests;
+        readonly private DbContextOptions<DataContext> opt = new DbContextOptionsBuilder<DataContext>().
             UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=LibraryAccounting;Trusted_Connection=True;").Options;
         IAdminTools AdminTools;
         ILibrarianTools LibrarianTools;
@@ -29,9 +28,9 @@ namespace LibraryAccounting.Infrastructure.UnitTests
         [TestMethod]
         public void LibrarianToolsTest()
         {
-            BookRepository = new BookRepository(new DataContext(options));
-            BookingRepository = new BookingRepository(new DataContext(options));
-            LibrarianTools = new LibrarianTools(BookingRepository, BookRepository);
+            BookRepository = new BookRepository(new DataContext(opt));
+            BookingRepository = new BookingRepository(new DataContext(opt));
+            LibrarianTools = new LibrarianTools(BookingRepository, BookRepository, UserRepository);
 
             int count = LibrarianTools.GetAllBooks().Count();
             LibrarianTools.AddBook(new Book() { Title = "book1", Author = "author1", Genre = "genre2", Publisher = "publisher1" });
@@ -47,7 +46,7 @@ namespace LibraryAccounting.Infrastructure.UnitTests
             var book = LibrarianTools.GetBooks(decorator).ElementAt(0);
             Assert.IsNotNull(book);
 
-            UserRepository = new UserRepository(new DataContext(options));
+            UserRepository = new UserRepository(new DataContext(opt));
             UserRepository.Add(new User("name1", "email1@gmail.com", "password1", 1));
             UserRepository.Save();
             var user = UserRepository.GetAll().First(u => u.Name == "name1");
@@ -74,8 +73,9 @@ namespace LibraryAccounting.Infrastructure.UnitTests
         [TestMethod]
         public void AdminToolsTest()
         {
-            UserRepository = new UserRepository(new DataContext(options));
-            AdminTools = new AdminTools(UserRepository);
+            UserRepository = new UserRepository(new DataContext(opt));
+            RoleRequests = new RoleRequests(new DataContext(opt));
+            AdminTools = new AdminTools(UserRepository, RoleRequests);
             User user = new User("Name1", "email@gmail.com", "password1", 1);
 
             int count = AdminTools.GetAllUsers().Count();
@@ -85,7 +85,7 @@ namespace LibraryAccounting.Infrastructure.UnitTests
             user = AdminTools.GetUser(new UserByEmailHandler("email@gmail.com"));
             Assert.AreEqual(user.Name, "Name1");
 
-            AdminTools.SetPassword(user.Id, "newPassword1");
+            AdminTools.EditUser(new ChangePasswordVisitor("newPassword1"), user.Id);
             Assert.AreEqual(AdminTools.GetUser(user.Id).Password, "newPassword1");
 
             AdminTools.RemoveUser(user);
