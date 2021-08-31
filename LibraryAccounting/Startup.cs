@@ -28,31 +28,31 @@ namespace LibraryAccounting
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            
+
             string connnectionString = "Server=(localdb)\\mssqllocaldb;Database=LibraryAccounting;Trusted_Connection=True;";
-            DbContextOptions<DataContext> options = new DbContextOptionsBuilder<DataContext>().
-               UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=LibraryAccounting;Trusted_Connection=True;").Options;
             services.AddDbContext<DataContext>(options => options.UseSqlServer(connnectionString));
-
-
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(
-                opt =>
-                {
-                    opt.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Index");
-                });
 
             services.AddTransient<IRepository<Book>, BookRepository>();
             services.AddTransient<IRepository<Booking>, BookingRepository>();
             services.AddTransient<IRepository<User>, UserRepository>();
             services.AddTransient<IStorageRequests<Role>, RoleRequests>();
-            services.AddRazorPages().AddFluentValidation();
+
+            services.AddTransient<ILibrarianTools, LibrarianTools>();
+            services.AddTransient<IClientTools, ClientTools>();
+            services.AddTransient<IAdminTools, AdminTools>();
 
             services.AddTransient<IValidator<Book>, BookValidator>();
             services.AddTransient<IValidator<Booking>, BookingValidator>();
             services.AddTransient<IValidator<User>, UserValidator>();
 
-            services.AddTransient<ILibrarianTools, LibrarianTools>();
-            services.AddTransient<IClientTools, ClientTools>();
-            services.AddTransient<IAdminTools, AdminTools>();
+            services.AddRazorPages().AddFluentValidation(); 
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(
+                 opt =>
+                 {
+                     opt.AccessDeniedPath = new Microsoft.AspNetCore.Http.PathString("/Index");
+                     opt.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Index");
+                 });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -68,6 +68,7 @@ namespace LibraryAccounting
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+            
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
@@ -81,6 +82,9 @@ namespace LibraryAccounting
             {
                 endpoints.MapRazorPages();
             });
+
+
+            
         }
     }
 }

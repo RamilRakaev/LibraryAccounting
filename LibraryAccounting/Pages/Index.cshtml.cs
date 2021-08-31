@@ -11,6 +11,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using System;
 
 namespace LibraryAccounting.Pages
 {
@@ -42,6 +43,7 @@ namespace LibraryAccounting.Pages
                 if (user != null)
                 {
                     Authenticate(user);
+                    if(User.Identity.IsAuthenticated)
                     switch (HttpContext.User.Claims.ElementAt(1).Value)
                     {
                         case "client":
@@ -70,12 +72,13 @@ namespace LibraryAccounting.Pages
             new Claim(ClaimsIdentity.DefaultRoleClaimType, user.Role.Name),
             new Claim("id", user.Id.ToString())
             };
-            ClaimsIdentity id = new ClaimsIdentity(
+            ClaimsIdentity id = new(
                 claims,
                 "ApplicationCookie",
                 ClaimsIdentity.DefaultNameClaimType,
                 ClaimsIdentity.DefaultRoleClaimType);
-            HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
+            ClaimsPrincipal principal = new ClaimsPrincipal(id);
+            HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
         }
     }
 }
