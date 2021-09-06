@@ -19,6 +19,7 @@ using LibraryAccounting.CQRSInfrastructure.Methods.UserMethods;
 using System;
 using System.Threading.Tasks;
 using System.Threading;
+using LibraryAccounting.CQRSInfrastructure.Methods;
 
 namespace LibraryAccounting
 {
@@ -47,7 +48,7 @@ namespace LibraryAccounting
             services.AddTransient<IClientTools, ClientTools>();
             services.AddTransient<IAdminTools, AdminTools>();
 
-            services.AddMediatR(Assembly.GetExecutingAssembly());
+            services.AddMediatR(MethodsAssembly.GetAssembly());
             services.AddTransient<IValidator<Book>, BookValidator>();
             services.AddTransient<IValidator<Booking>, BookingValidator>();
             services.AddTransient<IValidator<User>, UserValidator>();
