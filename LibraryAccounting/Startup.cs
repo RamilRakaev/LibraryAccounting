@@ -29,7 +29,8 @@ namespace LibraryAccounting
         public void ConfigureServices(IServiceCollection services)
         {
             
-            services.AddDbContext<DataContext>();
+            services.AddDbContext<DataContext>(options => 
+            options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddTransient<IRepository<Book>, BookRepository>();
             services.AddTransient<IRepository<Booking>, BookingRepository>();
