@@ -2,6 +2,7 @@
 using LibraryAccounting.Domain.Model;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace LibraryAccounting.Infrastructure.Repositories
 {
@@ -39,6 +40,21 @@ namespace LibraryAccounting.Infrastructure.Repositories
         public void Save()
         {
             db.SaveChanges();
+        }
+
+        public async Task<Book> FindAsync(int id)
+        {
+            return await db.Books.FindAsync(id);
+        }
+
+        public async Task AddAsync(Book element)
+        {
+            await db.Books.AddAsync(element);
+        }
+
+        public async Task SaveAsync()
+        {
+            await db.SaveChangesAsync();
         }
     }
 }

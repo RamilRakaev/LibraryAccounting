@@ -19,6 +19,7 @@
     <ProjectReference Include="..\Infrastructure\LibraryAccounting.Infrastructure.UnitTests\LibraryAccounting.Infrastructure.UnitTests.csproj" />
     <ProjectReference Include="..\Infrastructure\Methods\LibraryAccounting.Infrastructure.Handlers\LibraryAccounting.Infrastructure.Handlers.csproj" />
     <ProjectReference Include="..\Infrastructure\Methods\LibraryAccounting.Infrastructure.Visitors\LibraryAccounting.Infrastructure.Visitors.csproj" />
+    <ProjectReference Include="..\LibraryAccounting.CQRSInfrastructure.Methods\LibraryAccounting.CQRSInfrastructure.Methods.csproj" />
     <ProjectReference Include="..\Services\LibraryAccounting.Services.ToolInterfaces.csproj" />
   </ItemGroup>
 

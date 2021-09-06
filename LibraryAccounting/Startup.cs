@@ -13,6 +13,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using MediatR;
+using System.Reflection;
+using LibraryAccounting.CQRSInfrastructure.Methods.UserMethods;
+using System;
+using System.Threading.Tasks;
+using System.Threading;
 
 namespace LibraryAccounting
 {
@@ -28,7 +34,7 @@ namespace LibraryAccounting
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            
+            //services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
             services.AddDbContext<DataContext>(options => 
             options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
 
@@ -41,6 +47,7 @@ namespace LibraryAccounting
             services.AddTransient<IClientTools, ClientTools>();
             services.AddTransient<IAdminTools, AdminTools>();
 
+            services.AddMediatR(Assembly.GetExecutingAssembly());
             services.AddTransient<IValidator<Book>, BookValidator>();
             services.AddTransient<IValidator<Booking>, BookingValidator>();
             services.AddTransient<IValidator<User>, UserValidator>();
@@ -84,6 +91,48 @@ namespace LibraryAccounting
 
 
             
+        }
+    }
+    public class ChangingAllPropertiesCommand : IRequest<User>
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public int? RoleId { get; set; }
+        public string Password { get; set; }
+        public string Email { get; set; }
+    }
+
+    public class ChangingAllUserPropertiesHandler : IRequestHandler<ChangingAllPropertiesCommand, User>
+    {
+        private readonly IRepository<User> db;
+
+        public ChangingAllUserPropertiesHandler(IRepository<User> _db)
+        {
+            db = _db ?? throw new ArgumentNullException(nameof(IRepository<User>));
+        }
+
+        public async Task<User> Handle(ChangingAllPropertiesCommand command, CancellationToken cancellationToken)
+        {
+            var user = db.Find(command.Id);
+            user.Name = command.Name;
+            user.Email = command.Email;
+            user.Password = command.Password;
+            user.RoleId = command.RoleId;
+            await db.SaveAsync();
+
+            return user;
+        }
+    }
+
+    public class ChangingAllUserPropertiesValidator : AbstractValidator<ChangingAllPropertiesCommand>
+    {
+        public ChangingAllUserPropertiesValidator()
+        {
+            RuleFor(c => c.Id).NotEmpty();
+            RuleFor(c => c.Name).NotEmpty();
+            RuleFor(c => c.RoleId).NotEmpty();
+            RuleFor(c => c.Password).NotEmpty();
+            RuleFor(c => c.Email).NotEmpty();
         }
     }
 }
