@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using LibraryAccounting.Services.ToolInterfaces;
 using LibraryAccounting.Infrastructure.Tools;
+using Microsoft.Extensions.Configuration;
 
 namespace LibraryAccounting.Infrastructure.UnitTests
 {
@@ -22,7 +23,7 @@ namespace LibraryAccounting.Infrastructure.UnitTests
         private IStorageRequests<Role> RoleRequests;
         IAdminTools AdminTools;
         ILibrarianTools LibrarianTools;
-
+        //DataContext Context = new DataContext(new DbContextOptions<DataContext>(new DbContextOptionsBuilder().Options)));
         [TestMethod]
         public void LibrarianToolsTest()
         {

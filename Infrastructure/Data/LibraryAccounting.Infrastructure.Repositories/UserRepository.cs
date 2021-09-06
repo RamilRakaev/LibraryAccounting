@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using LibraryAccounting.Domain.Interfaces.DataManagement;
 using LibraryAccounting.Domain.Model;
 using Microsoft.EntityFrameworkCore;
@@ -39,6 +40,21 @@ namespace LibraryAccounting.Infrastructure.Repositories
         public void Save()
         {
             db.SaveChanges();
+        }
+
+        public async Task<User> FindAsync(int id)
+        {
+            return await db.Users.FindAsync(id);
+        }
+
+        public async Task AddAsync(User element)
+        {
+            await db.Users.AddAsync(element);
+        }
+
+        public async Task SaveAsync()
+        {
+            await db.SaveChangesAsync();
         }
     }
 }

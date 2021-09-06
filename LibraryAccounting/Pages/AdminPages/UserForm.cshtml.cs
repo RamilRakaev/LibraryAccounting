@@ -4,9 +4,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using LibraryAccounting.Domain.Model;
 using LibraryAccounting.Services.ToolInterfaces;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using LibraryAccounting.CQRSInfrastructure.Methods.UserMethods;
+using System.Threading;
 
 namespace LibraryAccounting.Pages.AdminPages
 {
@@ -15,10 +18,13 @@ namespace LibraryAccounting.Pages.AdminPages
         readonly private IAdminTools AdminTools;
         public User UserInfo { get; set; }
         public SelectList Roles { get; set; }
-        public UserFormModel(IAdminTools adminTools)
+        private readonly IMediator Mediator;
+
+        public UserFormModel(IAdminTools adminTools, IMediator mediator)
         {
-            AdminTools = adminTools;
+            AdminTools = adminTools ?? throw new ArgumentNullException(nameof(adminTools));
             Roles = new SelectList(AdminTools.GetRoles(), "Id", "Name");
+            Mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }
 
         public void OnGet(int? id)
@@ -33,13 +39,14 @@ namespace LibraryAccounting.Pages.AdminPages
             }
         }
 
-        public IActionResult OnPost(User userInfo)
+        public async Task<IActionResult> OnPost(ChangingAllPropertiesCommand userInfo,
+           CancellationToken token)
         {
+            
             if (ModelState.IsValid)
             {
-                AdminTools.RemoveUser(userInfo);
-                userInfo.Id = 0;
-                AdminTools.AddUser(userInfo);
+                await Mediator.Send(new ChangePasswordCommand() {Id = 4, Password = "password1" }, token);
+                await Mediator.Send(userInfo, token);
                 return RedirectToPage("/AdminPages/UserList");
             }
             return RedirectToPage("/AdminPages/UserForm");

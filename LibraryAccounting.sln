@@ -35,6 +35,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibraryAccounting.Services.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibraryAccounting.Infrastructure.Tools", "Infrastructure\LibraryAccounting.Infrastructure.Tools\LibraryAccounting.Infrastructure.Tools.csproj", "{D2B779D0-3B24-41AC-B072-F21DE7267DC4}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CQRSInfrastructure", "CQRSInfrastructure", "{8AE390A4-B698-4472-86F0-5A3671822E43}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibraryAccounting.CQRSInfrastructure.Methods", "LibraryAccounting.CQRSInfrastructure.Methods\LibraryAccounting.CQRSInfrastructure.Methods.csproj", "{00888634-17D7-43B0-B7A1-DAD46DD47F52}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -85,6 +89,10 @@ Global
 		{D2B779D0-3B24-41AC-B072-F21DE7267DC4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D2B779D0-3B24-41AC-B072-F21DE7267DC4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D2B779D0-3B24-41AC-B072-F21DE7267DC4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{00888634-17D7-43B0-B7A1-DAD46DD47F52}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{00888634-17D7-43B0-B7A1-DAD46DD47F52}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{00888634-17D7-43B0-B7A1-DAD46DD47F52}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{00888634-17D7-43B0-B7A1-DAD46DD47F52}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -102,6 +110,7 @@ Global
 		{0E56F217-CDCD-46D5-B851-201CDCF2A1C2} = {80CD6BAF-2A6E-4A15-9D19-C89CC3A8B1B1}
 		{0A42CE8A-B7BD-4492-95C8-17AFAD704D81} = {2F80554F-246D-4DDD-AF39-3D033405AF48}
 		{D2B779D0-3B24-41AC-B072-F21DE7267DC4} = {80CD6BAF-2A6E-4A15-9D19-C89CC3A8B1B1}
+		{00888634-17D7-43B0-B7A1-DAD46DD47F52} = {8AE390A4-B698-4472-86F0-5A3671822E43}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9A6DB750-B3A5-4DD4-8A2D-4E1402A57B01}
