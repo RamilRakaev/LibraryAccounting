@@ -10,6 +10,11 @@ namespace LibraryAccounting.Infrastructure.Repositories
         public DbSet<Booking> Bookings { get; set; }
         public DbSet<Role> Roles { get; set; }
 
+        public DataContext()
+        {
+
+        }
+
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
             Database.EnsureCreated();
@@ -24,5 +29,12 @@ namespace LibraryAccounting.Infrastructure.Repositories
                 new Role(){ Id = 3, Name = "admin"}
             });
         }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=libraryaccounting;Username=postgres;Password=rubaka");
+        }
     }
+
+    
 }

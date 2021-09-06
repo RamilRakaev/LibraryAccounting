@@ -15,11 +15,8 @@ namespace LibraryAccounting.Domain.Model
         public bool IsTransmitted { get; set; }
         [DefaultValue(false)]
         public bool IsReturned { get; set; }
-        [Column(TypeName = "datetime2")]
         public DateTime BookingDate { get; set; }
-        [Column(TypeName = "datetime2")]
         public DateTime? TransferDate { get; set; }
-        [Column(TypeName = "datetime2")]
         public DateTime? ReturnDate { get; set; }
 
         public Booking()

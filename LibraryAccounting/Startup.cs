@@ -29,9 +29,7 @@ namespace LibraryAccounting
         public void ConfigureServices(IServiceCollection services)
         {
             
-
-            string connnectionString = "Server=(localdb)\\mssqllocaldb;Database=LibraryAccounting;Trusted_Connection=True;";
-            services.AddDbContext<DataContext>(options => options.UseSqlServer(connnectionString));
+            services.AddDbContext<DataContext>();
 
             services.AddTransient<IRepository<Book>, BookRepository>();
             services.AddTransient<IRepository<Booking>, BookingRepository>();

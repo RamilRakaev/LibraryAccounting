@@ -20,16 +20,14 @@ namespace LibraryAccounting.Infrastructure.UnitTests
         private IRepository<Book> BookRepository;
         private IRepository<Booking> BookingRepository;
         private IStorageRequests<Role> RoleRequests;
-        readonly private DbContextOptions<DataContext> opt = new DbContextOptionsBuilder<DataContext>().
-            UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=LibraryAccounting;Trusted_Connection=True;").Options;
         IAdminTools AdminTools;
         ILibrarianTools LibrarianTools;
 
         [TestMethod]
         public void LibrarianToolsTest()
         {
-            BookRepository = new BookRepository(new DataContext(opt));
-            BookingRepository = new BookingRepository(new DataContext(opt));
+            BookRepository = new BookRepository(new DataContext());
+            BookingRepository = new BookingRepository(new DataContext());
             LibrarianTools = new LibrarianTools(BookingRepository, BookRepository, UserRepository);
 
             int count = LibrarianTools.GetAllBooks().Count();
@@ -46,7 +44,7 @@ namespace LibraryAccounting.Infrastructure.UnitTests
             var book = LibrarianTools.GetBooks(decorator).ElementAt(0);
             Assert.IsNotNull(book);
 
-            UserRepository = new UserRepository(new DataContext(opt));
+            UserRepository = new UserRepository(new DataContext());
             UserRepository.Add(new User("name1", "email1@gmail.com", "password1", 1));
             UserRepository.Save();
             var user = UserRepository.GetAll().First(u => u.Name == "name1");
@@ -73,8 +71,8 @@ namespace LibraryAccounting.Infrastructure.UnitTests
         [TestMethod]
         public void AdminToolsTest()
         {
-            UserRepository = new UserRepository(new DataContext(opt));
-            RoleRequests = new RoleRequests(new DataContext(opt));
+            UserRepository = new UserRepository(new DataContext());
+            RoleRequests = new RoleRequests(new DataContext());
             AdminTools = new AdminTools(UserRepository, RoleRequests);
             User user = new User("Name1", "email@gmail.com", "password1", 1);
 

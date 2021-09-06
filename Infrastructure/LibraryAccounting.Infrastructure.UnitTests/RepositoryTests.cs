@@ -14,8 +14,6 @@ namespace LibraryAccounting.Infrastructure.UnitTests
         IRepository<Book> BookRepository;
         IRepository<User> UserRepository;
         IRepository<Booking> BookingsRepository;
-        readonly private DbContextOptions<DataContext> options = new DbContextOptionsBuilder<DataContext>().
-                UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=LibraryAccounting;Trusted_Connection=True;").Options;
         Book book;
         User user;
         Booking booking;
@@ -23,7 +21,7 @@ namespace LibraryAccounting.Infrastructure.UnitTests
         [TestMethod]
         public void BookRepositoryTest()
         {
-            using (DataContext db = new DataContext(options))
+            using (DataContext db = new DataContext())
             {
                 book = new Book()
                 {
@@ -62,7 +60,7 @@ namespace LibraryAccounting.Infrastructure.UnitTests
                 RoleId = 1
             };
 
-            using (DataContext db = new DataContext(options))
+            using (DataContext db = new DataContext())
             {
                 UserRepository = new UserRepository(db);
 
@@ -86,7 +84,7 @@ namespace LibraryAccounting.Infrastructure.UnitTests
         [TestMethod]
         public void BookingRepositoryTest()
         {
-            using (DataContext db = new DataContext(options))
+            using (DataContext db = new DataContext())
             {
                 BookingsRepository = new BookingRepository(db);
                 booking = new Booking(1, 1)

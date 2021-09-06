@@ -12,11 +12,9 @@ namespace LibraryAccounting.Timer
     public class DeletingOverdueBookings : IJob
     {
         readonly private IClientTools ClientTools;
-        readonly private DbContextOptions<DataContext> options = new DbContextOptionsBuilder<DataContext>().
-                UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=LibraryAccounting;Trusted_Connection=True;").Options;
         public DeletingOverdueBookings()
         {
-            var db = new DataContext(options);
+            var db = new DataContext();
             ClientTools = new ClientTools(new BookingRepository(db), new BookRepository(db));
         }
         public async Task Execute(IJobExecutionContext context)
