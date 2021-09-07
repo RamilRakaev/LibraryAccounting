@@ -35,7 +35,6 @@ namespace LibraryAccounting
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
             services.AddDbContext<DataContext>(options => 
             options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
 
@@ -48,7 +47,10 @@ namespace LibraryAccounting
             services.AddTransient<IClientTools, ClientTools>();
             services.AddTransient<IAdminTools, AdminTools>();
 
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
+            services.AddValidatorsFromAssembly(MethodsAssembly.GetAssembly());
             services.AddMediatR(MethodsAssembly.GetAssembly());
+
             services.AddTransient<IValidator<Book>, BookValidator>();
             services.AddTransient<IValidator<Booking>, BookingValidator>();
             services.AddTransient<IValidator<User>, UserValidator>();

@@ -1,4 +1,5 @@
-﻿using LibraryAccounting.Domain.Interfaces.DataManagement;
+﻿using FluentValidation;
+using LibraryAccounting.Domain.Interfaces.DataManagement;
 using LibraryAccounting.Domain.Model;
 using MediatR;
 using System;
@@ -59,4 +60,12 @@ namespace LibraryAccounting.CQRSInfrastructure.Methods.UserMethods
         }
     }
 
+    public class GetUsersValidator : AbstractValidator<User>
+    {
+        public GetUsersValidator()
+        {
+            RuleFor(c => c.Password).NotEmpty().MinimumLength(10);
+            RuleFor(c => c.Email).NotEmpty().EmailAddress();
+        }
+    }
 }
