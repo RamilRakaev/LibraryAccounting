@@ -19,14 +19,10 @@ namespace LibraryAccounting.CQRSInfrastructure.Methods.UserMethods
         public string Email { get; set; }
     }
 
-    public class ChangingAllUserPropertiesHandler : IRequestHandler<ChangingAllPropertiesCommand, User>
+    public class ChangingAllUserPropertiesHandler : UserHandler, IRequestHandler<ChangingAllPropertiesCommand, User>
     {
-        private readonly IRepository<User> db;
-
-        public ChangingAllUserPropertiesHandler(IRepository<User> _db)
-        {
-            db = _db ?? throw new ArgumentNullException(nameof(IRepository<User>));
-        }
+        public ChangingAllUserPropertiesHandler(IRepository<User> _db) : base(_db)
+        { }
 
         public async Task<User> Handle(ChangingAllPropertiesCommand command, CancellationToken cancellationToken)
         {
@@ -46,10 +42,10 @@ namespace LibraryAccounting.CQRSInfrastructure.Methods.UserMethods
         public ChangingAllUserPropertiesValidator()
         {
             RuleFor(c => c.Id).NotEmpty();
-            RuleFor(c => c.Name).NotEmpty();
+            RuleFor(c => c.Name).NotEmpty().Length(3, 20);
             RuleFor(c => c.RoleId).NotEmpty();
-            RuleFor(c => c.Password).NotEmpty();
-            RuleFor(c => c.Email).NotEmpty();
+            RuleFor(c => c.Password).NotEmpty().MinimumLength(10);
+            RuleFor(c => c.Email).NotEmpty().EmailAddress();
         }
     }
 }

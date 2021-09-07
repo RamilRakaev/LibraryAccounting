@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using LibraryAccounting.CQRSInfrastructure.Methods.UserMethods;
 using System.Threading;
+using LibraryAccounting.CQRSInfrastructure.Methods.RoleMethods;
 
 namespace LibraryAccounting.Pages.AdminPages
 {
@@ -23,15 +24,23 @@ namespace LibraryAccounting.Pages.AdminPages
         public UserFormModel(IAdminTools adminTools, IMediator mediator)
         {
             AdminTools = adminTools ?? throw new ArgumentNullException(nameof(adminTools));
-            Roles = new SelectList(AdminTools.GetRoles(), "Id", "Name");
+            EstablishRoles();
             Mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }
 
-        public void OnGet(int? id)
+        public void EstablishRoles()
+        {
+            var command = new GetRolesCommand();
+            var roles = Mediator.Send(command, new CancellationToken(false));
+            Thread.Sleep(1000);
+            Roles = new SelectList(roles.Result, "Id", "Name");
+        }
+
+        public async void OnGet(int? id)
         {
             if (id != null)
             {
-                UserInfo = AdminTools.GetUser(Convert.ToInt32(id));
+                UserInfo = await Mediator.Send(new GetUserCommand() { Id = Convert.ToInt32(id) }, new CancellationToken(false));
             }
             else
             {
@@ -39,13 +48,11 @@ namespace LibraryAccounting.Pages.AdminPages
             }
         }
 
-        public async Task<IActionResult> OnPost(ChangingAllPropertiesCommand userInfo,
-           CancellationToken token)
+        public async Task<IActionResult> OnPost(AddUserCommand userInfo, CancellationToken token)
         {
-            
+
             if (ModelState.IsValid)
             {
-                await Mediator.Send(new ChangePasswordCommand() {Id = 4, Password = "password1" }, token);
                 await Mediator.Send(userInfo, token);
                 return RedirectToPage("/AdminPages/UserList");
             }

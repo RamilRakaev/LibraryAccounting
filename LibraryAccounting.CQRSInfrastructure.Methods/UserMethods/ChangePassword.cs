@@ -1,4 +1,5 @@
-﻿using LibraryAccounting.Domain.Interfaces.DataManagement;
+﻿using FluentValidation;
+using LibraryAccounting.Domain.Interfaces.DataManagement;
 using LibraryAccounting.Domain.Model;
 using MediatR;
 using System;
@@ -15,18 +16,14 @@ namespace LibraryAccounting.CQRSInfrastructure.Methods.UserMethods
         public string Password { get; set; }
     }
 
-    public class ChangePasswordHandler : IRequestHandler<ChangePasswordCommand, User>
+    public class ChangePasswordHandler : UserHandler, IRequestHandler<ChangePasswordCommand, User>
     {
-        private readonly IRepository<User> db;
-
-        public ChangePasswordHandler(IRepository<User> _db)
-        {
-            db = _db ?? throw new ArgumentNullException(nameof(IRepository<User>));
-        }
+        public ChangePasswordHandler(IRepository<User> _db):base(_db)
+        { }
 
         public async Task<User> Handle(ChangePasswordCommand request, CancellationToken cancellationToken)
         {
-            var user = await db.FindAsync(request.Id);
+            var user = db.Find(request.Id);
             if (user != null)
             {
                 user.Password = request.Password;
@@ -36,6 +33,15 @@ namespace LibraryAccounting.CQRSInfrastructure.Methods.UserMethods
             else
             {
                 throw new Exception();
+            }
+        }
+
+        public class ChangePasswordValidator : AbstractValidator<User>
+        {
+            public ChangePasswordValidator()
+            {
+                RuleFor(c => c.Id).NotEmpty();
+                RuleFor(c => c.Password).NotEmpty().MinimumLength(10);
             }
         }
     }
