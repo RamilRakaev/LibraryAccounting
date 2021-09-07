@@ -13,9 +13,8 @@ namespace LibraryAccounting.CQRSInfrastructure.Methods.UserMethods
 {
     public class GetUsersQuery : IRequest<List<User>>
     {
-        //public int Id { get; set; }
-        //public string Name { get; set; }
-        //public int? RoleId { get; set; }
+        public string Name { get; set; }
+        public int? RoleId { get; set; }
         public string Password { get; set; }
         public string Email { get; set; }
     }
@@ -29,33 +28,30 @@ namespace LibraryAccounting.CQRSInfrastructure.Methods.UserMethods
         async Task<List<User>> IRequestHandler<GetUsersQuery, List<User>>.Handle(GetUsersQuery request, CancellationToken cancellationToken)
         {
             Users = db.GetAll().ToList();
-            if (request.Email != null && request.Password != null)
-                return await Task.Run(() => db.GetAll().Where(u => u.Name == request.Email && u.Password == request.Password).ToList());
-            else
-                return await Task.Run(() => Users);
+            await Task.Run(() => Filter(request));
+            return Users;
         }
 
-        private List<User> Filter(string[] args)
+        private void Filter(GetUsersQuery request)
         {
-            if (args.Length % 2 == 0)
-            {
-                for (int i = 0; i < args.Length; i++)
-                {
-                    Filter(args[i], args[i + 1]);
-                }
-            }
-            throw new ArgumentException();
-        }
+            var userProperties = typeof(User).GetProperties();
+            var userPropertyNames = userProperties.Select(p => p.Name);
 
-        private void Filter(string property, string value)
-        {
-            for (int i = 0; i < Users.Count(); i++)
+            foreach (var requestProperty in typeof(GetUsersQuery).GetProperties())
             {
-                PropertyInfo propertyInfo = typeof(User).GetProperty(property);
-                if (value != propertyInfo.GetValue(Users[i]).ToString())
-                {
-                    Users.Remove(Users[i]);
-                }
+                if (requestProperty.GetValue(request) != null)
+                    if (userPropertyNames.Contains(requestProperty.Name))
+                    {
+                        for (int i = 0; i < Users.Count(); i++)
+                        {
+                            var userProperty = userProperties.FirstOrDefault(u => u.Name == requestProperty.Name);
+                            if (userProperty.GetValue(Users[i]).ToString() != requestProperty.GetValue(request).ToString())
+                            {
+                                Users.Remove(Users[i]);
+                            }
+                        }
+                    }
+
             }
         }
     }
@@ -64,8 +60,9 @@ namespace LibraryAccounting.CQRSInfrastructure.Methods.UserMethods
     {
         public GetUsersValidator()
         {
-            RuleFor(c => c.Password).NotEmpty().MinimumLength(10);
-            RuleFor(c => c.Email).NotEmpty().EmailAddress();
+            RuleFor(c => c.Name).Length(3, 20);
+            RuleFor(c => c.Password).MinimumLength(10);
+            RuleFor(c => c.Email).EmailAddress();
         }
     }
 }

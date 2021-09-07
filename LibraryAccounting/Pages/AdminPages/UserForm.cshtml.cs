@@ -16,24 +16,21 @@ namespace LibraryAccounting.Pages.AdminPages
 {
     public class UserFormModel : PageModel
     {
-        readonly private IAdminTools AdminTools;
         public User UserInfo { get; set; }
         public SelectList Roles { get; set; }
         private readonly IMediator Mediator;
 
-        public UserFormModel(IAdminTools adminTools, IMediator mediator)
+        public UserFormModel(IMediator mediator)
         {
-            AdminTools = adminTools ?? throw new ArgumentNullException(nameof(adminTools));
-            EstablishRoles();
             Mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+            EstablishRoles();
         }
 
-        public void EstablishRoles()
+        public async void EstablishRoles()
         {
             var command = new GetRolesCommand();
-            var roles = Mediator.Send(command, new CancellationToken(false));
-            Thread.Sleep(1000);
-            Roles = new SelectList(roles.Result, "Id", "Name");
+            var roles = await Mediator.Send(command, new CancellationToken(false));
+            Roles = new SelectList(roles, "Id", "Name");
         }
 
         public async void OnGet(int? id)

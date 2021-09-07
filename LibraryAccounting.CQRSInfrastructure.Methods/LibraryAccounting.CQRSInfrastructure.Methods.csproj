@@ -14,8 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="BookMethods\" />
-    <Folder Include="Новая папка\" />
+    <Folder Include="BookingMethods\" />
   </ItemGroup>
 
 </Project>

@@ -27,7 +27,8 @@ namespace LibraryAccounting.CQRSInfrastructure.Methods
         {
             if (_validators.Any())
             {
-                //TODO: string typeName = request.GetGenericTypeName();
+                //TODO: 
+                //string typeName = request.GetGenericTypeName();
                 string typeName = request.GetType().GetGenericTypeDefinition().Name;
 
                 _logger.LogInformation("----- Validating command {CommandType}", typeName);

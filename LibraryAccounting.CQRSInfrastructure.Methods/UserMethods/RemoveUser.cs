@@ -9,23 +9,25 @@ using System.Threading.Tasks;
 
 namespace LibraryAccounting.CQRSInfrastructure.Methods.UserMethods
 {
-    public class RemoveUserCommand :  IRequest<User>
+    public class RemoveUserCommand : IRequest<User>
     {
         public int Id { get; set; }
     }
 
     public class RemoveUserHandler : UserHandler, IRequestHandler<RemoveUserCommand, User>
     {
-        public RemoveUserHandler(IRepository<User> _db): base(_db)
+        public RemoveUserHandler(IRepository<User> _db) : base(_db)
         { }
 
         public async Task<User> Handle(RemoveUserCommand request, CancellationToken cancellationToken)
         {
-            var user = await db.FindAsync(request.Id);
-            db.Remove(user);
-            if(user != null) {
-                throw new NullReferenceException();
+            var user = db.Find(request.Id);
+            if (user == null)
+            {
+                throw new ArgumentNullException();
             }
+            db.Remove(user);
+            await db.SaveAsync();
             return user;
         }
     }

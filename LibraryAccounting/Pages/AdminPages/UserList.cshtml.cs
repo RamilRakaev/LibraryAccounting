@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using LibraryAccounting.CQRSInfrastructure.Methods.UserMethods;
 using LibraryAccounting.Domain.Model;
@@ -25,17 +26,16 @@ namespace LibraryAccounting.Pages.AdminPages
 
         public async void OnGet()
         {
-            Users = AdminTools.GetAllUsers().ToList();
-            await Mediator.Send(new GetUsersQuery(), new System.Threading.CancellationToken(false));
+            Users = await Mediator.Send(new GetUsersQuery(), new CancellationToken(false));
         }
 
-        public void OnPost(User user)
+        public async void OnPost(int id, CancellationToken token)
         {
+            Users = await Mediator.Send(new GetUsersQuery(), token);
             if (ModelState.IsValid)
             {
-                AdminTools.RemoveUser(user);
+                await Mediator.Send(new RemoveUserCommand() { Id = id }, token);
             }
-            Users = AdminTools.GetAllUsers().ToList();
         }
     }
 }
