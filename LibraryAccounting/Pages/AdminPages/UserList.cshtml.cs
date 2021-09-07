@@ -15,7 +15,7 @@ namespace LibraryAccounting.Pages.AdminPages
     public class UserListModel : PageModel
     {
         readonly private IAdminTools AdminTools;
-        public List<User> Users { get; set; }
+        public List<User> Users { get; set; } = new List<User>();
         private readonly IMediator Mediator;
 
         public UserListModel(IAdminTools adminTools, IMediator mediator)
@@ -31,11 +31,17 @@ namespace LibraryAccounting.Pages.AdminPages
 
         public async void OnPost(int id, CancellationToken token)
         {
-            Users = await Mediator.Send(new GetUsersQuery(), token);
             if (ModelState.IsValid)
             {
                 await Mediator.Send(new RemoveUserCommand() { Id = id }, token);
             }
+            Task.WaitAll(new Task(() => ExtractUsers(token)));
         }
+
+        private void ExtractUsers(CancellationToken token)
+        {
+            Users = Mediator.Send(new GetUsersQuery(), token).Result;
+        }
+
     }
 }

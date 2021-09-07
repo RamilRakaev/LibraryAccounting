@@ -27,10 +27,10 @@ namespace LibraryAccounting.CQRSInfrastructure.Methods
         {
             if (_validators.Any())
             {
-                //TODO: 
-                //string typeName = request.GetGenericTypeName();
-                string typeName = request.GetType().GetGenericTypeDefinition().Name;
-
+                //TODO:
+                //string typeName = request.GetGenericTypeName(); - IRequest не содержит определения "GetGenericTypeName()"
+                //string typeName = request.GetType().GetGenericTypeDefinition().Name; - вылетает ошибка при добавлении пользователя
+                string typeName = request.GetType().Name; /* Ошибка при удалении пользователя */
                 _logger.LogInformation("----- Validating command {CommandType}", typeName);
 
 
