@@ -40,7 +40,7 @@ namespace LibraryAccounting.Pages.AdminPages
         {
             if (id != null)
             {
-                UserInfo = await Mediator.Send(new GetUserCommand() { Id = Convert.ToInt32(id) }, new CancellationToken(false));
+                UserInfo = await Mediator.Send(new GetUserQuery() { Id = Convert.ToInt32(id) }, new CancellationToken(false));
             }
             else
             {

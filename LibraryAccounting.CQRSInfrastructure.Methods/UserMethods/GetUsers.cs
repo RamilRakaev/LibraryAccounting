@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace LibraryAccounting.CQRSInfrastructure.Methods.UserMethods
 {
-    public class GetUsersCommand : IRequest<List<User>>
+    public class GetUsersQuery : IRequest<List<User>>
     {
         //public int Id { get; set; }
         //public string Name { get; set; }
@@ -19,13 +19,13 @@ namespace LibraryAccounting.CQRSInfrastructure.Methods.UserMethods
         public string Email { get; set; }
     }
 
-    public class GetUsersHandler : UserHandler, IRequestHandler<GetUsersCommand, List<User>>
+    public class GetUsersHandler : UserHandler, IRequestHandler<GetUsersQuery, List<User>>
     {
         public GetUsersHandler(IRepository<User> _db) : base(_db)
         { }
 
         private List<User> Users;
-        async Task<List<User>> IRequestHandler<GetUsersCommand, List<User>>.Handle(GetUsersCommand request, CancellationToken cancellationToken)
+        async Task<List<User>> IRequestHandler<GetUsersQuery, List<User>>.Handle(GetUsersQuery request, CancellationToken cancellationToken)
         {
             Users = db.GetAll().ToList();
             if (request.Email != null && request.Password != null)

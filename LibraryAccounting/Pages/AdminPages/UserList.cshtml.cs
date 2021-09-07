@@ -26,7 +26,7 @@ namespace LibraryAccounting.Pages.AdminPages
         public async void OnGet()
         {
             Users = AdminTools.GetAllUsers().ToList();
-            await Mediator.Send(new GetUsersCommand(), new System.Threading.CancellationToken(false));
+            await Mediator.Send(new GetUsersQuery(), new System.Threading.CancellationToken(false));
         }
 
         public void OnPost(User user)
