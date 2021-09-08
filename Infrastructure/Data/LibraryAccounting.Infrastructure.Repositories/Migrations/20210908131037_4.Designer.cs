@@ -3,15 +3,17 @@ using System;
 using LibraryAccounting.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace LibraryAccounting.Infrastructure.Repositories.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20210908131037_4")]
+    partial class _4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -38,67 +40,12 @@ namespace LibraryAccounting.Infrastructure.Repositories.Migrations
                     b.Property<string>("Title")
                         .HasColumnType("text");
 
+                    b.Property<string>("Year")
+                        .HasColumnType("text");
+
                     b.HasKey("Id");
 
                     b.ToTable("Books");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Author = "Кехо Джон",
-                            Genre = "Психология",
-                            Publisher = "Попурри",
-                            Title = "Подсознание может все!"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Author = "Некто",
-                            Genre = "Наука",
-                            Publisher = "Москва",
-                            Title = "История"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Author = "Некто",
-                            Genre = "Наука",
-                            Publisher = "Москва",
-                            Title = "Биология"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Author = "Некто",
-                            Genre = "Наука",
-                            Publisher = "Питер",
-                            Title = "Химия"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Author = "Стивен Кови",
-                            Genre = "Книги по личностному росту от Стивена Кови",
-                            Publisher = "Альпина Паблишер",
-                            Title = "Семь навыков высокоэффективных людей."
-                        },
-                        new
-                        {
-                            Id = 6,
-                            Author = "А. Ивич; Рис. Э. Беньяминсона, Б. Кыштымова",
-                            Genre = "Детская литература",
-                            Publisher = "Москва",
-                            Title = "Семьдесят богатырей"
-                        },
-                        new
-                        {
-                            Id = 7,
-                            Author = "Д.И. Менделеев",
-                            Genre = "Наука",
-                            Publisher = "АСТ",
-                            Title = "Периодическая система химических элементов"
-                        });
                 });
 
             modelBuilder.Entity("LibraryAccounting.Domain.Model.Booking", b =>
@@ -132,17 +79,6 @@ namespace LibraryAccounting.Infrastructure.Repositories.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Bookings");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            BookId = 3,
-                            BookingDate = new DateTime(2021, 9, 8, 17, 1, 27, 167, DateTimeKind.Local).AddTicks(3946),
-                            ClientId = 1,
-                            IsReturned = false,
-                            IsTransmitted = false
-                        });
                 });
 
             modelBuilder.Entity("LibraryAccounting.Domain.Model.Role", b =>
@@ -216,7 +152,7 @@ namespace LibraryAccounting.Infrastructure.Repositories.Migrations
                             Id = 2,
                             Email = "Danil@gmail.com",
                             Name = "Данил",
-                            Password = "1234567890",
+                            Password = "1235567890",
                             RoleId = 3
                         },
                         new
@@ -224,23 +160,7 @@ namespace LibraryAccounting.Infrastructure.Repositories.Migrations
                             Id = 3,
                             Email = "Denis@gmail.com",
                             Name = "Денис",
-                            Password = "dasf34rfew43",
-                            RoleId = 1
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Email = "Vanek@gmail.com",
-                            Name = "Ваня",
-                            Password = "23534534623423",
-                            RoleId = 1
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Email = "DemRh@gmail.com",
-                            Name = "Дмитрий",
-                            Password = "п54вув324ук",
+                            Password = "1232567890",
                             RoleId = 1
                         });
                 });

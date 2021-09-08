@@ -1,8 +1,6 @@
 ﻿using LibraryAccounting.Domain.Model;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using System;
 using System.IO;
 
@@ -23,6 +21,31 @@ namespace LibraryAccounting.Infrastructure.Repositories
                 new Role(){ Id = 2, Name = "librarian"},
                 new Role(){ Id = 3, Name = "admin"}
             });
+            mb.Entity<User>().HasData(new User[]
+            {
+                new User(){ Id = 1, Name = "Иван", Email = "Ivan@gmail.com", Password = "1234567890", RoleId = 2},
+                new User(){ Id = 2, Name = "Данил", Email = "Danil@gmail.com", Password = "1234567890", RoleId = 3},
+                new User(){ Id = 3, Name = "Денис", Email = "Denis@gmail.com", Password = "dasf34rfew43", RoleId = 1},
+                new User(){ Id = 4, Name = "Ваня", Email = "Vanek@gmail.com", Password = "23534534623423", RoleId = 1},
+                new User(){ Id = 5, Name = "Дмитрий", Email = "DemRh@gmail.com", Password = "п54вув324ук", RoleId = 1},
+            });
+            mb.Entity<Book>().HasData(new Book[]
+            {
+                new Book(){ Id =1, Title = "Подсознание может все!" , Author = "Кехо Джон", Genre = "Психология", Publisher = "Попурри"},
+                new Book(){ Id =2, Title = "История" , Author = "Некто", Genre = "Наука", Publisher = "Москва"},
+                new Book(){ Id =3, Title = "Биология" , Author = "Некто", Genre = "Наука", Publisher = "Москва"},
+                new Book(){ Id =4, Title = "Химия" , Author = "Некто", Genre = "Наука", Publisher = "Питер"},
+                new Book(){ Id =5, Title = "Семь навыков высокоэффективных людей." , Author = "Стивен Кови", 
+                    Genre = "Книги по личностному росту от Стивена Кови", Publisher = "Альпина Паблишер"},
+                new Book(){ Id =6, Title = "Семьдесят богатырей" , 
+                    Author = "А. Ивич; Рис. Э. Беньяминсона, Б. Кыштымова", Genre = "Детская литература", Publisher = "Москва"},
+                new Book(){ Id =7, Title = "Периодическая система химических элементов" , 
+                    Author = "Д.И. Менделеев", Genre = "Наука", Publisher = "АСТ"},
+            });
+            mb.Entity<Booking>().HasData(new Booking[]
+            {
+                new Booking(){ Id =1, BookId = 3, ClientId = 1, BookingDate = DateTime.Now, IsTransmitted = false, IsReturned = false}
+            });
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -35,32 +58,8 @@ namespace LibraryAccounting.Infrastructure.Repositories
             optionsBuilder.UseNpgsql(
                 Configuration.GetConnectionString("DefaultConnection"),
                 op => op.MigrationsAssembly("LibraryAccounting.Infrastructure.Repositories"));
-            
+
             base.OnConfiguring(optionsBuilder);
-        }
-    }
-
-    public static class MigrationManager
-    {
-        public static IHost MigrateDatabase(this IHost host)
-        {
-            using (var scope = host.Services.CreateScope())
-            {
-                using (var appContext = scope.ServiceProvider.GetRequiredService<DataContext>())
-                {
-                    try
-                    {
-                        appContext.Database.Migrate();
-                    }
-                    catch (Exception ex)
-                    {
-                        //Log errors or do anything you think it's needed
-                        throw;
-                    }
-                }
-            }
-
-            return host;
         }
     }
 }
