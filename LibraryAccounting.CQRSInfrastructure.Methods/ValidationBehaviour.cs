@@ -29,7 +29,7 @@ namespace LibraryAccounting.CQRSInfrastructure.Methods
             {
                 //TODO:
                 //string typeName = request.GetGenericTypeName(); - IRequest не содержит определения "GetGenericTypeName()"
-                //string typeName = request.GetType().GetGenericTypeDefinition().Name; - вылетает ошибка при добавлении пользователя
+                //string typeName = request.GetType().GetGenericTypeDefinition().Name; - ошибка при добавлении пользователя
                 string typeName = request.GetType().Name; /* Ошибка при удалении пользователя */
                 _logger.LogInformation("----- Validating command {CommandType}", typeName);
 

@@ -23,11 +23,11 @@ namespace LibraryAccounting.CQRSInfrastructure.Methods.UserMethods
 
         public async Task<User> Handle(ChangePasswordCommand request, CancellationToken cancellationToken)
         {
-            var user = db.Find(request.Id);
+            var user = _db.Find(request.Id);
             if (user != null)
             {
                 user.Password = request.Password;
-                await db.SaveAsync();
+                await _db.SaveAsync();
                 return user;
             }
             else

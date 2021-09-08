@@ -11,9 +11,9 @@ namespace LibraryAccounting.Infrastructure.UnitTests
     [TestClass]
     public class RepositoryTests
     {
-        IRepository<Book> BookRepository;
-        IRepository<User> UserRepository;
-        IRepository<Booking> BookingsRepository;
+        IRepository<Book> bookRepository;
+        IRepository<User> userRepository;
+        IRepository<Booking> bookingsRepository;
         Book book;
         User user;
         Booking booking;
@@ -30,22 +30,22 @@ namespace LibraryAccounting.Infrastructure.UnitTests
                     Publisher = "ООО Издетельство \"Эксмо\""
                 };
 
-                BookRepository = new BookRepository(db);
+                bookRepository = new BookRepository(db);
                 
-                var AllElements = BookRepository.GetAll();
+                var AllElements = bookRepository.GetAll();
                 Assert.IsNotNull(AllElements);
                 int AllElementsCount = AllElements.Count();
 
-                BookRepository.Add(book);
-                BookRepository.Save();
-                Assert.IsFalse(AllElementsCount == BookRepository.GetAll().Count());
+                bookRepository.Add(book);
+                bookRepository.Save();
+                Assert.IsFalse(AllElementsCount == bookRepository.GetAll().Count());
 
-                Book ConcreteElement = BookRepository.Find(book.Id);
+                Book ConcreteElement = bookRepository.Find(book.Id);
                 Assert.AreEqual(ConcreteElement, book);
 
-                BookRepository.Remove(book);
-                BookRepository.Save();
-                Assert.IsTrue(AllElementsCount == BookRepository.GetAll().Count());
+                bookRepository.Remove(book);
+                bookRepository.Save();
+                Assert.IsTrue(AllElementsCount == bookRepository.GetAll().Count());
             }
         }
 
@@ -62,22 +62,22 @@ namespace LibraryAccounting.Infrastructure.UnitTests
 
             using (DataContext db = new DataContext())
             {
-                UserRepository = new UserRepository(db);
+                userRepository = new UserRepository(db);
 
-                var AllElements = UserRepository.GetAll();
+                var AllElements = userRepository.GetAll();
                 Assert.IsNotNull(AllElements);
                 int AllElementsCount = AllElements.Count();
 
-                UserRepository.Add(user);
-                UserRepository.Save();
-                Assert.IsFalse(AllElementsCount == UserRepository.GetAll().Count());
+                userRepository.Add(user);
+                userRepository.Save();
+                Assert.IsFalse(AllElementsCount == userRepository.GetAll().Count());
 
-                User ConcreteElement =  UserRepository.Find(user.Id);
+                User ConcreteElement =  userRepository.Find(user.Id);
                 Assert.AreEqual(ConcreteElement, user);
 
-                UserRepository.Remove(user);
-                UserRepository.Save();
-                Assert.IsTrue(AllElementsCount == UserRepository.GetAll().Count());
+                userRepository.Remove(user);
+                userRepository.Save();
+                Assert.IsTrue(AllElementsCount == userRepository.GetAll().Count());
             }
         }
 
@@ -86,27 +86,27 @@ namespace LibraryAccounting.Infrastructure.UnitTests
         {
             using (DataContext db = new DataContext())
             {
-                BookingsRepository = new BookingRepository(db);
+                bookingsRepository = new BookingRepository(db);
                 booking = new Booking(1, 1)
                 {
                     IsTransmitted = true,
                     TransferDate = DateTime.Now
                 };
 
-                var AllElements = BookingsRepository.GetAll();
+                var AllElements = bookingsRepository.GetAll();
                 Assert.IsNotNull(AllElements);
                 int AllElementsCount = AllElements.Count();
 
-                BookingsRepository.Add(booking);
-                BookingsRepository.Save();
-                Assert.IsFalse(AllElementsCount == BookingsRepository.GetAll().Count());
+                bookingsRepository.Add(booking);
+                bookingsRepository.Save();
+                Assert.IsFalse(AllElementsCount == bookingsRepository.GetAll().Count());
 
-                Booking ConcreteElement = BookingsRepository.Find(booking.Id);
+                Booking ConcreteElement = bookingsRepository.Find(booking.Id);
                 Assert.AreEqual(ConcreteElement, booking);
 
-                BookingsRepository.Remove(booking);
-                BookingsRepository.Save();
-                Assert.IsTrue(AllElementsCount == BookingsRepository.GetAll().Count());
+                bookingsRepository.Remove(booking);
+                bookingsRepository.Save();
+                Assert.IsTrue(AllElementsCount == bookingsRepository.GetAll().Count());
             }
         }
     }

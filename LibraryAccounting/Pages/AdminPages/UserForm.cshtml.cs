@@ -16,9 +16,9 @@ namespace LibraryAccounting.Pages.AdminPages
 {
     public class UserFormModel : PageModel
     {
+        private readonly IMediator Mediator;
         public User UserInfo { get; set; }
         public SelectList Roles { get; set; }
-        private readonly IMediator Mediator;
 
         public UserFormModel(IMediator mediator)
         {
@@ -45,12 +45,24 @@ namespace LibraryAccounting.Pages.AdminPages
             }
         }
 
-        public async Task<IActionResult> OnPost(AddUserCommand userInfo, CancellationToken token)
+        public async Task<IActionResult> OnPost(User userinfo, CancellationToken token)
         {
 
             if (ModelState.IsValid)
             {
-                await Mediator.Send(userInfo, token);
+                if (userinfo.Id == 0)
+                    await Mediator.Send(new AddUserCommand(userinfo), token);
+                else
+                    await Mediator.Send(new ChangingAllPropertiesCommand()
+                    {
+                        Id = userinfo.Id,
+                        Name = userinfo.Name,
+                        Email = userinfo.Email,
+                        Password = userinfo.Password,
+                        RoleId = userinfo.RoleId
+                    },
+                        token);
+
                 return RedirectToPage("/AdminPages/UserList");
             }
             return RedirectToPage("/AdminPages/UserForm");

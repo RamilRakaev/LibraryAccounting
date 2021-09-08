@@ -27,7 +27,7 @@ namespace LibraryAccounting.CQRSInfrastructure.Methods.UserMethods
         private List<User> Users;
         async Task<List<User>> IRequestHandler<GetUsersQuery, List<User>>.Handle(GetUsersQuery request, CancellationToken cancellationToken)
         {
-            Users = db.GetAll().ToList();
+            Users = _db.GetAll().ToList();
             await Task.Run(() => Filter(request));
             return Users;
         }

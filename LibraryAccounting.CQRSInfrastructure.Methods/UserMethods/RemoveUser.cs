@@ -21,13 +21,13 @@ namespace LibraryAccounting.CQRSInfrastructure.Methods.UserMethods
 
         public async Task<User> Handle(RemoveUserCommand request, CancellationToken cancellationToken)
         {
-            var user = db.Find(request.Id);
+            var user = _db.Find(request.Id);
             if (user == null)
             {
                 throw new ArgumentNullException();
             }
-            db.Remove(user);
-            await db.SaveAsync();
+            _db.Remove(user);
+            await _db.SaveAsync();
             return user;
         }
     }

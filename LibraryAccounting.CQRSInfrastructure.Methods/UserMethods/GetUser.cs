@@ -21,7 +21,7 @@ namespace LibraryAccounting.CQRSInfrastructure.Methods.UserMethods
 
         public async Task<User> Handle(GetUserQuery request, CancellationToken cancellationToken)
         {
-            return await db.FindAsync(request.Id);
+            return await _db.FindAsync(request.Id);
         }
     }
 }

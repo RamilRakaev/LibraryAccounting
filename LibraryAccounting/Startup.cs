@@ -14,11 +14,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MediatR;
-using System.Reflection;
-using LibraryAccounting.CQRSInfrastructure.Methods.UserMethods;
-using System;
-using System.Threading.Tasks;
-using System.Threading;
 using LibraryAccounting.CQRSInfrastructure.Methods;
 
 namespace LibraryAccounting
@@ -35,8 +30,7 @@ namespace LibraryAccounting
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<DataContext>(options => 
-            options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<DataContext>();
 
             services.AddTransient<IRepository<Book>, BookRepository>();
             services.AddTransient<IRepository<Booking>, BookingRepository>();

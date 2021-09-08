@@ -23,12 +23,12 @@ namespace LibraryAccounting.CQRSInfrastructure.Methods.UserMethods
 
         public async Task<User> Handle(ChangingAllPropertiesCommand command, CancellationToken cancellationToken)
         {
-            var user = db.Find(command.Id);
+            var user = _db.Find(command.Id);
             user.Name = command.Name;
             user.Email = command.Email;
             user.Password = command.Password;
             user.RoleId = command.RoleId;
-            await db.SaveAsync();
+            await _db.SaveAsync();
 
             return user;
         }

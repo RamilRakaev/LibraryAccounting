@@ -12,33 +12,35 @@ namespace LibraryAccounting.CQRSInfrastructure.Methods.UserMethods
 {
     public class AddUserCommand : IRequest<User>
     {
-        public string Name { get; set; }
-        public int RoleId { get; set; }
-        public string Password { get; set; }
-        public string Email { get; set; }
+
+        public User User { get; set; }
+
+        public AddUserCommand(User user)
+        {
+            User = user;
+        }
     }
 
     public class AddUserHandler : UserHandler, IRequestHandler<AddUserCommand, User>
     {
-        public AddUserHandler(IRepository<User> _db) : base(_db)
+        public AddUserHandler(IRepository<User> db) : base(db)
         { }
 
         public async Task<User> Handle(AddUserCommand request, CancellationToken cancellationToken)
         {
-            User user = new User(request.Name, request.Email, request.Password, request.RoleId);
-            await db.AddAsync(user);
-            await db.SaveAsync();
-            return user;
+            await _db.AddAsync(request.User);
+            await _db.SaveAsync();
+            return request.User;
         }
 
         public class AddUserValidator : AbstractValidator<AddUserCommand>
         {
             public AddUserValidator()
             {
-                RuleFor(c => c.Name).NotEmpty().Length(3, 20);
-                RuleFor(u => u.Email).NotEmpty().EmailAddress();
-                RuleFor(u => u.Password).NotEmpty().MinimumLength(10);
-                RuleFor(u => u.RoleId).NotEmpty();
+                RuleFor(c => c.User.Name).NotEmpty().Length(3, 20);
+                RuleFor(u => u.User.Email).NotEmpty().EmailAddress();
+                RuleFor(u => u.User.Password).NotEmpty().MinimumLength(10);
+                RuleFor(u => u.User.RoleId).NotEmpty();
             }
         }
     }

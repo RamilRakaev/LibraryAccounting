@@ -1,5 +1,10 @@
 ﻿using LibraryAccounting.Domain.Model;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using System;
+using System.IO;
 
 namespace LibraryAccounting.Infrastructure.Repositories
 {
@@ -9,16 +14,6 @@ namespace LibraryAccounting.Infrastructure.Repositories
         public DbSet<User> Users { get; set; }
         public DbSet<Booking> Bookings { get; set; }
         public DbSet<Role> Roles { get; set; }
-
-        public DataContext()
-        {
-
-        }
-
-        public DataContext(DbContextOptions<DataContext> options) : base(options)
-        {
-            Database.EnsureCreated();
-        }
 
         protected override void OnModelCreating(ModelBuilder mb)
         {
@@ -32,9 +27,40 @@ namespace LibraryAccounting.Infrastructure.Repositories
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=libraryaccounting;Username=postgres;Password=rubaka");
+            var builder = new ConfigurationBuilder();
+            builder.SetBasePath(Directory.GetCurrentDirectory());
+            builder.AddJsonFile("appsettings.json");
+            IConfiguration Configuration = builder.Build();
+
+            optionsBuilder.UseNpgsql(
+                Configuration.GetConnectionString("DefaultConnection"),
+                op => op.MigrationsAssembly("LibraryAccounting.Infrastructure.Repositories"));
+            
+            base.OnConfiguring(optionsBuilder);
         }
     }
 
-    
+    public static class MigrationManager
+    {
+        public static IHost MigrateDatabase(this IHost host)
+        {
+            using (var scope = host.Services.CreateScope())
+            {
+                using (var appContext = scope.ServiceProvider.GetRequiredService<DataContext>())
+                {
+                    try
+                    {
+                        appContext.Database.Migrate();
+                    }
+                    catch (Exception ex)
+                    {
+                        //Log errors or do anything you think it's needed
+                        throw;
+                    }
+                }
+            }
+
+            return host;
+        }
+    }
 }

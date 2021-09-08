@@ -10,26 +10,24 @@ using System.Collections.Generic;
 using System.Linq;
 using LibraryAccounting.Services.ToolInterfaces;
 using LibraryAccounting.Infrastructure.Tools;
-using Microsoft.Extensions.Configuration;
 
 namespace LibraryAccounting.Infrastructure.UnitTests
 {
     [TestClass]
     public class ToolsTest
     {
-        private IRepository<User> UserRepository;
-        private IRepository<Book> BookRepository;
-        private IRepository<Booking> BookingRepository;
-        private IStorageRequests<Role> RoleRequests;
+        private IRepository<User> userRepository;
+        private IRepository<Book> bookRepository;
+        private IRepository<Booking> bookingRepository;
+        private IStorageRequests<Role> roleRequests;
         IAdminTools AdminTools;
         ILibrarianTools LibrarianTools;
-        //DataContext Context = new DataContext(new DbContextOptions<DataContext>(new DbContextOptionsBuilder().Options)));
         [TestMethod]
         public void LibrarianToolsTest()
         {
-            BookRepository = new BookRepository(new DataContext());
-            BookingRepository = new BookingRepository(new DataContext());
-            LibrarianTools = new LibrarianTools(BookingRepository, BookRepository, UserRepository);
+            bookRepository = new BookRepository(new DataContext());
+            bookingRepository = new BookingRepository(new DataContext());
+            LibrarianTools = new LibrarianTools(bookingRepository, bookRepository, userRepository);
 
             int count = LibrarianTools.GetAllBooks().Count();
             LibrarianTools.AddBook(new Book() { Title = "book1", Author = "author1", Genre = "genre2", Publisher = "publisher1" });
@@ -45,13 +43,13 @@ namespace LibraryAccounting.Infrastructure.UnitTests
             var book = LibrarianTools.GetBooks(decorator).ElementAt(0);
             Assert.IsNotNull(book);
 
-            UserRepository = new UserRepository(new DataContext());
-            UserRepository.Add(new User("name1", "email1@gmail.com", "password1", 1));
-            UserRepository.Save();
-            var user = UserRepository.GetAll().First(u => u.Name == "name1");
+            userRepository = new UserRepository(new DataContext());
+            userRepository.Add(new User("name1", "email1@gmail.com", "password1", 1));
+            userRepository.Save();
+            var user = userRepository.GetAll().First(u => u.Name == "name1");
             var booking = new Booking(book.Id, user.Id);
-            BookingRepository.Add(booking);
-            BookingRepository.Save();
+            bookingRepository.Add(booking);
+            bookingRepository.Save();
 
 
             LibrarianTools.EditBooking(new GiveBookToClientVisitor(), new BookingByBookIdHandler(book.Id));
@@ -63,18 +61,18 @@ namespace LibraryAccounting.Infrastructure.UnitTests
             LibrarianTools.RemoveBook(book);
             Assert.AreEqual(LibrarianTools.GetAllBooks().Count(), count);
 
-            UserRepository.Remove(user);
-            UserRepository.Save();
-            BookingRepository.Remove(booking);
-            BookingRepository.Save();
+            userRepository.Remove(user);
+            userRepository.Save();
+            bookingRepository.Remove(booking);
+            bookingRepository.Save();
         }
 
         [TestMethod]
         public void AdminToolsTest()
         {
-            UserRepository = new UserRepository(new DataContext());
-            RoleRequests = new RoleRequests(new DataContext());
-            AdminTools = new AdminTools(UserRepository, RoleRequests);
+            userRepository = new UserRepository(new DataContext());
+            roleRequests = new RoleRequests(new DataContext());
+            AdminTools = new AdminTools(userRepository, roleRequests);
             User user = new User("Name1", "email@gmail.com", "password1", 1);
 
             int count = AdminTools.GetAllUsers().Count();
