@@ -18,7 +18,7 @@ namespace LibraryAccounting.Services.ToolInterfaces
         User GetUser(IReturningResultHandler<User, User> resultHandler);
         IEnumerable<User> GetUsers(IRequestsHandlerComponent<User> handlerComponent);
         IEnumerable<User> GetAllUsers();
-        IEnumerable<Role> GetRoles();
+        IEnumerable<UserRole> GetRoles();
         #endregion
     }
 }
