@@ -15,6 +15,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MediatR;
 using LibraryAccounting.CQRSInfrastructure.Methods;
+using System.IO;
 
 namespace LibraryAccounting
 {
@@ -30,7 +31,8 @@ namespace LibraryAccounting
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<DataContext>();
+            services.AddDbContext<DataContext>(op => op.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"),
+                op => op.MigrationsAssembly("LibraryAccounting.Infrastructure.Repositories")));
 
             services.AddTransient<IRepository<Book>, BookRepository>();
             services.AddTransient<IRepository<Booking>, BookingRepository>();
@@ -49,7 +51,7 @@ namespace LibraryAccounting
             services.AddTransient<IValidator<Booking>, BookingValidator>();
             services.AddTransient<IValidator<User>, UserValidator>();
 
-            services.AddRazorPages().AddFluentValidation(); 
+            services.AddRazorPages().AddFluentValidation();
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(
                  opt =>
                  {
@@ -70,7 +72,7 @@ namespace LibraryAccounting
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-            
+
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
@@ -86,7 +88,7 @@ namespace LibraryAccounting
             });
 
 
-            
+
         }
     }
 }

@@ -3,6 +3,7 @@ using System.IO;
 using System.Threading.Tasks;
 using LibraryAccounting.Domain.Model;
 using LibraryAccounting.Services.ToolInterfaces;
+using MediatR;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -14,8 +15,9 @@ namespace LibraryAccounting.Pages.LibrarianPages
     {
         readonly private ILibrarianTools LibrarianTools;
         readonly private IWebHostEnvironment Environment;
+        private readonly IMediator _mediator;
         public Book Book { get; set; }
-        public BookFormModel(ILibrarianTools librarianTools, IWebHostEnvironment environment)
+        public BookFormModel(ILibrarianTools librarianTools, IWebHostEnvironment environment, IMediator mediator)
         {
             LibrarianTools = librarianTools;
             Environment = environment;
@@ -32,17 +34,22 @@ namespace LibraryAccounting.Pages.LibrarianPages
 
         public async Task<IActionResult> OnPost(Book book, IFormFile cover)
         {
-            if(cover != null)
-            if (ModelState.IsValid)
-            {
-                string path = "/img/" + book.Title + ".jpg";
-                using(var fileStream = new FileStream(Environment.WebRootPath + path, FileMode.Create))
+            if (cover != null)
+                if (ModelState.IsValid)
                 {
-                    await cover.CopyToAsync(fileStream);
+                    if (book.Id == 0)
+                    {
+                        string path = "/img/" + book.Title + ".jpg";
+                        using (var fileStream = new FileStream(Environment.WebRootPath + path, FileMode.Create))
+                        {
+                            await cover.CopyToAsync(fileStream);
+                        }
+                        LibrarianTools.AddBook(book);
+                    }
+                    //else
+                    //    _mediator.Send()
+                    return RedirectToPage("/LibrarianPages/BookCatalog");
                 }
-                LibrarianTools.AddBook(book);
-                return RedirectToPage("/LibrarianPages/BookCatalog");
-            }
             return RedirectToPage("/LibrarianPages/BookForm");
         }
     }

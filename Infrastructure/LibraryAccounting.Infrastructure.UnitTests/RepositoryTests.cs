@@ -5,6 +5,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Linq;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
+using System.IO;
 
 namespace LibraryAccounting.Infrastructure.UnitTests
 {
@@ -18,10 +21,14 @@ namespace LibraryAccounting.Infrastructure.UnitTests
         User user;
         Booking booking;
 
+        
+
         [TestMethod]
         public void BookRepositoryTest()
         {
-            using (DataContext db = new DataContext())
+            
+
+            using (DataContext db = new DataContext(Startup.OnConfiguring()))
             {
                 book = new Book()
                 {
@@ -60,7 +67,7 @@ namespace LibraryAccounting.Infrastructure.UnitTests
                 RoleId = 1
             };
 
-            using (DataContext db = new DataContext())
+            using (DataContext db = new DataContext(Startup.OnConfiguring()))
             {
                 userRepository = new UserRepository(db);
 
@@ -84,7 +91,7 @@ namespace LibraryAccounting.Infrastructure.UnitTests
         [TestMethod]
         public void BookingRepositoryTest()
         {
-            using (DataContext db = new DataContext())
+            using (DataContext db = new DataContext(Startup.OnConfiguring()))
             {
                 bookingsRepository = new BookingRepository(db);
                 booking = new Booking(1, 1)

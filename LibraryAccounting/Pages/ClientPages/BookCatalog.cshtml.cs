@@ -8,13 +8,14 @@ using LibraryAccounting.Services.ToolInterfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Threading.Tasks;
 
 namespace LibraryAccounting.Pages.ClientPages
 {
     public class BookCatalogModel : PageModel
     {
+        readonly private IClientTools _clientTools;
         public Dictionary<Book, bool> Books { get; set; }
-        readonly private IClientTools ClientTools;
         public int ClientId { get; set; }
         public SelectList Authors { get; set; }
         public SelectList Genres { get; set; }
@@ -22,26 +23,31 @@ namespace LibraryAccounting.Pages.ClientPages
 
         public BookCatalogModel(IClientTools clientTools, IHttpContextAccessor httpContext)
         {
-            ClientTools = clientTools;
+            _clientTools = clientTools;
             if (httpContext.HttpContext.User.Identity.IsAuthenticated)
                 ClientId = Convert.ToInt32(httpContext.HttpContext.User.Claims.ElementAt(2).Value);
 
-            var authors = ClientTools.GetAllBooks().Select(b => b.Author).Distinct();
+            var authors = _clientTools.GetAllBooks().Select(b => b.Author).Distinct();
             Authors = new SelectList(authors);
 
-            var genres = ClientTools.GetAllBooks().Select(b => b.Genre).Distinct();
+            var genres = _clientTools.GetAllBooks().Select(b => b.Genre).Distinct();
             Genres = new SelectList(genres);
 
-            var publishers = ClientTools.GetAllBooks().Select(b => b.Publisher).Distinct();
+            var publishers = _clientTools.GetAllBooks().Select(b => b.Publisher).Distinct();
             Publishers = new SelectList(publishers);
         }
 
-        public void OnGet()
+        public async Task OnGet()
         {
-            Books = new BookCatalogHandler().Handle(ClientTools.GetAllBooks(), ClientTools.GetAllBookings());
+            Books = await Task.Run(() => ExtractBooks(_clientTools));
         }
 
-        public void OnPost(string author, string genre, string publisher)
+        static Dictionary<Book, bool> ExtractBooks(IClientTools clientTools)
+        {
+            return new BookCatalogHandler().Handle(clientTools.GetAllBooks(), clientTools.GetAllBookings());
+        }
+
+        public async Task OnPost(string author, string genre, string publisher)
         {
             var decorator = new DecoratorHandler<Book>(
                 new List<IRequestsHandlerComponent<Book>>()
@@ -50,8 +56,8 @@ namespace LibraryAccounting.Pages.ClientPages
                 new BooksByPublisherHandler(publisher)
                 });
 
-            var books = ClientTools.GetBooks(decorator);
-            Books = new BookCatalogHandler().Handle(books, ClientTools.GetAllBookings());
+            var books = _clientTools.GetBooks(decorator);
+            Books = await Task.Run(() => ExtractBooks(_clientTools));
         }
     }
 }

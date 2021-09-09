@@ -13,6 +13,11 @@ namespace LibraryAccounting.Infrastructure.Repositories
         public DbSet<Booking> Bookings { get; set; }
         public DbSet<Role> Roles { get; set; }
 
+        public DataContext(DbContextOptions options) : base(options)
+        {
+
+        }
+
         protected override void OnModelCreating(ModelBuilder mb)
         {
             mb.Entity<Role>().HasData(new Role[]
@@ -44,22 +49,8 @@ namespace LibraryAccounting.Infrastructure.Repositories
             });
             mb.Entity<Booking>().HasData(new Booking[]
             {
-                new Booking(){ Id =1, BookId = 3, ClientId = 1, BookingDate = DateTime.Now, IsTransmitted = false, IsReturned = false}
+                new Booking(){ Id =1, BookId = 3, ClientId = 3, BookingDate = DateTime.Now, IsTransmitted = false, IsReturned = false}
             });
-        }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            var builder = new ConfigurationBuilder();
-            builder.SetBasePath(Directory.GetCurrentDirectory());
-            builder.AddJsonFile("appsettings.json");
-            IConfiguration Configuration = builder.Build();
-
-            optionsBuilder.UseNpgsql(
-                Configuration.GetConnectionString("DefaultConnection"),
-                op => op.MigrationsAssembly("LibraryAccounting.Infrastructure.Repositories"));
-
-            base.OnConfiguring(optionsBuilder);
         }
     }
 }

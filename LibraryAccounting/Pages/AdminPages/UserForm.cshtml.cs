@@ -16,20 +16,20 @@ namespace LibraryAccounting.Pages.AdminPages
 {
     public class UserFormModel : PageModel
     {
-        private readonly IMediator Mediator;
+        private readonly IMediator _mediator;
         public User UserInfo { get; set; }
         public SelectList Roles { get; set; }
 
         public UserFormModel(IMediator mediator)
         {
-            Mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+            _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
             EstablishRoles();
         }
 
         public async void EstablishRoles()
         {
             var command = new GetRolesCommand();
-            var roles = await Mediator.Send(command, new CancellationToken(false));
+            var roles = await _mediator.Send(command, new CancellationToken(false));
             Roles = new SelectList(roles, "Id", "Name");
         }
 
@@ -37,7 +37,7 @@ namespace LibraryAccounting.Pages.AdminPages
         {
             if (id != null)
             {
-                UserInfo = await Mediator.Send(new GetUserQuery() { Id = Convert.ToInt32(id) }, new CancellationToken(false));
+                UserInfo = await _mediator.Send(new GetUserQuery() { Id = Convert.ToInt32(id) }, new CancellationToken(false));
             }
             else
             {
@@ -51,9 +51,9 @@ namespace LibraryAccounting.Pages.AdminPages
             if (ModelState.IsValid)
             {
                 if (userinfo.Id == 0)
-                    await Mediator.Send(new AddUserCommand(userinfo), token);
+                    await _mediator.Send(new AddUserCommand(userinfo), token);
                 else
-                    await Mediator.Send(new ChangingAllPropertiesCommand()
+                    await _mediator.Send(new ChangingAllPropertiesCommand()
                     {
                         Id = userinfo.Id,
                         Name = userinfo.Name,

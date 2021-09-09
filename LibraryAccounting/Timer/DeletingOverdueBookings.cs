@@ -11,11 +11,10 @@ namespace LibraryAccounting.Timer
 {
     public class DeletingOverdueBookings : IJob
     {
-        readonly private IClientTools clientTools;
-        public DeletingOverdueBookings()
+        readonly private IClientTools _clientTools;
+        public DeletingOverdueBookings(IClientTools clientTools)
         {
-            var db = new DataContext();
-            clientTools = new ClientTools(new BookingRepository(db), new BookRepository(db));
+            _clientTools = clientTools;
         }
         public async Task Execute(IJobExecutionContext context)
         {
@@ -24,11 +23,11 @@ namespace LibraryAccounting.Timer
 
         void Search()
         {
-            var booksId = new ExpiredBooksIdHandler(BookingDeleteShedule.Days).Handle(clientTools.GetAllBookings()).Select(b => b.Id); 
+            var booksId = new ExpiredBooksIdHandler(BookingDeleteShedule.Days).Handle(_clientTools.GetAllBookings()).Select(b => b.Id);
             foreach (int id in booksId)
             {
-                clientTools.RemoveReservation(id);
+                _clientTools.RemoveReservation(id);
             }
-        } 
+        }
     }
 }

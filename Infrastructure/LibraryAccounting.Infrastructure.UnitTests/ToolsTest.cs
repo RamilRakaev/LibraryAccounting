@@ -25,8 +25,8 @@ namespace LibraryAccounting.Infrastructure.UnitTests
         [TestMethod]
         public void LibrarianToolsTest()
         {
-            bookRepository = new BookRepository(new DataContext());
-            bookingRepository = new BookingRepository(new DataContext());
+            bookRepository = new BookRepository(new DataContext(Startup.OnConfiguring()));
+            bookingRepository = new BookingRepository(new DataContext(Startup.OnConfiguring()));
             LibrarianTools = new LibrarianTools(bookingRepository, bookRepository, userRepository);
 
             int count = LibrarianTools.GetAllBooks().Count();
@@ -43,7 +43,7 @@ namespace LibraryAccounting.Infrastructure.UnitTests
             var book = LibrarianTools.GetBooks(decorator).ElementAt(0);
             Assert.IsNotNull(book);
 
-            userRepository = new UserRepository(new DataContext());
+            userRepository = new UserRepository(new DataContext(Startup.OnConfiguring()));
             userRepository.Add(new User("name1", "email1@gmail.com", "password1", 1));
             userRepository.Save();
             var user = userRepository.GetAll().First(u => u.Name == "name1");
@@ -70,8 +70,8 @@ namespace LibraryAccounting.Infrastructure.UnitTests
         [TestMethod]
         public void AdminToolsTest()
         {
-            userRepository = new UserRepository(new DataContext());
-            roleRequests = new RoleRequests(new DataContext());
+            userRepository = new UserRepository(new DataContext(Startup.OnConfiguring()));
+            roleRequests = new RoleRequests(new DataContext(Startup.OnConfiguring()));
             AdminTools = new AdminTools(userRepository, roleRequests);
             User user = new User("Name1", "email@gmail.com", "password1", 1);
 

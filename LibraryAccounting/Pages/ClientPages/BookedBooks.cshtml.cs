@@ -6,18 +6,19 @@ using LibraryAccounting.Domain.Model;
 using LibraryAccounting.Services.ToolInterfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Threading.Tasks;
 
 namespace LibraryAccounting.Pages.ClientPages
 {
     public class BookedBooksModel : PageModel
     {
-        readonly private IClientTools ClientTools;
-        public Dictionary<Booking, Book> BookingBooks;
+        readonly private IClientTools _clientTools;
+        public Dictionary<Booking, Book> armoredBooks;
         public int ClientId { get; set; }
         public BookedBooksModel(IClientTools clientTools, IHttpContextAccessor httpContext)
         {
-            ClientTools = clientTools;
-            BookingBooks = new Dictionary<Booking, Book>();
+            _clientTools = clientTools;
+            armoredBooks = new Dictionary<Booking, Book>();
             if (httpContext.HttpContext.User.Identity.IsAuthenticated)
                 ClientId = Convert.ToInt32(httpContext.HttpContext.User.Claims.ElementAt(2).Value);
             else
@@ -26,27 +27,29 @@ namespace LibraryAccounting.Pages.ClientPages
             }
         }
 
-        public void OnGet()
+        public async Task OnGet()
         {
-            Initialize();
+            armoredBooks = await Task.Run(() => ExtractArmoredBooks(_clientTools, ClientId));
         }
 
-        public void OnPost(int idBooking)
+        public async Task OnPost(int idBooking)
         {
-            ClientTools.RemoveReservation(idBooking);
-            Initialize();
+            _clientTools.RemoveReservation(idBooking);
+            armoredBooks = await Task.Run(() =>ExtractArmoredBooks(_clientTools, ClientId));
         }
 
-        private void Initialize()
+        private static Dictionary<Booking, Book> ExtractArmoredBooks(IClientTools ClientTools, int clientId)
         {
-            var clientBookings = ClientTools.GetBookings(new BookingsByClientIdHandler(ClientId)).ToList();
+            var armoredBooks = new Dictionary<Booking, Book>();
+            var clientBookings = ClientTools.GetBookings(new BookingsByClientIdHandler(clientId)).ToList();
             new SortingByBookingDateHandler().Handle(ref clientBookings);
             var clientBooks = ClientTools.GetBooks(new BookingBooksHandler(clientBookings)).ToList();
             if (clientBookings.Count() == clientBooks.Count())
                 for (int i = 0; i < clientBooks.Count(); i++)
                 {
-                    BookingBooks.Add(clientBookings[i], clientBooks[i]);
+                    armoredBooks.Add(clientBookings[i], clientBooks[i]);
                 }
+            return armoredBooks;
         }
     }
 }
