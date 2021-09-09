@@ -10,17 +10,17 @@ using System.Threading.Tasks;
 
 namespace LibraryAccounting.CQRSInfrastructure.Methods.UserMethods
 {
-    public class GetUserQuery : IRequest<User>
+    public class GetUserQuery : IRequest<ApplicationUser>
     {
         public int Id { get; set; }
     }
 
-    public class GetUserHandler : UserHandler, IRequestHandler<GetUserQuery, User>
+    public class GetUserHandler : UserHandler, IRequestHandler<GetUserQuery, ApplicationUser>
     {
-        public GetUserHandler(IRepository<User> _db) : base(_db)
+        public GetUserHandler(IRepository<ApplicationUser> _db) : base(_db)
         { }
 
-        public async Task<User> Handle(GetUserQuery request, CancellationToken cancellationToken)
+        public async Task<ApplicationUser> Handle(GetUserQuery request, CancellationToken cancellationToken)
         {
             return await _db.FindAsync(request.Id);
         }

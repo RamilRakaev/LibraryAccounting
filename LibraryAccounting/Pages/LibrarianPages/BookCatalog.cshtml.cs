@@ -21,7 +21,7 @@ namespace LibraryAccounting.Pages.LibrarianPages
         readonly private IWebHostEnvironment _environment;
         readonly private IMediator _mediator;
         public Dictionary<Book, bool> Books { get; private set; }
-        public Dictionary<int, User> Users { get; private set; }
+        public Dictionary<int, ApplicationUser> Users { get; private set; }
         public Dictionary<int, Booking> Bookings { get; private set; }
         public SelectList Authors { get; set; }
         public SelectList Genres { get; set; }
@@ -94,7 +94,7 @@ namespace LibraryAccounting.Pages.LibrarianPages
             Bookings = await ExtractBookings(_librarianTools);
         }
 
-        static Task<Dictionary<int, User>> ExtractUsers(ILibrarianTools librarianTools)
+        static Task<Dictionary<int, ApplicationUser>> ExtractUsers(ILibrarianTools librarianTools)
         {
             return Task.Run(() => new UsersWidthIdHandler().Handle(librarianTools.GetAllUsers()));
         }

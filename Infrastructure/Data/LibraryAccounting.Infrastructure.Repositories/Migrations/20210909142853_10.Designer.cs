@@ -3,15 +3,17 @@ using System;
 using LibraryAccounting.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace LibraryAccounting.Infrastructure.Repositories.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20210909142853_10")]
+    partial class _10
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -240,7 +242,7 @@ namespace LibraryAccounting.Infrastructure.Repositories.Migrations
                         {
                             Id = 1,
                             BookId = 3,
-                            BookingDate = new DateTime(2021, 9, 9, 17, 33, 40, 223, DateTimeKind.Local).AddTicks(3047),
+                            BookingDate = new DateTime(2021, 9, 9, 17, 28, 53, 406, DateTimeKind.Local).AddTicks(4417),
                             ClientId = 3,
                             IsReturned = false,
                             IsTransmitted = false

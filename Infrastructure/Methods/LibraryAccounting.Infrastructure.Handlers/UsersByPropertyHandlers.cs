@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace LibraryAccounting.Infrastructure.Handlers
 {
-    public class UserByEmailHandler : IReturningResultHandler<User, User>
+    public class UserByEmailHandler : IReturningResultHandler<ApplicationUser, ApplicationUser>
     {
         readonly private string Email; 
 
@@ -14,13 +14,13 @@ namespace LibraryAccounting.Infrastructure.Handlers
             Email = email;
         }
 
-        public User Handle(IEnumerable<User> elements)
+        public ApplicationUser Handle(IEnumerable<ApplicationUser> elements)
         {
             return elements.FirstOrDefault(u => u.Email == Email);
         }
     }
 
-    public class UserLoginHandlerAsync : IReturningResultHandler<User, User>
+    public class UserLoginHandlerAsync : IReturningResultHandler<ApplicationUser, ApplicationUser>
     {
         readonly private string Email; 
         readonly private string Password; 
@@ -31,7 +31,7 @@ namespace LibraryAccounting.Infrastructure.Handlers
             Password = password;
         }
 
-        public  User Handle(IEnumerable<User> elements)
+        public  ApplicationUser Handle(IEnumerable<ApplicationUser> elements)
         {
             return elements.AsParallel().FirstOrDefault(u => u.Email == Email && u.Password == Password);
         }

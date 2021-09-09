@@ -6,11 +6,11 @@ namespace LibraryAccounting.CQRSInfrastructure.Methods.UserMethods
 {
     public class UserHandler
     {
-        protected readonly IRepository<User> _db;
+        protected readonly IRepository<ApplicationUser> _db;
 
-        public UserHandler(IRepository<User> db)
+        public UserHandler(IRepository<ApplicationUser> db)
         {
-            _db = db ?? throw new ArgumentNullException(nameof(IRepository<User>));
+            _db = db ?? throw new ArgumentNullException(nameof(IRepository<ApplicationUser>));
         }
     }
 }

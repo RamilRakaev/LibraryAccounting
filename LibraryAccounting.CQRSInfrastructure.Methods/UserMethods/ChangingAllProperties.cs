@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace LibraryAccounting.CQRSInfrastructure.Methods.UserMethods
 {
-    public class ChangingAllPropertiesCommand : IRequest<User>
+    public class ChangingAllPropertiesCommand : IRequest<ApplicationUser>
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -16,12 +16,12 @@ namespace LibraryAccounting.CQRSInfrastructure.Methods.UserMethods
         public string Email { get; set; }
     }
 
-    public class ChangingAllUserPropertiesHandler : UserHandler, IRequestHandler<ChangingAllPropertiesCommand, User>
+    public class ChangingAllUserPropertiesHandler : UserHandler, IRequestHandler<ChangingAllPropertiesCommand, ApplicationUser>
     {
-        public ChangingAllUserPropertiesHandler(IRepository<User> _db) : base(_db)
+        public ChangingAllUserPropertiesHandler(IRepository<ApplicationUser> _db) : base(_db)
         { }
 
-        public async Task<User> Handle(ChangingAllPropertiesCommand command, CancellationToken cancellationToken)
+        public async Task<ApplicationUser> Handle(ChangingAllPropertiesCommand command, CancellationToken cancellationToken)
         {
             var user = _db.Find(command.Id);
             user.UserName = command.Name;

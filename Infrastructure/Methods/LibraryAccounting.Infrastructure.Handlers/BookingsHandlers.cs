@@ -93,11 +93,11 @@ namespace LibraryAccounting.Infrastructure.Handlers
         }
     }
 
-    public class UsersWidthIdHandler : IReturningResultHandler<Dictionary<int, User>, User>
+    public class UsersWidthIdHandler : IReturningResultHandler<Dictionary<int, ApplicationUser>, ApplicationUser>
     {
-        public Dictionary<int, User> Handle(IEnumerable<User> elements)
+        public Dictionary<int, ApplicationUser> Handle(IEnumerable<ApplicationUser> elements)
         {
-            var dictionary = new Dictionary<int, User>();
+            var dictionary = new Dictionary<int, ApplicationUser>();
             foreach(var elem in elements)
             {
                 dictionary.Add(elem.Id, elem);

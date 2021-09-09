@@ -11,10 +11,11 @@ namespace LibraryAccounting.Infrastructure.Repositories
 {
     public class ApplicationUserLogin : IdentityUserLogin<int> { }
     public class ApplicationUserClaim : IdentityUserClaim<int> { }
-    public class DataContext : IdentityDbContext<User, UserRole, int>
+    public class DataContext : IdentityDbContext<ApplicationUser, ApplictionUserRole, int>
     {
         public DbSet<Book> Books { get; set; }
-        public DbSet<User> Users { get; set; }
+        public new DbSet<ApplicationUser> Users { get; set; }
+        public new DbSet<ApplictionUserRole> Roles { get; set; }
         public DbSet<Booking> Bookings { get; set; }
 
         public DataContext(DbContextOptions options) : base(options)

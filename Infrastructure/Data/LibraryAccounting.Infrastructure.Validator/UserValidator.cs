@@ -3,7 +3,7 @@ using LibraryAccounting.Domain.Model;
 
 namespace LibraryAccounting.Infrastructure.Validator
 {
-    public class UserValidator : AbstractValidator<User>
+    public class UserValidator : AbstractValidator<ApplicationUser>
     {
         public UserValidator()
         {

@@ -3,17 +3,17 @@ using Microsoft.AspNetCore.Identity;
 
 namespace LibraryAccounting.Domain.Model
 {
-    public class User : IdentityUser<int>
+    public class ApplicationUser : IdentityUser<int>
     {
         public int RoleId { get; set; }
-        public UserRole Role { get; set; }
+        public ApplictionUserRole Role { get; set; }
         public string Password { get; set; }
-        public string ApplicationUserLogin { get; set; }
-        public User()
+
+        public ApplicationUser()
         {
         }
 
-        public User(string name, string email, string password, UserRole role)
+        public ApplicationUser(string name, string email, string password, ApplictionUserRole role)
         {
             UserName = name;
             
@@ -23,7 +23,7 @@ namespace LibraryAccounting.Domain.Model
             RoleId = role.Id;
         }
 
-        public User(string name, string email, string password, int roleId)
+        public ApplicationUser(string name, string email, string password, int roleId)
         {
             UserName = name;
             Email = email;
@@ -31,7 +31,7 @@ namespace LibraryAccounting.Domain.Model
             RoleId = roleId;
         }
 
-        public bool Accept(IVisitor<User> visitor)
+        public bool Accept(IVisitor<ApplicationUser> visitor)
         {
             return visitor.Visit(this);
         }

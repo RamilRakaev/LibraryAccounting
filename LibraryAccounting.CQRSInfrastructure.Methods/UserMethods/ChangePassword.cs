@@ -10,18 +10,18 @@ using System.Threading.Tasks;
 
 namespace LibraryAccounting.CQRSInfrastructure.Methods.UserMethods
 {
-    public class ChangePasswordCommand : IRequest<User>
+    public class ChangePasswordCommand : IRequest<ApplicationUser>
     {
         public int Id { get; set; }
         public string Password { get; set; }
     }
 
-    public class ChangePasswordHandler : UserHandler, IRequestHandler<ChangePasswordCommand, User>
+    public class ChangePasswordHandler : UserHandler, IRequestHandler<ChangePasswordCommand, ApplicationUser>
     {
-        public ChangePasswordHandler(IRepository<User> _db):base(_db)
+        public ChangePasswordHandler(IRepository<ApplicationUser> _db):base(_db)
         { }
 
-        public async Task<User> Handle(ChangePasswordCommand request, CancellationToken cancellationToken)
+        public async Task<ApplicationUser> Handle(ChangePasswordCommand request, CancellationToken cancellationToken)
         {
             var user = _db.Find(request.Id);
             if (user != null)
@@ -36,7 +36,7 @@ namespace LibraryAccounting.CQRSInfrastructure.Methods.UserMethods
             }
         }
 
-        public class ChangePasswordValidator : AbstractValidator<User>
+        public class ChangePasswordValidator : AbstractValidator<ApplicationUser>
         {
             public ChangePasswordValidator()
             {

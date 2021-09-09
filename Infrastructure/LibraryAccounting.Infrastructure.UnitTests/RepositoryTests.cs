@@ -15,10 +15,10 @@ namespace LibraryAccounting.Infrastructure.UnitTests
     public class RepositoryTests
     {
         IRepository<Book> bookRepository;
-        IRepository<User> userRepository;
+        IRepository<ApplicationUser> userRepository;
         IRepository<Booking> bookingsRepository;
         Book book;
-        User user;
+        ApplicationUser user;
         Booking booking;
 
         
@@ -59,7 +59,7 @@ namespace LibraryAccounting.Infrastructure.UnitTests
         [TestMethod]
         public void UserRepositoryTest()
         {
-            user = new User()
+            user = new ApplicationUser()
             {
                 UserName = "Иван",
                 Password = "1234",
@@ -79,7 +79,7 @@ namespace LibraryAccounting.Infrastructure.UnitTests
                 userRepository.Save();
                 Assert.IsFalse(AllElementsCount == userRepository.GetAll().Count());
 
-                User ConcreteElement =  userRepository.Find(user.Id);
+                ApplicationUser ConcreteElement =  userRepository.Find(user.Id);
                 Assert.AreEqual(ConcreteElement, user);
 
                 userRepository.Remove(user);

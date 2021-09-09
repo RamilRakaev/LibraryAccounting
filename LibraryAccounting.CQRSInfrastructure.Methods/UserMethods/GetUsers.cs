@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace LibraryAccounting.CQRSInfrastructure.Methods.UserMethods
 {
-    public class GetUsersQuery : IRequest<List<User>>
+    public class GetUsersQuery : IRequest<List<ApplicationUser>>
     {
         public string Name { get; set; }
         public int? RoleId { get; set; }
@@ -19,13 +19,13 @@ namespace LibraryAccounting.CQRSInfrastructure.Methods.UserMethods
         public string Email { get; set; }
     }
 
-    public class GetUsersHandler : UserHandler, IRequestHandler<GetUsersQuery, List<User>>
+    public class GetUsersHandler : UserHandler, IRequestHandler<GetUsersQuery, List<ApplicationUser>>
     {
-        public GetUsersHandler(IRepository<User> _db) : base(_db)
+        public GetUsersHandler(IRepository<ApplicationUser> _db) : base(_db)
         { }
 
-        private List<User> Users;
-        async Task<List<User>> IRequestHandler<GetUsersQuery, List<User>>.Handle(GetUsersQuery request, CancellationToken cancellationToken)
+        private List<ApplicationUser> Users;
+        async Task<List<ApplicationUser>> IRequestHandler<GetUsersQuery, List<ApplicationUser>>.Handle(GetUsersQuery request, CancellationToken cancellationToken)
         {
             Users = _db.GetAll().ToList();
             await Task.Run(() => Filter(request));
@@ -34,7 +34,7 @@ namespace LibraryAccounting.CQRSInfrastructure.Methods.UserMethods
 
         private void Filter(GetUsersQuery request)
         {
-            var userProperties = typeof(User).GetProperties();
+            var userProperties = typeof(ApplicationUser).GetProperties();
             var userPropertyNames = userProperties.Select(p => p.Name);
 
             foreach (var requestProperty in typeof(GetUsersQuery).GetProperties())
@@ -56,7 +56,7 @@ namespace LibraryAccounting.CQRSInfrastructure.Methods.UserMethods
         }
     }
 
-    public class GetUsersValidator : AbstractValidator<User>
+    public class GetUsersValidator : AbstractValidator<ApplicationUser>
     {
         public GetUsersValidator()
         {

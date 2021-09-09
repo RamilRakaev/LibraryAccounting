@@ -13,7 +13,7 @@ namespace LibraryAccounting.Pages.AdminPages
     public class UserListModel : PageModel
     {
         private readonly IMediator _mediator;
-        public List<User> Users { get; set; } = new List<User>();
+        public List<ApplicationUser> Users { get; set; } = new List<ApplicationUser>();
 
         public UserListModel(IMediator mediator)
         {

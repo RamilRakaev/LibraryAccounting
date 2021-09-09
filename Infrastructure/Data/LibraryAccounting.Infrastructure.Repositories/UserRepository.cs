@@ -3,11 +3,17 @@ using System.Linq;
 using System.Threading.Tasks;
 using LibraryAccounting.Domain.Interfaces.DataManagement;
 using LibraryAccounting.Domain.Model;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace LibraryAccounting.Infrastructure.Repositories
 {
-    public class UserRepository : IRepository<User>
+    public class ApplicationUserManager : UserManager<ApplicationUser>
+    {
+        public ApplicationUserManager(IUserStore<ApplicationUserManager> store) : base(store)
+        { }
+    }
+    public class UserRepository : IRepository<ApplicationUser>
     {
         readonly private DataContext db;
 
@@ -16,22 +22,22 @@ namespace LibraryAccounting.Infrastructure.Repositories
             db = context;
         }
 
-        public IEnumerable<User> GetAll()
+        public IEnumerable<ApplicationUser> GetAll()
         {
             return db.Users.Include(u => u.Role);
         }
 
-        public User Find(int id)
+        public ApplicationUser Find(int id)
         {
             return db.Users.FirstOrDefault(u => u.Id == id);
         }
 
-        public void Add(User element)
+        public void Add(ApplicationUser element)
         {
             db.Users.Add(element);
         }
 
-        public void Remove(User element)
+        public void Remove(ApplicationUser element)
         {
             if (db.Users.Contains(element))
                 db.Users.Remove(element);
@@ -42,12 +48,12 @@ namespace LibraryAccounting.Infrastructure.Repositories
             db.SaveChanges();
         }
 
-        public async Task<User> FindAsync(int id)
+        public async Task<ApplicationUser> FindAsync(int id)
         {
             return await db.Users.FindAsync(id);
         }
 
-        public async Task AddAsync(User element)
+        public async Task AddAsync(ApplicationUser element)
         {
             await db.Users.AddAsync(element);
         }
