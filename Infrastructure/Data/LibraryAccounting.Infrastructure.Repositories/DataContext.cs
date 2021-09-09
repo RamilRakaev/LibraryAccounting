@@ -5,19 +5,23 @@ using System;
 using LibraryAccounting.Domain.Model;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 namespace LibraryAccounting.Infrastructure.Repositories
 {
+    public class ApplicationUserLogin : IdentityUserLogin<int> { }
+    public class ApplicationUserClaim : IdentityUserClaim<int> { }
     public class DataContext : IdentityDbContext<User, UserRole, int>
     {
         public DbSet<Book> Books { get; set; }
+        public DbSet<User> Users { get; set; }
         public DbSet<Booking> Bookings { get; set; }
 
         public DataContext(DbContextOptions options) : base(options)
         {
 
         }
-        protected override void OnModelCreating(Microsoft.EntityFrameworkCore.ModelBuilder mb)
+        protected override void OnModelCreating(ModelBuilder mb)
         {
             //mb.Entity<Role>().HasData(new Role[]
             //{
@@ -35,21 +39,44 @@ namespace LibraryAccounting.Infrastructure.Repositories
             //});
             mb.Entity<Book>().HasData(new Book[]
             {
-                new Book(){ Id =1, Title = "Подсознание может все!" , Author = "Кехо Джон", Genre = "Психология", Publisher = "Попурри"},
-                new Book(){ Id =2, Title = "История" , Author = "Некто", Genre = "Наука", Publisher = "Москва"},
-                new Book(){ Id =3, Title = "Биология" , Author = "Некто", Genre = "Наука", Publisher = "Москва"},
-                new Book(){ Id =4, Title = "Химия" , Author = "Некто", Genre = "Наука", Publisher = "Питер"},
-                new Book(){ Id =5, Title = "Семь навыков высокоэффективных людей." , Author = "Стивен Кови", 
-                    Genre = "Книги по личностному росту от Стивена Кови", Publisher = "Альпина Паблишер"},
-                new Book(){ Id =6, Title = "Семьдесят богатырей" , 
-                    Author = "А. Ивич; Рис. Э. Беньяминсона, Б. Кыштымова", Genre = "Детская литература", Publisher = "Москва"},
-                new Book(){ Id =7, Title = "Периодическая система химических элементов" , 
-                    Author = "Д.И. Менделеев", Genre = "Наука", Publisher = "АСТ"},
+            new Book() { Id = 1, Title = "Подсознание может все!", Author = "Кехо Джон", Genre = "Психология", Publisher = "Попурри" },
+                new Book() { Id = 2, Title = "История", Author = "Некто", Genre = "Наука", Publisher = "Москва" },
+                new Book() { Id = 3, Title = "Биология", Author = "Некто", Genre = "Наука", Publisher = "Москва" },
+                new Book() { Id = 4, Title = "Химия", Author = "Некто", Genre = "Наука", Publisher = "Питер" },
+                new Book()
+                {
+                    Id = 5,
+                    Title = "Семь навыков высокоэффективных людей.",
+                    Author = "Стивен Кови",
+                    Genre = "Книги по личностному росту от Стивена Кови",
+                    Publisher = "Альпина Паблишер"
+                },
+                new Book()
+                {
+                    Id = 6,
+                    Title = "Семьдесят богатырей",
+                    Author = "А. Ивич; Рис. Э. Беньяминсона, Б. Кыштымова",
+                    Genre = "Детская литература",
+                    Publisher = "Москва"
+                },
+                new Book()
+                {
+                    Id = 7,
+                    Title = "Периодическая система химических элементов",
+                    Author = "Д.И. Менделеев",
+                    Genre = "Наука",
+                    Publisher = "АСТ"
+                },
             });
             mb.Entity<Booking>().HasData(new Booking[]
             {
-                new Booking(){ Id =1, BookId = 3, ClientId = 3, BookingDate = DateTime.Now, IsTransmitted = false, IsReturned = false}
+                new Booking() { Id = 1, BookId = 3, ClientId = 3, BookingDate = DateTime.Now, IsTransmitted = false, IsReturned = false}
             });
+            mb.Ignore<IdentityUserLogin<string>>();
+            mb.Ignore<IdentityUserClaim<string>>();
+            mb.Ignore<IdentityUserToken<string>>();
+
+            base.OnModelCreating(mb);
         }
     }
 }

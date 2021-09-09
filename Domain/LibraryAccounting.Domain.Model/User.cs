@@ -1,5 +1,4 @@
 ﻿using LibraryAccounting.Domain.Interfaces.DataManagement;
-using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNetCore.Identity;
 
 namespace LibraryAccounting.Domain.Model
@@ -9,7 +8,7 @@ namespace LibraryAccounting.Domain.Model
         public int RoleId { get; set; }
         public UserRole Role { get; set; }
         public string Password { get; set; }
-
+        public string ApplicationUserLogin { get; set; }
         public User()
         {
         }
@@ -17,6 +16,7 @@ namespace LibraryAccounting.Domain.Model
         public User(string name, string email, string password, UserRole role)
         {
             UserName = name;
+            
             Email = email;
             Password = password;
             Role = role;
