@@ -37,7 +37,7 @@ namespace LibraryAccounting.CQRSInfrastructure.Methods.UserMethods
         {
             public AddUserValidator()
             {
-                RuleFor(c => c.User.Name).NotEmpty().Length(3, 20);
+                RuleFor(c => c.User.UserName).NotEmpty().Length(3, 20);
                 RuleFor(u => u.User.Email).NotEmpty().EmailAddress();
                 RuleFor(u => u.User.Password).NotEmpty().MinimumLength(10);
                 RuleFor(u => u.User.RoleId).NotEmpty();

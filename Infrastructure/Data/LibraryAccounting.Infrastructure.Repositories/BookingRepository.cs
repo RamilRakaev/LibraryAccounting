@@ -3,6 +3,7 @@ using LibraryAccounting.Domain.Model;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace LibraryAccounting.Infrastructure.Repositories
 {
@@ -39,6 +40,21 @@ namespace LibraryAccounting.Infrastructure.Repositories
         public void Save()
         {
             db.SaveChanges();
+        }
+
+        public async Task<Booking> FindAsync(int id)
+        {
+            return await db.Bookings.FindAsync(id);
+        }
+
+        public async Task AddAsync(Booking element)
+        {
+            await db.Bookings.AddAsync(element);
+        }
+
+        public async Task SaveAsync()
+        {
+            await db.SaveChangesAsync();
         }
     }
 }

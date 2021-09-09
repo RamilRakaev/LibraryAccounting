@@ -1,15 +1,13 @@
 ﻿using LibraryAccounting.Domain.Interfaces.DataManagement;
+using Microsoft.AspNetCore.Identity;
 
 namespace LibraryAccounting.Domain.Model
 {
-    public class User : IElement<User>
+    public class User : IdentityUser<int>
     {
-        public int Id { get; set; }
         public int RoleId { get; set; }
         public Role Role { get; set; }
-        public string Name { get; set; }
         public string Password { get; set; }
-        public string Email { get; set; }
 
         public User()
         {
@@ -17,7 +15,7 @@ namespace LibraryAccounting.Domain.Model
 
         public User(string name, string email, string password, Role role)
         {
-            Name = name;
+            UserName = name;
             Email = email;
             Password = password;
             Role = role;
@@ -26,7 +24,7 @@ namespace LibraryAccounting.Domain.Model
 
         public User(string name, string email, string password, int roleId)
         {
-            Name = name;
+            UserName = name;
             Email = email;
             Password = password;
             RoleId = roleId;

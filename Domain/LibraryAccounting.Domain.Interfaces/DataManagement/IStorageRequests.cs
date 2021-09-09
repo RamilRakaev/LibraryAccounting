@@ -11,7 +11,7 @@ namespace LibraryAccounting.Domain.Interfaces.DataManagement
 
         public Task<Element> FindAsync(int id)
         {
-            throw new Exception();
+            throw new Exception("Method is not overridden in child classes");
         }
 
         public IEnumerable<Element> GetAll();

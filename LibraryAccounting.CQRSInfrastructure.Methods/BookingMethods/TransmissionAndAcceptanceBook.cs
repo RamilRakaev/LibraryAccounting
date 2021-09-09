@@ -9,24 +9,24 @@ using System.Threading.Tasks;
 
 namespace LibraryAccounting.CQRSInfrastructure.Methods.BookingMethods
 {
-    public class GiveBookToClientCommand : IRequest<Booking>
+    public class TransmissionAndAcceptanceBookCommand : IRequest<Booking>
     {
         public int Id { get; set; }
         public int BookId { get; set; }
         public int ClientId { get; set; }
-        public bool GetToClient { get; set; }
+        public bool IsTransfer { get; set; }
     }
 
-    public class GiveBookToClientHandler : IRequestHandler<GiveBookToClientCommand, Booking>
+    public class TransmissionAndAcceptanceBookHandler : IRequestHandler<TransmissionAndAcceptanceBookCommand, Booking>
     {
         private readonly IRepository<Booking> _db;
         private Booking booking;
-        public GiveBookToClientHandler(IRepository<Booking> db)
+        public TransmissionAndAcceptanceBookHandler(IRepository<Booking> db)
         {
             _db = db;
         }
 
-        public async Task<Booking> Handle(GiveBookToClientCommand request, CancellationToken cancellationToken)
+        public async Task<Booking> Handle(TransmissionAndAcceptanceBookCommand request, CancellationToken cancellationToken)
         {
             if (request.Id != 0)
             {
@@ -40,6 +40,7 @@ namespace LibraryAccounting.CQRSInfrastructure.Methods.BookingMethods
             if (booking != null)
             {
                 booking = await Task.Run(() => UpdateBooking(request, booking));
+                await _db.SaveAsync();
             }
             else
                 throw new NullReferenceException("booking is not found");
@@ -47,9 +48,9 @@ namespace LibraryAccounting.CQRSInfrastructure.Methods.BookingMethods
             return booking;
         }
 
-        static Booking UpdateBooking(GiveBookToClientCommand request, Booking booking)
+        static Booking UpdateBooking(TransmissionAndAcceptanceBookCommand request, Booking booking)
         {
-            if (request.GetToClient)
+            if (request.IsTransfer)
             {
                 booking.IsTransmitted = true;
                 booking.TransferDate = DateTime.Now;
@@ -62,15 +63,15 @@ namespace LibraryAccounting.CQRSInfrastructure.Methods.BookingMethods
             return booking;
         }
 
-        static Booking SearchBooking(GiveBookToClientCommand request, IRepository<Booking> db)
+        static Booking SearchBooking(TransmissionAndAcceptanceBookCommand request, IRepository<Booking> db)
         {
             return db.GetAll().FirstOrDefault(b => b.ClientId == request.ClientId && b.BookId == request.BookId);
         }
     }
 
-    public class GiveBookToClientValidator : AbstractValidator<GiveBookToClientCommand>
+    public class TransmissionAndAcceptanceBookValidator : AbstractValidator<TransmissionAndAcceptanceBookCommand>
     {
-        public GiveBookToClientValidator()
+        public TransmissionAndAcceptanceBookValidator()
         {
             RuleFor(b => b.Id).NotEqual(0).When(b => b.BookId == 0 && b.ClientId == 0);
             RuleFor(b => b.BookId).NotEqual(0).When(b => b.Id == 0);

@@ -7,7 +7,7 @@ namespace LibraryAccounting.Infrastructure.Validator
     {
         public UserValidator()
         {
-            RuleFor(p => p.Name).Length(3, 20);
+            RuleFor(p => p.UserName).Length(3, 20);
             RuleFor(p => p.Email).EmailAddress().NotNull();
             RuleFor(p => p.Password).MinimumLength(10).NotNull();
         }

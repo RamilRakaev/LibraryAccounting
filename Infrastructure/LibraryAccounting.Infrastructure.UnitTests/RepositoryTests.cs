@@ -61,7 +61,7 @@ namespace LibraryAccounting.Infrastructure.UnitTests
         {
             user = new User()
             {
-                Name = "Иван",
+                UserName = "Иван",
                 Password = "1234",
                 Email = "IVAN228@gmail.com",
                 RoleId = 1

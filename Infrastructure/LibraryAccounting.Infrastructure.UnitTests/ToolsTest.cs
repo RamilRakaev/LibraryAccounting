@@ -46,7 +46,7 @@ namespace LibraryAccounting.Infrastructure.UnitTests
             userRepository = new UserRepository(new DataContext(Startup.OnConfiguring()));
             userRepository.Add(new User("name1", "email1@gmail.com", "password1", 1));
             userRepository.Save();
-            var user = userRepository.GetAll().First(u => u.Name == "name1");
+            var user = userRepository.GetAll().First(u => u.UserName == "name1");
             var booking = new Booking(book.Id, user.Id);
             bookingRepository.Add(booking);
             bookingRepository.Save();
@@ -80,7 +80,7 @@ namespace LibraryAccounting.Infrastructure.UnitTests
             Assert.AreEqual(AdminTools.GetAllUsers().Count(), count + 1);
 
             user = AdminTools.GetUser(new UserByEmailHandler("email@gmail.com"));
-            Assert.AreEqual(user.Name, "Name1");
+            Assert.AreEqual(user.UserName, "Name1");
 
             AdminTools.EditUser(new ChangePasswordVisitor("newPassword1"), user.Id);
             Assert.AreEqual(AdminTools.GetUser(user.Id).Password, "newPassword1");
