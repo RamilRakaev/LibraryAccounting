@@ -13,8 +13,4 @@
     <ProjectReference Include="..\Domain\LibraryAccounting.Domain.Model\LibraryAccounting.Domain.Model.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="BookingMethods\" />
-  </ItemGroup>
-
 </Project>

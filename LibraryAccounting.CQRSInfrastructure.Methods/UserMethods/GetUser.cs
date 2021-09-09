@@ -1,4 +1,5 @@
-﻿using LibraryAccounting.Domain.Interfaces.DataManagement;
+﻿using FluentValidation;
+using LibraryAccounting.Domain.Interfaces.DataManagement;
 using LibraryAccounting.Domain.Model;
 using MediatR;
 using System;
@@ -22,6 +23,14 @@ namespace LibraryAccounting.CQRSInfrastructure.Methods.UserMethods
         public async Task<User> Handle(GetUserQuery request, CancellationToken cancellationToken)
         {
             return await _db.FindAsync(request.Id);
+        }
+    }
+
+    public class GetUserValidator : AbstractValidator<GetUserQuery>
+    {
+        public GetUserValidator()
+        {
+            RuleFor(u => u.Id).NotEqual(0);
         }
     }
 }

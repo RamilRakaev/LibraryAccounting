@@ -1,9 +1,8 @@
-﻿using LibraryAccounting.Domain.Interfaces.DataManagement;
+﻿using FluentValidation;
+using LibraryAccounting.Domain.Interfaces.DataManagement;
 using LibraryAccounting.Domain.Model;
 using MediatR;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -29,6 +28,14 @@ namespace LibraryAccounting.CQRSInfrastructure.Methods.UserMethods
             _db.Remove(user);
             await _db.SaveAsync();
             return user;
+        }
+    }
+
+    public class RemoveUserValidator : AbstractValidator<RemoveUserCommand>
+    {
+        public RemoveUserValidator()
+        {
+            RuleFor(b => b.Id).NotEqual(0);
         }
     }
 }

@@ -5,9 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using LibraryAccounting.CQRSInfrastructure.Methods.UserMethods;
 using LibraryAccounting.Domain.Model;
-using LibraryAccounting.Services.ToolInterfaces;
 using MediatR;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace LibraryAccounting.Pages.AdminPages
@@ -33,13 +31,12 @@ namespace LibraryAccounting.Pages.AdminPages
             {
                 await _mediator.Send(new RemoveUserCommand() { Id = id }, token);
             }
-            Task.WaitAll(ExtractUsers(token));
+            await ExtractUsersAsync(token);
         }
 
-        private async Task ExtractUsers(CancellationToken token)
+        private async Task ExtractUsersAsync(CancellationToken token)
         {
             Users = await _mediator.Send(new GetUsersQuery(), token);
         }
-
     }
 }
