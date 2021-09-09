@@ -24,11 +24,11 @@ namespace LibraryAccounting.Domain.Model
 
         }
 
-        public Booking(int bookId, int clientId)
+        public Booking(int bookId, int userId)
         {
             BookingDate = DateTime.Now;
             BookId = bookId;
-            ClientId = clientId;
+            ClientId = userId;
         }
 
         public bool Accept(IVisitor<Booking> visitor)

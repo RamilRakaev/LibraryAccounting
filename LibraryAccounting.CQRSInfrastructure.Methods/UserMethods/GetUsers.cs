@@ -60,7 +60,7 @@ namespace LibraryAccounting.CQRSInfrastructure.Methods.UserMethods
     {
         public GetUsersValidator()
         {
-            RuleFor(c => c.Name).Length(3, 20);
+            RuleFor(c => c.UserName).Length(3, 20);
             RuleFor(c => c.Password).MinimumLength(10);
             RuleFor(c => c.Email).EmailAddress();
         }

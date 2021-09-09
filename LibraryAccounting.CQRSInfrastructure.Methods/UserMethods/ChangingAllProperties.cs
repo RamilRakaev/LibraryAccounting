@@ -24,7 +24,7 @@ namespace LibraryAccounting.CQRSInfrastructure.Methods.UserMethods
         public async Task<User> Handle(ChangingAllPropertiesCommand command, CancellationToken cancellationToken)
         {
             var user = _db.Find(command.Id);
-            user.Name = command.Name;
+            user.UserName = command.Name;
             user.Email = command.Email;
             user.Password = command.Password;
             user.RoleId = command.RoleId;

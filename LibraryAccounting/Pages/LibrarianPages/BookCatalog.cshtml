@@ -41,7 +41,7 @@
                 }
                 else
                 {
-                    <p>Забронировано @Model.Users[Model.Bookings[book.Key.Id].ClientId].Name @Model.Bookings[book.Key.Id].BookingDate</p>
+                    <p>Забронировано @Model.Users[Model.Bookings[book.Key.Id].ClientId].UserName @Model.Bookings[book.Key.Id].BookingDate</p>
                     if (Model.Bookings[book.Key.Id].IsTransmitted)
                     {
                         <p>Передано @Model.Bookings[book.Key.Id].TransferDate</p>
@@ -51,13 +51,19 @@
                         }
                         else
                         {
-                            <a class="btn btn-info booking-btn">Принять</a>
+                            <form method="post" asp-page-handler="Return">
+                                <input type="hidden" name="id" value="@Model.Bookings[book.Key.Id].Id" />
+                                <button class="btn btn-info booking-btn">Принять</button>
+                            </form>
                         }
                     }
                     else
                     {
                         <p>Не передано</p>
-                        <a class="btn btn-danger booking-btn">Передать</a>
+                        <form method="post" asp-page-handler="Transfer">
+                            <input type="hidden" name="id" value="@Model.Bookings[book.Key.Id].Id" />
+                            <button class="btn btn-danger booking-btn">Передать</button>
+                        </form>
                     }
                 }
             </div>

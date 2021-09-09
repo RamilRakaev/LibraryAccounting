@@ -1,17 +1,18 @@
 ﻿using LibraryAccounting.Domain.Model;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using System;
-using System.IO;
 
 namespace LibraryAccounting.Infrastructure.Repositories
 {
-    public class DataContext : DbContext
+    public class Claim
+    {
+
+    }
+    public class DataContext : IdentityDbContext<User, Role, int>
     {
         public DbSet<Book> Books { get; set; }
-        public DbSet<User> Users { get; set; }
         public DbSet<Booking> Bookings { get; set; }
-        public DbSet<Role> Roles { get; set; }
 
         public DataContext(DbContextOptions options) : base(options)
         {
@@ -28,11 +29,11 @@ namespace LibraryAccounting.Infrastructure.Repositories
             });
             mb.Entity<User>().HasData(new User[]
             {
-                new User(){ Id = 1, Name = "Иван", Email = "Ivan@gmail.com", Password = "1234567890", RoleId = 2},
-                new User(){ Id = 2, Name = "Данил", Email = "Danil@gmail.com", Password = "1234567890", RoleId = 3},
-                new User(){ Id = 3, Name = "Денис", Email = "Denis@gmail.com", Password = "dasf34rfew43", RoleId = 1},
-                new User(){ Id = 4, Name = "Ваня", Email = "Vanek@gmail.com", Password = "23534534623423", RoleId = 1},
-                new User(){ Id = 5, Name = "Дмитрий", Email = "DemRh@gmail.com", Password = "п54вув324ук", RoleId = 1},
+                new User(){ Id = 1, UserName = "Иван", Email = "Ivan@gmail.com", Password = "1234567890", RoleId = 2},
+                new User(){ Id = 2, UserName = "Данил", Email = "Danil@gmail.com", Password = "1234567890", RoleId = 3},
+                new User(){ Id = 3, UserName = "Денис", Email = "Denis@gmail.com", Password = "dasf34rfew43", RoleId = 1},
+                new User(){ Id = 4, UserName = "Ваня", Email = "Vanek@gmail.com", Password = "23534534623423", RoleId = 1},
+                new User(){ Id = 5, UserName = "Дмитрий", Email = "DemRh@gmail.com", Password = "п54вув324ук", RoleId = 1},
             });
             mb.Entity<Book>().HasData(new Book[]
             {

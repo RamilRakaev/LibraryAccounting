@@ -9,6 +9,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Threading.Tasks;
+using MediatR;
+using LibraryAccounting.CQRSInfrastructure.Methods.BookingMethods;
+using System.Threading;
 
 namespace LibraryAccounting.Pages.LibrarianPages
 {
@@ -16,6 +19,7 @@ namespace LibraryAccounting.Pages.LibrarianPages
     {
         readonly ILibrarianTools _librarianTools;
         readonly private IWebHostEnvironment _environment;
+        readonly private IMediator _mediator;
         public Dictionary<Book, bool> Books { get; private set; }
         public Dictionary<int, User> Users { get; private set; }
         public Dictionary<int, Booking> Bookings { get; private set; }
@@ -23,10 +27,11 @@ namespace LibraryAccounting.Pages.LibrarianPages
         public SelectList Genres { get; set; }
         public SelectList Publishers { get; set; }
 
-        public BookCatalogModel(ILibrarianTools librarianTools, IWebHostEnvironment environment)
+        public BookCatalogModel(ILibrarianTools librarianTools, IWebHostEnvironment environment, IMediator mediator)
         {
             _librarianTools = librarianTools;
             _environment = environment;
+            _mediator = mediator;
 
             var authors = _librarianTools.GetAllBooks().Select(b => b.Author).Distinct();
             Authors = new SelectList(authors);
@@ -66,25 +71,37 @@ namespace LibraryAccounting.Pages.LibrarianPages
             await Initialize(books);
         }
 
+        public async Task OnPostTransfer(int id)
+        {
+            await _mediator.Send(new TransmissionAndAcceptanceBookCommand() { Id = id, IsTransfer = true }, CancellationToken.None);
+            await Initialize();
+        }
+
+        public async Task OnPostReturn(int id)
+        {
+            await _mediator.Send(new TransmissionAndAcceptanceBookCommand() { Id = id }, CancellationToken.None);
+            await Initialize();
+        }
+
         private async Task Initialize(IEnumerable<Book> books = null)
         {
             if (books == null)
             {
                 books = _librarianTools.GetAllBooks();
             }
-            this.Books = new BookCatalogHandler().Handle(books, _librarianTools.GetAllBookings());
-            Users = await Task.Run(() => ExtractUsers(_librarianTools));
-            Bookings = await Task.Run(() => ExtractBookings(_librarianTools));
+            Books = new BookCatalogHandler().Handle(books, _librarianTools.GetAllBookings());
+            Users = await ExtractUsers(_librarianTools);
+            Bookings = await ExtractBookings(_librarianTools);
         }
 
-        static Dictionary<int, User> ExtractUsers(ILibrarianTools librarianTools)
+        static Task<Dictionary<int, User>> ExtractUsers(ILibrarianTools librarianTools)
         {
-            return new UsersWidthIdHandler().Handle(librarianTools.GetAllUsers());
+            return Task.Run(() => new UsersWidthIdHandler().Handle(librarianTools.GetAllUsers()));
         }
 
-        static Dictionary<int, Booking> ExtractBookings(ILibrarianTools librarianTools)
+        static Task<Dictionary<int, Booking>> ExtractBookings(ILibrarianTools librarianTools)
         {
-            return new BookingsWidthBookIdHandler().Handle(librarianTools.GetAllBookings());
+            return Task.Run(() => new BookingsWidthBookIdHandler().Handle(librarianTools.GetAllBookings()));
         }
     }
 }

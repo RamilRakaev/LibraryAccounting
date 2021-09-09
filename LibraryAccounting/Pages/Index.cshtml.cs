@@ -11,21 +11,20 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
-using System;
 
 namespace LibraryAccounting.Pages
 {
     public class IndexModel : PageModel
     {
         private readonly ILogger<IndexModel> _logger;
+        private readonly IAdminTools _adminTools;
         public User Login { get; set; }
         public string Message { get; set; }
-        private readonly IAdminTools AdminTools;
 
         public IndexModel(ILogger<IndexModel> logger, IAdminTools adminTools)
         {
             _logger = logger;
-            AdminTools = adminTools;
+            _adminTools = adminTools;
             Login = new User() { Id = 0 };
         }
 
@@ -39,7 +38,7 @@ namespace LibraryAccounting.Pages
         {
             if (ModelState.IsValid)
             {
-                var user = AdminTools.GetUser(new UserLoginHandlerAsync(login.Email, login.Password));
+                var user = _adminTools.GetUser(new UserLoginHandlerAsync(login.Email, login.Password));
                 if (user != null)
                 {
                     Authenticate(user);

@@ -15,7 +15,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MediatR;
 using LibraryAccounting.CQRSInfrastructure.Methods;
-using System.IO;
+using Microsoft.AspNetCore.Identity;
 
 namespace LibraryAccounting
 {
@@ -33,7 +33,8 @@ namespace LibraryAccounting
         {
             services.AddDbContext<DataContext>(op => op.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"),
                 op => op.MigrationsAssembly("LibraryAccounting.Infrastructure.Repositories")));
-
+            services.AddIdentity<User, IdentityRole>()
+                .AddEntityFrameworkStores<DataContext>();
             services.AddTransient<IRepository<Book>, BookRepository>();
             services.AddTransient<IRepository<Booking>, BookingRepository>();
             services.AddTransient<IRepository<User>, UserRepository>();

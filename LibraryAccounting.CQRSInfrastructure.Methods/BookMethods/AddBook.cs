@@ -12,10 +12,7 @@ namespace LibraryAccounting.CQRSInfrastructure.Methods.BookMethods
 {
     public class AddBookCommand : IRequest<Book>
     {
-        public string Title { get; set; }
-        public string Author { get; set; }
-        public string Genre { get; set; }
-        public string Publisher { get; set; }
+        public Book Book { get; set; }
     }
 
     public class AddBlockHandler : IRequestHandler<AddBookCommand, Book>
@@ -28,22 +25,17 @@ namespace LibraryAccounting.CQRSInfrastructure.Methods.BookMethods
 
         public async Task<Book> Handle(AddBookCommand request, CancellationToken cancellationToken)
         {
-            Book book = new Book() { Title = request.Title, Author = request.Author, Genre = request.Genre, Publisher = request.Publisher };
-            await db.AddAsync(book);
+            await db.AddAsync(request.Book);
             await db.SaveAsync();
-            return book;
+            return request.Book;
         }
     }
 
-    public class AddBookValidator : AbstractValidator<Book>
+    public class AddBookValidator : AbstractValidator<AddBookCommand>
     {
         public AddBookValidator()
         {
-            RuleFor(b => b.Id).Equals(0);
-            RuleFor(b => b.Title).NotEmpty();
-            RuleFor(b => b.Author).NotEmpty();
-            RuleFor(b => b.Genre).NotEmpty();
-            RuleFor(b => b.Publisher).NotEmpty();
+            RuleFor(b => b.Book.Id).Equals(0);
         }
     }
 

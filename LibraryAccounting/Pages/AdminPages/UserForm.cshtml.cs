@@ -56,7 +56,7 @@ namespace LibraryAccounting.Pages.AdminPages
                     await _mediator.Send(new ChangingAllPropertiesCommand()
                     {
                         Id = userinfo.Id,
-                        Name = userinfo.Name,
+                        Name = userinfo.UserName,
                         Email = userinfo.Email,
                         Password = userinfo.Password,
                         RoleId = userinfo.RoleId
