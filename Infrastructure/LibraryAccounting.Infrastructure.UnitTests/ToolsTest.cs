@@ -19,7 +19,7 @@ namespace LibraryAccounting.Infrastructure.UnitTests
         private IRepository<User> userRepository;
         private IRepository<Book> bookRepository;
         private IRepository<Booking> bookingRepository;
-        private IStorageRequests<Role> roleRequests;
+        private IStorageRequests<UserRole> roleRequests;
         IAdminTools AdminTools;
         ILibrarianTools LibrarianTools;
         [TestMethod]

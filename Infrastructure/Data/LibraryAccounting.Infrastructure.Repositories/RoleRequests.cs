@@ -6,7 +6,7 @@ using System.Text;
 
 namespace LibraryAccounting.Infrastructure.Repositories
 {
-    public class RoleRequests : IStorageRequests<Role>
+    public class RoleRequests : IStorageRequests<UserRole>
     {
         readonly private DataContext db;
         public RoleRequests(DataContext context)
@@ -14,12 +14,12 @@ namespace LibraryAccounting.Infrastructure.Repositories
             db = context;
         }
 
-        public Role Find(int id)
+        public UserRole Find(int id)
         {
             return db.Roles.Find(id);
         }
 
-        public IEnumerable<Role> GetAll()
+        public IEnumerable<UserRole> GetAll()
         {
             return db.Roles;
         }

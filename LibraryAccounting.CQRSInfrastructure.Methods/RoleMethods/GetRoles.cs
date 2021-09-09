@@ -9,21 +9,21 @@ using System.Threading.Tasks;
 
 namespace LibraryAccounting.CQRSInfrastructure.Methods.RoleMethods
 {
-    public class GetRolesCommand : IRequest<IEnumerable<Role>>
+    public class GetRolesCommand : IRequest<IEnumerable<UserRole>>
     {
         public int UserId { get; set; }
     }
 
-    public class GetRolesHander : IRequestHandler<GetRolesCommand, IEnumerable<Role>>
+    public class GetRolesHander : IRequestHandler<GetRolesCommand, IEnumerable<UserRole>>
     {
-        private readonly IStorageRequests<Role> db;
+        private readonly IStorageRequests<UserRole> db;
 
-        public GetRolesHander(IStorageRequests<Role> _db)
+        public GetRolesHander(IStorageRequests<UserRole> _db)
         {
             db = _db;
         }
 
-        public async Task<IEnumerable<Role>> Handle(GetRolesCommand request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<UserRole>> Handle(GetRolesCommand request, CancellationToken cancellationToken)
         {
             if(request.UserId == 0)
             return await Task.Run(() => db.GetAll());
