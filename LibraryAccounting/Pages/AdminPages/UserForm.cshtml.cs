@@ -17,7 +17,7 @@ namespace LibraryAccounting.Pages.AdminPages
     public class UserFormModel : PageModel
     {
         private readonly IMediator _mediator;
-        public User UserInfo { get; set; }
+        public ApplicationUser UserInfo { get; set; }
         public SelectList Roles { get; set; }
 
         public UserFormModel(IMediator mediator)
@@ -41,11 +41,11 @@ namespace LibraryAccounting.Pages.AdminPages
             }
             else
             {
-                UserInfo = new User();
+                UserInfo = new ApplicationUser();
             }
         }
 
-        public async Task<IActionResult> OnPost(User userinfo, CancellationToken token)
+        public async Task<IActionResult> OnPost(ApplicationUser userinfo, CancellationToken token)
         {
 
             if (ModelState.IsValid)

@@ -10,22 +10,22 @@ namespace LibraryAccounting.Infrastructure.Tools
 {
     public class AdminTools : IAdminTools
     {
-        readonly private IRepository<User> UserRepository;
-        readonly private IStorageRequests<UserRole> RoleRepository;
-        public AdminTools(IRepository<User> userRepository, IStorageRequests<UserRole> roleRepository)
+        readonly private IRepository<ApplicationUser> UserRepository;
+        readonly private IStorageRequests<ApplictionUserRole> RoleRepository;
+        public AdminTools(IRepository<ApplicationUser> userRepository, IStorageRequests<ApplictionUserRole> roleRepository)
         {
             UserRepository = userRepository;
             RoleRepository = roleRepository;
         }
 
         #region add and remove
-        public void AddUser(User user)
+        public void AddUser(ApplicationUser user)
         {
             UserRepository.Add(user);
             UserRepository.Save();
         }
 
-        public void RemoveUser(User user)
+        public void RemoveUser(ApplicationUser user)
         {
             UserRepository.Remove(user);
             UserRepository.Save();
@@ -33,7 +33,7 @@ namespace LibraryAccounting.Infrastructure.Tools
         #endregion
 
         #region users
-        public void EditUser(IVisitor<User> visitor, int id)
+        public void EditUser(IVisitor<ApplicationUser> visitor, int id)
         {
             var user = UserRepository.Find(id);
             if(user != null)
@@ -43,29 +43,29 @@ namespace LibraryAccounting.Infrastructure.Tools
             }
         }
 
-        public User GetUser(int id)
+        public ApplicationUser GetUser(int id)
         {
             return UserRepository.Find(id);
         }
 
-        public User GetUser(IReturningResultHandler<User, User> resultHandler)
+        public ApplicationUser GetUser(IReturningResultHandler<ApplicationUser, ApplicationUser> resultHandler)
         {
             return resultHandler.Handle(UserRepository.GetAll().ToList());
         }
 
-        public IEnumerable<User> GetUsers(IRequestsHandlerComponent<User> handlerComponent)
+        public IEnumerable<ApplicationUser> GetUsers(IRequestsHandlerComponent<ApplicationUser> handlerComponent)
         {
             var elements = UserRepository.GetAll().ToList();
             handlerComponent.Handle(ref elements);
             return elements;
         }
 
-        public IEnumerable<User> GetAllUsers()
+        public IEnumerable<ApplicationUser> GetAllUsers()
         {
             return UserRepository.GetAll();
         }
 
-        public IEnumerable<UserRole> GetRoles()
+        public IEnumerable<ApplictionUserRole> GetRoles()
         {
             return RoleRepository.GetAll();
         }

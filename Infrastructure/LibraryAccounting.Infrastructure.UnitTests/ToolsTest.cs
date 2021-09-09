@@ -16,10 +16,10 @@ namespace LibraryAccounting.Infrastructure.UnitTests
     [TestClass]
     public class ToolsTest
     {
-        private IRepository<User> userRepository;
+        private IRepository<ApplicationUser> userRepository;
         private IRepository<Book> bookRepository;
         private IRepository<Booking> bookingRepository;
-        private IStorageRequests<UserRole> roleRequests;
+        private IStorageRequests<ApplictionUserRole> roleRequests;
         IAdminTools AdminTools;
         ILibrarianTools LibrarianTools;
         [TestMethod]
@@ -44,7 +44,7 @@ namespace LibraryAccounting.Infrastructure.UnitTests
             Assert.IsNotNull(book);
 
             userRepository = new UserRepository(new DataContext(Startup.OnConfiguring()));
-            userRepository.Add(new User("name1", "email1@gmail.com", "password1", 1));
+            userRepository.Add(new ApplicationUser("name1", "email1@gmail.com", "password1", 1));
             userRepository.Save();
             var user = userRepository.GetAll().First(u => u.UserName == "name1");
             var booking = new Booking(book.Id, user.Id);
@@ -73,7 +73,7 @@ namespace LibraryAccounting.Infrastructure.UnitTests
             userRepository = new UserRepository(new DataContext(Startup.OnConfiguring()));
             roleRequests = new RoleRequests(new DataContext(Startup.OnConfiguring()));
             AdminTools = new AdminTools(userRepository, roleRequests);
-            User user = new User("Name1", "email@gmail.com", "password1", 1);
+            ApplicationUser user = new ApplicationUser("Name1", "email@gmail.com", "password1", 1);
 
             int count = AdminTools.GetAllUsers().Count();
             AdminTools.AddUser(user);

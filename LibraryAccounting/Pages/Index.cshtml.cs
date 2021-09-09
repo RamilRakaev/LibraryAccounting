@@ -18,14 +18,14 @@ namespace LibraryAccounting.Pages
     {
         private readonly ILogger<IndexModel> _logger;
         private readonly IAdminTools _adminTools;
-        public User Login { get; set; }
+        public ApplicationUser Login { get; set; }
         public string Message { get; set; }
 
         public IndexModel(ILogger<IndexModel> logger, IAdminTools adminTools)
         {
             _logger = logger;
             _adminTools = adminTools;
-            Login = new User() { Id = 0 };
+            Login = new ApplicationUser() { Id = 0 };
         }
 
         public void OnGet(string message)
@@ -34,7 +34,7 @@ namespace LibraryAccounting.Pages
             Message = message;
         }
 
-        public IActionResult OnPost(User login)
+        public IActionResult OnPost(ApplicationUser login)
         {
             if (ModelState.IsValid)
             {
@@ -64,7 +64,7 @@ namespace LibraryAccounting.Pages
             return RedirectToPage("/Index");
         }
 
-        public void Authenticate(User user)
+        public void Authenticate(ApplicationUser user)
         {
             var claims = new List<Claim> {
             new Claim(ClaimsIdentity.DefaultNameClaimType, user.Email),

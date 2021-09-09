@@ -8,17 +8,17 @@ using System.Threading.Tasks;
 
 namespace LibraryAccounting.CQRSInfrastructure.Methods.UserMethods
 {
-    public class RemoveUserCommand : IRequest<User>
+    public class RemoveUserCommand : IRequest<ApplicationUser>
     {
         public int Id { get; set; }
     }
 
-    public class RemoveUserHandler : UserHandler, IRequestHandler<RemoveUserCommand, User>
+    public class RemoveUserHandler : UserHandler, IRequestHandler<RemoveUserCommand, ApplicationUser>
     {
-        public RemoveUserHandler(IRepository<User> _db) : base(_db)
+        public RemoveUserHandler(IRepository<ApplicationUser> _db) : base(_db)
         { }
 
-        public async Task<User> Handle(RemoveUserCommand request, CancellationToken cancellationToken)
+        public async Task<ApplicationUser> Handle(RemoveUserCommand request, CancellationToken cancellationToken)
         {
             var user = _db.Find(request.Id);
             if (user == null)

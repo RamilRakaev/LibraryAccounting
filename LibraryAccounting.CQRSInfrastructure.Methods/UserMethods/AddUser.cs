@@ -10,23 +10,23 @@ using System.Threading.Tasks;
 
 namespace LibraryAccounting.CQRSInfrastructure.Methods.UserMethods
 {
-    public class AddUserCommand : IRequest<User>
+    public class AddUserCommand : IRequest<ApplicationUser>
     {
 
-        public User User { get; set; }
+        public ApplicationUser User { get; set; }
 
-        public AddUserCommand(User user)
+        public AddUserCommand(ApplicationUser user)
         {
             User = user;
         }
     }
 
-    public class AddUserHandler : UserHandler, IRequestHandler<AddUserCommand, User>
+    public class AddUserHandler : UserHandler, IRequestHandler<AddUserCommand, ApplicationUser>
     {
-        public AddUserHandler(IRepository<User> db) : base(db)
+        public AddUserHandler(IRepository<ApplicationUser> db) : base(db)
         { }
 
-        public async Task<User> Handle(AddUserCommand request, CancellationToken cancellationToken)
+        public async Task<ApplicationUser> Handle(AddUserCommand request, CancellationToken cancellationToken)
         {
             await _db.AddAsync(request.User);
             await _db.SaveAsync();

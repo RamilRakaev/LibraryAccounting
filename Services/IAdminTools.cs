@@ -8,17 +8,17 @@ namespace LibraryAccounting.Services.ToolInterfaces
     public interface IAdminTools
     {
         #region add and remove
-        void AddUser(User user);
-        void RemoveUser(User user);
+        void AddUser(ApplicationUser user);
+        void RemoveUser(ApplicationUser user);
         #endregion
 
         #region get users
-        void EditUser(IVisitor<User> visitor, int id);
-        public User GetUser(int id);
-        User GetUser(IReturningResultHandler<User, User> resultHandler);
-        IEnumerable<User> GetUsers(IRequestsHandlerComponent<User> handlerComponent);
-        IEnumerable<User> GetAllUsers();
-        IEnumerable<UserRole> GetRoles();
+        void EditUser(IVisitor<ApplicationUser> visitor, int id);
+        public ApplicationUser GetUser(int id);
+        ApplicationUser GetUser(IReturningResultHandler<ApplicationUser, ApplicationUser> resultHandler);
+        IEnumerable<ApplicationUser> GetUsers(IRequestsHandlerComponent<ApplicationUser> handlerComponent);
+        IEnumerable<ApplicationUser> GetAllUsers();
+        IEnumerable<ApplictionUserRole> GetRoles();
         #endregion
     }
 }

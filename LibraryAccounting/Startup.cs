@@ -33,12 +33,12 @@ namespace LibraryAccounting
         {
             services.AddDbContext<DataContext>(op => op.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"),
                 op => op.MigrationsAssembly("LibraryAccounting.Infrastructure.Repositories")));
-            services.AddIdentity<User, UserRole>()
+            services.AddIdentity<ApplicationUser, ApplictionUserRole>()
                 .AddEntityFrameworkStores<DataContext>();
             services.AddTransient<IRepository<Book>, BookRepository>();
             services.AddTransient<IRepository<Booking>, BookingRepository>();
-            services.AddTransient<IRepository<User>, UserRepository>();
-            services.AddTransient<IStorageRequests<UserRole>, RoleRequests>();
+            services.AddTransient<IRepository<ApplicationUser>, UserRepository>();
+            services.AddTransient<IStorageRequests<ApplictionUserRole>, RoleRequests>();
 
             services.AddTransient<ILibrarianTools, LibrarianTools>();
             services.AddTransient<IClientTools, ClientTools>();
@@ -50,7 +50,7 @@ namespace LibraryAccounting
 
             services.AddTransient<IValidator<Book>, BookValidator>();
             services.AddTransient<IValidator<Booking>, BookingValidator>();
-            services.AddTransient<IValidator<User>, UserValidator>();
+            services.AddTransient<IValidator<ApplicationUser>, UserValidator>();
 
             services.AddRazorPages().AddFluentValidation();
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(

@@ -12,11 +12,11 @@ namespace LibraryAccounting.Infrastructure.Tools
     public class LibrarianTools : ClientTools, ILibrarianTools
     {
         private CompositeElement<Book> CompositeElement;
-        readonly private IRepository<User> UserRepository;
+        readonly private IRepository<ApplicationUser> UserRepository;
 
         public LibrarianTools(IRepository<Booking> bookingsRepository, 
             IRepository<Book> bookRepository, 
-            IRepository<User> userRepository) : 
+            IRepository<ApplicationUser> userRepository) : 
             base(bookingsRepository, bookRepository)
         {
             UserRepository = userRepository;
@@ -51,24 +51,24 @@ namespace LibraryAccounting.Infrastructure.Tools
         #endregion
 
         #region get users
-        public User GetUser(int id)
+        public ApplicationUser GetUser(int id)
         {
             return UserRepository.Find(id);
         }
 
-        public User GetUser(IReturningResultHandler<User, User> resultHandler)
+        public ApplicationUser GetUser(IReturningResultHandler<ApplicationUser, ApplicationUser> resultHandler)
         {
             return resultHandler.Handle(UserRepository.GetAll().ToList());
         }
 
-        public IEnumerable<User> GetUsers(IRequestsHandlerComponent<User> handlerComponent)
+        public IEnumerable<ApplicationUser> GetUsers(IRequestsHandlerComponent<ApplicationUser> handlerComponent)
         {
             var elements = UserRepository.GetAll().ToList();
             handlerComponent.Handle(ref elements);
             return elements;
         }
 
-        public IEnumerable<User> GetAllUsers()
+        public IEnumerable<ApplicationUser> GetAllUsers()
         {
             return UserRepository.GetAll();
         }

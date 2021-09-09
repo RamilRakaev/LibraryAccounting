@@ -3,8 +3,8 @@ using Microsoft.AspNetCore.Identity;
 
 namespace LibraryAccounting.Domain.Model
 {
-    public class UserRole : IdentityRole<int>
+    public class ApplictionUserRole : IdentityRole<int>
     {
-        public List<User> Users { get; set; }
+        public List<ApplicationUser> Users { get; set; }
     }
 }

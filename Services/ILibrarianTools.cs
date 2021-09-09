@@ -26,13 +26,13 @@ namespace LibraryAccounting.Services.ToolInterfaces
         #endregion
 
         #region users
-        User GetUser(int id);
+        ApplicationUser GetUser(int id);
 
-        User GetUser(IReturningResultHandler<User, User> resultHandler);
+        ApplicationUser GetUser(IReturningResultHandler<ApplicationUser, ApplicationUser> resultHandler);
 
-        IEnumerable<User> GetUsers(IRequestsHandlerComponent<User> resultHandler);
+        IEnumerable<ApplicationUser> GetUsers(IRequestsHandlerComponent<ApplicationUser> resultHandler);
 
-        IEnumerable<User> GetAllUsers();
+        IEnumerable<ApplicationUser> GetAllUsers();
         #endregion
 
         #region books requests
