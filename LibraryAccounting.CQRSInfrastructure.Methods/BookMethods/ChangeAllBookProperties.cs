@@ -17,13 +17,10 @@ namespace LibraryAccounting.CQRSInfrastructure.Methods.BookMethods
         public Book Book { get; set; }
     }
 
-    public class ChangeAllBookPropertiesHandler : IRequestHandler<ChangeAllBookPropertiesCommand, Book>
+    public class ChangeAllBookPropertiesHandler : BookHandler, IRequestHandler<ChangeAllBookPropertiesCommand, Book>
     {
-        private readonly IRepository<Book> _db;
-        public ChangeAllBookPropertiesHandler(IRepository<Book> db)
-        {
-            _db = db;
-        }
+        public ChangeAllBookPropertiesHandler(IRepository<Book> db) : base(db)
+        { }
 
         public async Task<Book> Handle(ChangeAllBookPropertiesCommand request, CancellationToken cancellationToken)
         {

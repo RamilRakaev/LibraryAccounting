@@ -10,22 +10,22 @@ using System.Threading.Tasks;
 
 namespace LibraryAccounting.CQRSInfrastructure.Methods.RoleMethods
 {
-    public class GetRolesCommand : IRequest<IEnumerable<ApplictionUserRole>>
+    public class GetRolesCommand : IRequest<IEnumerable<ApplicationUserRole>>
     {
         public int UserId { get; set; }
         public string Name { get; set; }
     }
 
-    public class GetRolesHander : IRequestHandler<GetRolesCommand, IEnumerable<ApplictionUserRole>>
+    public class GetRolesHander : IRequestHandler<GetRolesCommand, IEnumerable<ApplicationUserRole>>
     {
-        private readonly RoleManager<ApplictionUserRole> db;
+        private readonly RoleManager<ApplicationUserRole> db;
 
-        public GetRolesHander(RoleManager<ApplictionUserRole> _db)
+        public GetRolesHander(RoleManager<ApplicationUserRole> _db)
         {
             db = _db;
         }
 
-        public async Task<IEnumerable<ApplictionUserRole>> Handle(GetRolesCommand request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<ApplicationUserRole>> Handle(GetRolesCommand request, CancellationToken cancellationToken)
         {
             if(request.UserId == 0)
             return await Task.Run(() => db.Roles);

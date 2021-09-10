@@ -15,18 +15,15 @@ namespace LibraryAccounting.CQRSInfrastructure.Methods.BookMethods
         public Book Book { get; set; }
     }
 
-    public class AddBlockHandler : IRequestHandler<AddBookCommand, Book>
+    public class AddBlockHandler : BookHandler, IRequestHandler<AddBookCommand, Book>
     {
-        private readonly IRepository<Book> db;
-        public AddBlockHandler(IRepository<Book> _db)
-        {
-            db = _db;
-        }
+        public AddBlockHandler(IRepository<Book> db) : base(db)
+        { }
 
         public async Task<Book> Handle(AddBookCommand request, CancellationToken cancellationToken)
         {
-            await db.AddAsync(request.Book);
-            await db.SaveAsync();
+            await _db.AddAsync(request.Book);
+            await _db.SaveAsync();
             return request.Book;
         }
     }

@@ -12,13 +12,10 @@ namespace LibraryAccounting.CQRSInfrastructure.Methods.BookMethods
         public int Id { get; set; }
     }
 
-    public class RemoveBookHandler : IRequestHandler<RemoveBookCommand, Book>
+    public class RemoveBookHandler : BookHandler, IRequestHandler<RemoveBookCommand, Book>
     {
-        private readonly IRepository<Book> _db;
-        public RemoveBookHandler(IRepository<Book> db)
-        {
-            _db = db;
-        }
+        public RemoveBookHandler(IRepository<Book> db) : base(db)
+        { }
 
         public async Task<Book> Handle(RemoveBookCommand request, CancellationToken cancellationToken)
         {

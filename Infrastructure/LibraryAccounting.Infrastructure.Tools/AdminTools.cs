@@ -11,8 +11,8 @@ namespace LibraryAccounting.Infrastructure.Tools
     public class AdminTools : IAdminTools
     {
         readonly private IRepository<ApplicationUser> UserRepository;
-        readonly private IStorageRequests<ApplictionUserRole> RoleRepository;
-        public AdminTools(IRepository<ApplicationUser> userRepository, IStorageRequests<ApplictionUserRole> roleRepository)
+        readonly private IStorageRequests<ApplicationUserRole> RoleRepository;
+        public AdminTools(IRepository<ApplicationUser> userRepository, IStorageRequests<ApplicationUserRole> roleRepository)
         {
             UserRepository = userRepository;
             RoleRepository = roleRepository;
@@ -65,7 +65,7 @@ namespace LibraryAccounting.Infrastructure.Tools
             return UserRepository.GetAll();
         }
 
-        public IEnumerable<ApplictionUserRole> GetRoles()
+        public IEnumerable<ApplicationUserRole> GetRoles()
         {
             return RoleRepository.GetAll();
         }
