@@ -2,8 +2,11 @@
 using LibraryAccounting.Domain.Interfaces.DataManagement;
 using LibraryAccounting.Domain.Model;
 using MediatR;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -18,16 +21,15 @@ namespace LibraryAccounting.CQRSInfrastructure.Methods.UserMethods
 
     public class ChangePasswordHandler : UserHandler, IRequestHandler<ChangePasswordCommand, ApplicationUser>
     {
-        public ChangePasswordHandler(IRepository<ApplicationUser> _db):base(_db)
+        public ChangePasswordHandler(UserManager<ApplicationUser> _db):base(_db)
         { }
 
         public async Task<ApplicationUser> Handle(ChangePasswordCommand request, CancellationToken cancellationToken)
         {
-            var user = _db.Find(request.Id);
+            var user = await _db.Users.FirstOrDefaultAsync(u => u.Id == request.Id);
             if (user != null)
             {
                 user.Password = request.Password;
-                await _db.SaveAsync();
                 return user;
             }
             else

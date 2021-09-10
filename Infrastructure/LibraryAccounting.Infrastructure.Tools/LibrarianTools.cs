@@ -6,20 +6,19 @@ using LibraryAccounting.Services.ToolInterfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.AspNetCore.Identity;
 
 namespace LibraryAccounting.Infrastructure.Tools
 {
     public class LibrarianTools : ClientTools, ILibrarianTools
     {
         private CompositeElement<Book> CompositeElement;
-        readonly private IRepository<ApplicationUser> UserRepository;
+        readonly private UserManager<ApplicationUser> UserManager;
 
         public LibrarianTools(IRepository<Booking> bookingsRepository, 
-            IRepository<Book> bookRepository, 
-            IRepository<ApplicationUser> userRepository) : 
+            IRepository<Book> bookRepository) : 
             base(bookingsRepository, bookRepository)
         {
-            UserRepository = userRepository;
         }
 
         #region add and remove
@@ -53,24 +52,24 @@ namespace LibraryAccounting.Infrastructure.Tools
         #region get users
         public ApplicationUser GetUser(int id)
         {
-            return UserRepository.Find(id);
+            return UserManager.Users.FirstOrDefault(u => u.Id == id);
         }
 
         public ApplicationUser GetUser(IReturningResultHandler<ApplicationUser, ApplicationUser> resultHandler)
         {
-            return resultHandler.Handle(UserRepository.GetAll().ToList());
+            return resultHandler.Handle(UserManager.Users.ToList());
         }
 
         public IEnumerable<ApplicationUser> GetUsers(IRequestsHandlerComponent<ApplicationUser> handlerComponent)
         {
-            var elements = UserRepository.GetAll().ToList();
+            var elements = UserManager.Users.ToList();
             handlerComponent.Handle(ref elements);
             return elements;
         }
 
         public IEnumerable<ApplicationUser> GetAllUsers()
         {
-            return UserRepository.GetAll();
+            return UserManager.Users;
         }
         #endregion
 

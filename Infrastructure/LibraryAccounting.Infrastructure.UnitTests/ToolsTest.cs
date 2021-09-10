@@ -10,28 +10,42 @@ using System.Collections.Generic;
 using System.Linq;
 using LibraryAccounting.Services.ToolInterfaces;
 using LibraryAccounting.Infrastructure.Tools;
+using Microsoft.AspNetCore.Identity;
 
 namespace LibraryAccounting.Infrastructure.UnitTests
 {
     [TestClass]
     public class ToolsTest
     {
-        private IRepository<ApplicationUser> userRepository;
-        private IRepository<Book> bookRepository;
-        private IRepository<Booking> bookingRepository;
-        private IStorageRequests<ApplictionUserRole> roleRequests;
-        IAdminTools AdminTools;
-        ILibrarianTools LibrarianTools;
+        private UserManager<ApplicationUser> _userManager;
+        private IRepository<Book> _bookRepository;
+        private IRepository<Booking> _bookingRepository;
+        private RoleManager<ApplictionUserRole> _roleManager;
+        IAdminTools _adminTools;
+        ILibrarianTools _librarianTools;
+
+        public ToolsTest(IAdminTools adminTools, 
+            ILibrarianTools librarianTools,
+            IRepository<Book> bookRepository,
+            RoleManager<ApplictionUserRole> roleManager,
+            UserManager<ApplicationUser> userManager,
+            IRepository<Booking> bookingRepository)
+        {
+            _adminTools = adminTools;
+            _librarianTools = librarianTools;
+            _roleManager = roleManager;
+            _userManager = userManager;
+            _bookRepository = bookRepository;
+            _bookingRepository = bookingRepository;
+        }
+
         [TestMethod]
         public void LibrarianToolsTest()
         {
-            bookRepository = new BookRepository(new DataContext(Startup.OnConfiguring()));
-            bookingRepository = new BookingRepository(new DataContext(Startup.OnConfiguring()));
-            LibrarianTools = new LibrarianTools(bookingRepository, bookRepository, userRepository);
 
-            int count = LibrarianTools.GetAllBooks().Count();
-            LibrarianTools.AddBook(new Book() { Title = "book1", Author = "author1", Genre = "genre2", Publisher = "publisher1" });
-            Assert.AreEqual(LibrarianTools.GetAllBooks().Count(), count + 1);
+            int count = _librarianTools.GetAllBooks().Count();
+            _librarianTools.AddBook(new Book() { Title = "book1", Author = "author1", Genre = "genre2", Publisher = "publisher1" });
+            Assert.AreEqual(_librarianTools.GetAllBooks().Count(), count + 1);
 
             var handlers = new List<IRequestsHandlerComponent<Book>>() { 
                 new BooksByAuthorHandler("author1"), 
@@ -40,55 +54,47 @@ namespace LibraryAccounting.Infrastructure.UnitTests
             };
 
             var decorator = new DecoratorHandler<Book>(handlers);
-            var book = LibrarianTools.GetBooks(decorator).ElementAt(0);
+            var book = _librarianTools.GetBooks(decorator).ElementAt(0);
             Assert.IsNotNull(book);
 
-            userRepository = new UserRepository(new DataContext(Startup.OnConfiguring()));
-            userRepository.Add(new ApplicationUser("name1", "email1@gmail.com", "password1", 1));
-            userRepository.Save();
-            var user = userRepository.GetAll().First(u => u.UserName == "name1");
+            _userManager.CreateAsync(new ApplicationUser("name1", "email1@gmail.com", "password1", 1));
+            var user = _userManager.Users.First(u => u.UserName == "name1");
             var booking = new Booking(book.Id, user.Id);
-            bookingRepository.Add(booking);
-            bookingRepository.Save();
+            _bookingRepository.Add(booking);
+            _bookingRepository.Save();
 
 
-            LibrarianTools.EditBooking(new GiveBookToClientVisitor(), new BookingByBookIdHandler(book.Id));
-            Assert.IsNotNull(LibrarianTools.GetBooking(new BookingByBookIdHandler(book.Id)));
+            _librarianTools.EditBooking(new GiveBookToClientVisitor(), new BookingByBookIdHandler(book.Id));
+            Assert.IsNotNull(_librarianTools.GetBooking(new BookingByBookIdHandler(book.Id)));
 
-            LibrarianTools.EditBooking(new GetBookFromClientVisitor(), new BookingByBookIdHandler(book.Id));
-            Assert.IsNull(LibrarianTools.GetBooking(new BookingByBookIdHandler(book.Id)));
+            _librarianTools.EditBooking(new GetBookFromClientVisitor(), new BookingByBookIdHandler(book.Id));
+            Assert.IsNull(_librarianTools.GetBooking(new BookingByBookIdHandler(book.Id)));
 
-            LibrarianTools.RemoveBook(book);
-            Assert.AreEqual(LibrarianTools.GetAllBooks().Count(), count);
+            _librarianTools.RemoveBook(book);
+            Assert.AreEqual(_librarianTools.GetAllBooks().Count(), count);
 
-            userRepository.Remove(user);
-            userRepository.Save();
-            bookingRepository.Remove(booking);
-            bookingRepository.Save();
+            _userManager.DeleteAsync(user);
+            _bookingRepository.Remove(booking);
+            _bookingRepository.Save();
         }
 
         [TestMethod]
         public void AdminToolsTest()
         {
-            userRepository = new UserRepository(new DataContext(Startup.OnConfiguring()));
-            roleRequests = new RoleRequests(new DataContext(Startup.OnConfiguring()));
-            AdminTools = new AdminTools(userRepository, roleRequests);
             ApplicationUser user = new ApplicationUser("Name1", "email@gmail.com", "password1", 1);
 
-            int count = AdminTools.GetAllUsers().Count();
-            AdminTools.AddUser(user);
-            Assert.AreEqual(AdminTools.GetAllUsers().Count(), count + 1);
+            int count = _adminTools.GetAllUsers().Count();
+            _adminTools.AddUser(user);
+            Assert.AreEqual(_adminTools.GetAllUsers().Count(), count + 1);
 
-            user = AdminTools.GetUser(new UserByEmailHandler("email@gmail.com"));
+            user = _adminTools.GetUser(new UserByEmailHandler("email@gmail.com"));
             Assert.AreEqual(user.UserName, "Name1");
 
-            AdminTools.EditUser(new ChangePasswordVisitor("newPassword1"), user.Id);
-            Assert.AreEqual(AdminTools.GetUser(user.Id).Password, "newPassword1");
+            _adminTools.EditUser(new ChangePasswordVisitor("newPassword1"), user.Id);
+            Assert.AreEqual(_adminTools.GetUser(user.Id).Password, "newPassword1");
 
-            AdminTools.RemoveUser(user);
-            Assert.AreEqual(AdminTools.GetAllUsers().Count(), count);
-
-
+            _adminTools.RemoveUser(user);
+            Assert.AreEqual(_adminTools.GetAllUsers().Count(), count);
         }
     }
 }

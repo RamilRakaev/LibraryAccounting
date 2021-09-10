@@ -2,6 +2,8 @@
 using LibraryAccounting.Domain.Interfaces.DataManagement;
 using LibraryAccounting.Domain.Model;
 using MediatR;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -15,18 +17,17 @@ namespace LibraryAccounting.CQRSInfrastructure.Methods.UserMethods
 
     public class RemoveUserHandler : UserHandler, IRequestHandler<RemoveUserCommand, ApplicationUser>
     {
-        public RemoveUserHandler(IRepository<ApplicationUser> _db) : base(_db)
+        public RemoveUserHandler(UserManager<ApplicationUser> _db) : base(_db)
         { }
 
         public async Task<ApplicationUser> Handle(RemoveUserCommand request, CancellationToken cancellationToken)
         {
-            var user = _db.Find(request.Id);
+            var user = await _db.Users.FirstOrDefaultAsync(u => u.Id == request.Id);
             if (user == null)
             {
                 throw new ArgumentNullException();
             }
-            _db.Remove(user);
-            await _db.SaveAsync();
+            await _db.DeleteAsync(user);
             return user;
         }
     }
