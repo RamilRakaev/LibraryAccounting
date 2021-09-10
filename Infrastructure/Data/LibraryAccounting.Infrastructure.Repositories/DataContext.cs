@@ -27,11 +27,11 @@ namespace LibraryAccounting.Infrastructure.Repositories
             });
             mb.Entity<ApplicationUser>().HasData(new ApplicationUser[]
             {
-                new ApplicationUser(){ Id = 1, UserName = "Иван", Email = "Ivan@gmail.com", Password = "1234567890", RoleId = 2},
-                new ApplicationUser(){ Id = 2, UserName = "Данил", Email = "Danil@gmail.com", Password = "1234567890", RoleId = 3},
-                new ApplicationUser(){ Id = 3, UserName = "Денис", Email = "Denis@gmail.com", Password = "dasf34rfew43", RoleId = 1},
-                new ApplicationUser(){ Id = 4, UserName = "Ваня", Email = "Vanek@gmail.com", Password = "23534534623423", RoleId = 1},
-                new ApplicationUser(){ Id = 5, UserName = "Дмитрий", Email = "DemRh@gmail.com", Password = "п54вув324ук", RoleId = 1},
+                new ApplicationUser(){ Id = 1, UserName = "Ivan", Email = "Ivan@gmail.com", Password = "sdfgDs23de", RoleId = 2},
+                new ApplicationUser(){ Id = 2, UserName = "Danil", Email = "Danil@gmail.com", Password = "e23D23df32", RoleId = 3},
+                new ApplicationUser(){ Id = 3, UserName = "Denis", Email = "Denis@gmail.com", Password = "Fd3D23d32r4", RoleId = 1},
+                new ApplicationUser(){ Id = 4, UserName = "Vanya", Email = "Vanek@gmail.com", Password = "Dgf34eR34r34r4", RoleId = 1},
+                new ApplicationUser(){ Id = 5, UserName = "Dmitry", Email = "DemRh@gmail.com", Password = "DE32f34r", RoleId = 1},
             });
             mb.Entity<Book>().HasData(new Book[]
             {

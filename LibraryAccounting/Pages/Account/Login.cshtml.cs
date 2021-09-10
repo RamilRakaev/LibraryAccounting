@@ -41,7 +41,7 @@ namespace LibraryAccounting.Pages.Account
                     login.Password,
                     login.RememberMe,
                     false);
-
+                
                 if (result.Succeeded)
                 {
                     if (!string.IsNullOrEmpty(login.ReturnUrl) && Url.IsLocalUrl(login.ReturnUrl))
@@ -50,13 +50,14 @@ namespace LibraryAccounting.Pages.Account
                     }
                     else
                     {
-                        switch (User.Claims.ElementAt(1).Value)
+                        var user = await _userManager.FindByEmailAsync(login.Email);
+                        switch (user.RoleId)
                         {
-                            case "client":
+                            case 1:
                                 return RedirectToPage("/ClientPages/BookCatalog");
-                            case "librarian":
+                            case 2:
                                 return RedirectToPage("/LibrarianPages/BookCatalog");
-                            case "admin":
+                            case 3:
                                 return RedirectToPage("/AdminPages/UserList");
                         }
                     }
