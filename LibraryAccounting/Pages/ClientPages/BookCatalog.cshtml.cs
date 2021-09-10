@@ -9,23 +9,28 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 
 namespace LibraryAccounting.Pages.ClientPages
 {
     public class BookCatalogModel : PageModel
     {
         readonly private IClientTools _clientTools;
+        readonly private UserManager<ApplicationUser> _userManager;
         public Dictionary<Book, bool> Books { get; set; }
         public int ClientId { get; set; }
         public SelectList Authors { get; set; }
         public SelectList Genres { get; set; }
         public SelectList Publishers { get; set; }
 
-        public BookCatalogModel(IClientTools clientTools, IHttpContextAccessor httpContext)
+        public BookCatalogModel(IClientTools clientTools, IHttpContextAccessor httpContext, UserManager<ApplicationUser> userManager)
         {
+            _userManager = userManager;
             _clientTools = clientTools;
             if (httpContext.HttpContext.User.Identity.IsAuthenticated)
-                ClientId = Convert.ToInt32(httpContext.HttpContext.User.Claims.ElementAt(2).Value);
+            {
+                ClientId = Convert.ToInt32(httpContext.HttpContext.User.Claims.ElementAt(0).Value);
+            }
 
             var authors = _clientTools.GetAllBooks().Select(b => b.Author).Distinct();
             Authors = new SelectList(authors);

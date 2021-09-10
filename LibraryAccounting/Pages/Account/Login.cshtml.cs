@@ -44,13 +44,6 @@ namespace LibraryAccounting.Pages.Account
 
                 if (result.Succeeded)
                 {
-                    var user = await _userManager.FindByNameAsync(login.Email);
-                    user.Role = _roleManager.Roles.FirstOrDefault(r => r.Id == user.Id);
-                    await _userManager.AddClaimsAsync(user, new List<Claim> {
-                        new Claim(ClaimsIdentity.DefaultNameClaimType, user.Email),
-                        new Claim(ClaimsIdentity.DefaultRoleClaimType, user.Role.Name),
-                        new Claim("id", user.Id.ToString())
-                    });
                     if (!string.IsNullOrEmpty(login.ReturnUrl) && Url.IsLocalUrl(login.ReturnUrl))
                     {
                         return RedirectToPage(login.ReturnUrl);
