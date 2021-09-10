@@ -1,5 +1,4 @@
-using System;
-using System.Collections.Generic;
+
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -10,7 +9,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace LibraryAccounting.Pages.Account
 {
-    public class RegisterModel : AuthenticateUser
+    public class RegisterModel : PageModel
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
@@ -34,12 +33,12 @@ namespace LibraryAccounting.Pages.Account
         {
             if (ModelState.IsValid)
             {
-                ApplicationUser user = new ApplicationUser { UserName = register.Name, Email = register.Email, RoleId = 1 };
+                ApplicationUser user = new() { UserName = register.Name, Email = register.Email, RoleId = 1 };
                 var result = await _userManager.CreateAsync(user, register.Password);
                 if (result.Succeeded)
                 {
                     await _signInManager.SignInAsync(user, false);
-                    User.Claims.Append(new Claim("roleId", user.RoleId.ToString()));
+                    _ = User.Claims.Append(new Claim("roleId", user.RoleId.ToString()));
                     await _userManager.UpdateAsync(user);
                     return RedirectToPage("/ClientPages/BookCatalog");
                 }

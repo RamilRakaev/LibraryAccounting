@@ -12,26 +12,24 @@ namespace LibraryAccounting.Infrastructure.Repositories
         {
             using (var scope = host.Services.CreateScope())
             {
-                using (var appContext = scope.ServiceProvider.GetRequiredService<DataContext>())
+                using var appContext = scope.ServiceProvider.GetRequiredService<DataContext>();
+                try
                 {
-                    try
-                    {
-                        appContext.Database.Migrate();
-                    }
-                    catch (Exception ex)
-                    {
-                        //TODO: Отладить запись на файл в отдельном проекте
-                        string path = Environment.CurrentDirectory + "error log.txt";
-                        FileStream fileStream = null;
-                        fileStream = File.Open(path, File.Exists(path) ? FileMode.Append : FileMode.OpenOrCreate);
+                    appContext.Database.Migrate();
+                }
+                catch (Exception ex)
+                {
+                    //TODO: Отладить запись на файл в отдельном проекте
+                    string path = Environment.CurrentDirectory + "error log.txt";
+                    FileStream fileStream = null;
+                    fileStream = File.Open(path, File.Exists(path) ? FileMode.Append : FileMode.OpenOrCreate);
 
-                        using (StreamWriter fs = new StreamWriter(fileStream))
-                        {
-                            fs.WriteLine($"Message: {ex.Message} StackTrace: {ex.StackTrace}");
-                        };
-                        fileStream.Close();
-                        throw;
-                    }
+                    using (StreamWriter fs = new StreamWriter(fileStream))
+                    {
+                        fs.WriteLine($"Message: {ex.Message} StackTrace: {ex.StackTrace}");
+                    };
+                    fileStream.Close();
+                    throw;
                 }
             }
 

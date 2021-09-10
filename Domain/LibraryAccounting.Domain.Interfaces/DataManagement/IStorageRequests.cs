@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace LibraryAccounting.Domain.Interfaces.DataManagement
@@ -11,7 +10,7 @@ namespace LibraryAccounting.Domain.Interfaces.DataManagement
 
         public Task<Element> FindAsync(int id)
         {
-            throw new Exception("Method is not overridden in child classes");
+            throw new Exception("Method is not overridden in child class");
         }
 
         public IEnumerable<Element> GetAll();
