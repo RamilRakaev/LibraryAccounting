@@ -16,7 +16,7 @@ namespace LibraryAccounting.Pages.Account
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly RoleManager<ApplicationUserRole> _roleManager;
         public RegisterViewModel Register { get; set; }
-        public RegisterModel(UserManager<ApplicationUser> userManager, 
+        public RegisterModel(UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             RoleManager<ApplicationUserRole> roleManager)
         {
@@ -39,12 +39,8 @@ namespace LibraryAccounting.Pages.Account
                 if (result.Succeeded)
                 {
                     await _signInManager.SignInAsync(user, false);
-                    user.Role = _roleManager.Roles.FirstOrDefault(r => r.Id == user.Id);
-                    await _userManager.AddClaimsAsync(user, new List<Claim> {
-                        new Claim(ClaimsIdentity.DefaultNameClaimType, user.Email),
-                        new Claim(ClaimsIdentity.DefaultRoleClaimType, user.Role.Name),
-                        new Claim("id", user.Id.ToString())
-                    });
+                    User.Claims.Append(new Claim("roleId", user.RoleId.ToString()));
+                    await _userManager.UpdateAsync(user);
                     return RedirectToPage("/ClientPages/BookCatalog");
                 }
                 else
