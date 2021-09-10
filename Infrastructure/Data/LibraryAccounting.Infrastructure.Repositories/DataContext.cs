@@ -19,20 +19,20 @@ namespace LibraryAccounting.Infrastructure.Repositories
         }
         protected override void OnModelCreating(ModelBuilder mb)
         {
-            //mb.Entity<ApplictionUserRole>().HasData(new ApplictionUserRole[]
-            //{
-            //    new ApplictionUserRole(){ Id = 1, Name = "client"},
-            //    new ApplictionUserRole(){ Id = 2, Name = "librarian"},
-            //    new ApplictionUserRole(){ Id = 3, Name = "admin"}
-            //});
-            //mb.Entity<ApplicationUser>().HasData(new ApplicationUser[]
-            //{
-            //    new ApplicationUser(){ Id = 1, UserName = "Иван", Email = "Ivan@gmail.com", Password = "1234567890", RoleId = 2},
-            //    new ApplicationUser(){ Id = 2, UserName = "Данил", Email = "Danil@gmail.com", Password = "1234567890", RoleId = 3},
-            //    new ApplicationUser(){ Id = 3, UserName = "Денис", Email = "Denis@gmail.com", Password = "dasf34rfew43", RoleId = 1},
-            //    new ApplicationUser(){ Id = 4, UserName = "Ваня", Email = "Vanek@gmail.com", Password = "23534534623423", RoleId = 1},
-            //    new ApplicationUser(){ Id = 5, UserName = "Дмитрий", Email = "DemRh@gmail.com", Password = "п54вув324ук", RoleId = 1},
-            //});
+            mb.Entity<ApplictionUserRole>().HasData(new ApplictionUserRole[]
+            {
+                new ApplictionUserRole(){ Id = 1, Name = "client"},
+                new ApplictionUserRole(){ Id = 2, Name = "librarian"},
+                new ApplictionUserRole(){ Id = 3, Name = "admin"}
+            });
+            mb.Entity<ApplicationUser>().HasData(new ApplicationUser[]
+            {
+                new ApplicationUser(){ Id = 1, UserName = "Иван", Email = "Ivan@gmail.com", Password = "1234567890", RoleId = 2},
+                new ApplicationUser(){ Id = 2, UserName = "Данил", Email = "Danil@gmail.com", Password = "1234567890", RoleId = 3},
+                new ApplicationUser(){ Id = 3, UserName = "Денис", Email = "Denis@gmail.com", Password = "dasf34rfew43", RoleId = 1},
+                new ApplicationUser(){ Id = 4, UserName = "Ваня", Email = "Vanek@gmail.com", Password = "23534534623423", RoleId = 1},
+                new ApplicationUser(){ Id = 5, UserName = "Дмитрий", Email = "DemRh@gmail.com", Password = "п54вув324ук", RoleId = 1},
+            });
             mb.Entity<Book>().HasData(new Book[]
             {
             new Book() { Id = 1, Title = "Подсознание может все!", Author = "Кехо Джон", Genre = "Психология", Publisher = "Попурри" },
