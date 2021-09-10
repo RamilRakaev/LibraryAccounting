@@ -8,7 +8,7 @@ using System.Configuration;
 
 namespace LibraryAccounting.Infrastructure.Repositories
 {
-    public class DataContext : IdentityDbContext<ApplicationUser, ApplictionUserRole, int>
+    public class DataContext : IdentityDbContext<ApplicationUser, ApplicationUserRole, int>
     {
         public DbSet<Book> Books { get; set; }
         public DbSet<Booking> Bookings { get; set; }
@@ -19,11 +19,11 @@ namespace LibraryAccounting.Infrastructure.Repositories
         }
         protected override void OnModelCreating(ModelBuilder mb)
         {
-            mb.Entity<ApplictionUserRole>().HasData(new ApplictionUserRole[]
+            mb.Entity<ApplicationUserRole>().HasData(new ApplicationUserRole[]
             {
-                new ApplictionUserRole(){ Id = 1, Name = "client"},
-                new ApplictionUserRole(){ Id = 2, Name = "librarian"},
-                new ApplictionUserRole(){ Id = 3, Name = "admin"}
+                new ApplicationUserRole(){ Id = 1, Name = "client"},
+                new ApplicationUserRole(){ Id = 2, Name = "librarian"},
+                new ApplicationUserRole(){ Id = 3, Name = "admin"}
             });
             mb.Entity<ApplicationUser>().HasData(new ApplicationUser[]
             {

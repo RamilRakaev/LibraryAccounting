@@ -15,7 +15,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MediatR;
 using LibraryAccounting.CQRSInfrastructure.Methods;
-using Microsoft.AspNetCore.Identity;
 
 namespace LibraryAccounting
 {
@@ -31,9 +30,11 @@ namespace LibraryAccounting
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddHttpContextAccessor();
             services.AddDbContext<DataContext>(op => op.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"),
                 op => op.MigrationsAssembly("LibraryAccounting.Infrastructure.Repositories")));
-            services.AddIdentity<ApplicationUser, ApplictionUserRole>(options => options.SignIn.RequireConfirmedAccount = true)
+
+            services.AddIdentity<ApplicationUser, ApplicationUserRole>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<DataContext>();
 
             services.AddTransient<IRepository<Book>, BookRepository>();

@@ -37,8 +37,9 @@ namespace LibraryAccounting.Pages.ClientPages
             Publishers = new SelectList(publishers);
         }
 
-        public async Task OnGet()
+        public async Task OnGet(int id)
         {
+
             Books = await Task.Run(() => ExtractBooks(_clientTools));
         }
 

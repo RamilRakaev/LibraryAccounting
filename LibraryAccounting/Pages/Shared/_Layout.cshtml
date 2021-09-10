@@ -20,7 +20,10 @@
             <div class="collapse navbar-collapse">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
-                        <a class="nav-link @ViewData["Index"]" asp-page="/Index">Войти</a>
+                        <a class="nav-link @ViewData["Login"]" asp-page="/Account/Login">Войти</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link @ViewData["Register"]" asp-page="/Account/Register">Зарегестрироваться</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link @ViewData["Privacy"]" asp-page="/Privacy">Конфиденциальность</a>

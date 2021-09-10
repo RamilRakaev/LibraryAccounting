@@ -20,14 +20,14 @@ namespace LibraryAccounting.Infrastructure.UnitTests
         private UserManager<ApplicationUser> _userManager;
         private IRepository<Book> _bookRepository;
         private IRepository<Booking> _bookingRepository;
-        private RoleManager<ApplictionUserRole> _roleManager;
+        private RoleManager<ApplicationUserRole> _roleManager;
         IAdminTools _adminTools;
         ILibrarianTools _librarianTools;
 
         public ToolsTest(IAdminTools adminTools, 
             ILibrarianTools librarianTools,
             IRepository<Book> bookRepository,
-            RoleManager<ApplictionUserRole> roleManager,
+            RoleManager<ApplicationUserRole> roleManager,
             UserManager<ApplicationUser> userManager,
             IRepository<Booking> bookingRepository)
         {

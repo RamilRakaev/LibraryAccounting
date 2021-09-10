@@ -6,13 +6,13 @@ namespace LibraryAccounting.Domain.Model
     public class ApplicationUser : IdentityUser<int>
     {
         public int RoleId { get; set; }
-        public ApplictionUserRole Role { get; set; }
+        public ApplicationUserRole Role { get; set; }
         public string Password { get; set; }
 
         public ApplicationUser()
         { }
 
-        public ApplicationUser(string name, string email, string password, ApplictionUserRole role)
+        public ApplicationUser(string name, string email, string password, ApplicationUserRole role)
         {
             UserName = name;
             Email = email;

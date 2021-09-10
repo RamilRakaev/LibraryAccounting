@@ -15,22 +15,24 @@ namespace LibraryAccounting.Pages.LibrarianPages
 {
     public class BookFormModel : PageModel
     {
-        readonly private ILibrarianTools LibrarianTools;
-        readonly private IWebHostEnvironment Environment;
+        readonly private ILibrarianTools _librarianTools;
+        readonly private IWebHostEnvironment _environment;
         private readonly IMediator _mediator;
         public Book Book { get; set; }
+
         public BookFormModel(ILibrarianTools librarianTools, IWebHostEnvironment environment, IMediator mediator)
         {
-            LibrarianTools = librarianTools;
-            Environment = environment;
+            _librarianTools = librarianTools;
+            _environment = environment;
             Book = new Book();
+            _mediator = mediator;
         }
 
         public void OnGet(int? id)
         {
             if (id != null)
             {
-                Book = LibrarianTools.GetBook(Convert.ToInt32(id));
+                Book = _librarianTools.GetBook(Convert.ToInt32(id));
             }
         }
 
@@ -42,7 +44,7 @@ namespace LibraryAccounting.Pages.LibrarianPages
                     if (book.Id == 0)
                     {
                         string path = "/img/" + book.Title + ".jpg";
-                        using (var fileStream = new FileStream(Environment.WebRootPath + path, FileMode.Create))
+                        using (var fileStream = new FileStream(_environment.WebRootPath + path, FileMode.Create))
                         {
                             await cover.CopyToAsync(fileStream);
                         }

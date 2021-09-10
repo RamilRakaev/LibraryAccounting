@@ -12,13 +12,15 @@ namespace LibraryAccounting.Infrastructure.Tools
 {
     public class LibrarianTools : ClientTools, ILibrarianTools
     {
-        private CompositeElement<Book> CompositeElement;
-        readonly private UserManager<ApplicationUser> UserManager;
+        private CompositeElement<Book> compositeElement;
+        readonly private UserManager<ApplicationUser> _userManager;
 
         public LibrarianTools(IRepository<Booking> bookingsRepository, 
-            IRepository<Book> bookRepository) : 
+            IRepository<Book> bookRepository,
+            UserManager<ApplicationUser> userManager) : 
             base(bookingsRepository, bookRepository)
         {
+            _userManager = userManager;
         }
 
         #region add and remove
@@ -52,24 +54,24 @@ namespace LibraryAccounting.Infrastructure.Tools
         #region get users
         public ApplicationUser GetUser(int id)
         {
-            return UserManager.Users.FirstOrDefault(u => u.Id == id);
+            return _userManager.Users.FirstOrDefault(u => u.Id == id);
         }
 
         public ApplicationUser GetUser(IReturningResultHandler<ApplicationUser, ApplicationUser> resultHandler)
         {
-            return resultHandler.Handle(UserManager.Users.ToList());
+            return resultHandler.Handle(_userManager.Users.ToList());
         }
 
         public IEnumerable<ApplicationUser> GetUsers(IRequestsHandlerComponent<ApplicationUser> handlerComponent)
         {
-            var elements = UserManager.Users.ToList();
+            var elements = _userManager.Users.ToList();
             handlerComponent.Handle(ref elements);
             return elements;
         }
 
         public IEnumerable<ApplicationUser> GetAllUsers()
         {
-            return UserManager.Users;
+            return _userManager.Users;
         }
         #endregion
 
@@ -84,8 +86,8 @@ namespace LibraryAccounting.Infrastructure.Tools
 
         public void EditBooks(IVisitor<Book> visitor, IRequestsHandlerComponent<Book> handlerComponent = null)
         {
-            CompositeElement = new CompositeElement<Book>(BookRepository.GetAll().ToList());
-            if (!CompositeElement.Accept(visitor, handlerComponent))
+            compositeElement = new CompositeElement<Book>(BookRepository.GetAll().ToList());
+            if (!compositeElement.Accept(visitor, handlerComponent))
             {
                 throw new Exception("Error when editing books");
             }
