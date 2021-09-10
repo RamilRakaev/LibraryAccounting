@@ -12,14 +12,14 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace LibraryAccounting.Pages.Account
 {
-    public class LoginModel : AuthenticateUser
+    public class LoginModel : PageModel
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<ApplicationUserRole> _roleManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         public LoginViewModel Login { get; set; }
 
-        public LoginModel(UserManager<ApplicationUser> userManager, 
+        public LoginModel(UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             RoleManager<ApplicationUserRole> roleManager)
         {
@@ -41,7 +41,7 @@ namespace LibraryAccounting.Pages.Account
                     login.Password,
                     login.RememberMe,
                     false);
-                
+
                 if (result.Succeeded)
                 {
                     if (!string.IsNullOrEmpty(login.ReturnUrl) && Url.IsLocalUrl(login.ReturnUrl))
@@ -51,6 +51,9 @@ namespace LibraryAccounting.Pages.Account
                     else
                     {
                         var user = await _userManager.FindByEmailAsync(login.Email);
+                        await _signInManager.SignInAsync(user, false);
+                        _ = User.Claims.Append(new Claim("roleId", user.RoleId.ToString()));
+                        await _userManager.UpdateAsync(user);
                         switch (user.RoleId)
                         {
                             case 1:

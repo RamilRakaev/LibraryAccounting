@@ -1,15 +1,12 @@
 ﻿using LibraryAccounting.Infrastructure.Handlers;
-using LibraryAccounting.Infrastructure.Repositories;
 using LibraryAccounting.Infrastructure.Visitors;
 using LibraryAccounting.Domain.Interfaces.DataManagement;
 using LibraryAccounting.Domain.Interfaces.PocessingRequests;
 using LibraryAccounting.Domain.Model;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using System.Linq;
 using LibraryAccounting.Services.ToolInterfaces;
-using LibraryAccounting.Infrastructure.Tools;
 using Microsoft.AspNetCore.Identity;
 
 namespace LibraryAccounting.Infrastructure.UnitTests
@@ -17,14 +14,14 @@ namespace LibraryAccounting.Infrastructure.UnitTests
     [TestClass]
     public class ToolsTest
     {
-        private UserManager<ApplicationUser> _userManager;
-        private IRepository<Book> _bookRepository;
-        private IRepository<Booking> _bookingRepository;
-        private RoleManager<ApplicationUserRole> _roleManager;
-        IAdminTools _adminTools;
-        ILibrarianTools _librarianTools;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IRepository<Book> _bookRepository;
+        private readonly IRepository<Booking> _bookingRepository;
+        private readonly RoleManager<ApplicationUserRole> _roleManager;
+        private readonly IAdminTools _adminTools;
+        private readonly ILibrarianTools _librarianTools;
 
-        public ToolsTest(IAdminTools adminTools, 
+        public ToolsTest(IAdminTools adminTools,
             ILibrarianTools librarianTools,
             IRepository<Book> bookRepository,
             RoleManager<ApplicationUserRole> roleManager,
@@ -47,8 +44,8 @@ namespace LibraryAccounting.Infrastructure.UnitTests
             _librarianTools.AddBook(new Book() { Title = "book1", Author = "author1", Genre = "genre2", Publisher = "publisher1" });
             Assert.AreEqual(_librarianTools.GetAllBooks().Count(), count + 1);
 
-            var handlers = new List<IRequestsHandlerComponent<Book>>() { 
-                new BooksByAuthorHandler("author1"), 
+            var handlers = new List<IRequestsHandlerComponent<Book>>() {
+                new BooksByAuthorHandler("author1"),
                 new BooksByGenreHandler("genre2"),
                 new BooksByPublisherHandler("publisher1")
             };

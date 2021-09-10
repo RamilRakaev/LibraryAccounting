@@ -52,7 +52,7 @@ namespace LibraryAccounting.Pages.LibrarianPages
         {
             var book = _librarianTools.GetBook(id);
             string path = "/img/" + book.Title + ".jpg";
-            FileInfo file = new FileInfo(_environment.WebRootPath + path);
+            FileInfo file = new(_environment.WebRootPath + path);
             file.Delete();
             _librarianTools.RemoveBook(book);
             await Initialize();

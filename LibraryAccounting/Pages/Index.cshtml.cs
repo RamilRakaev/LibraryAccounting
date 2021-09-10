@@ -48,7 +48,7 @@ namespace LibraryAccounting.Pages
                 "ApplicationCookie",
                 ClaimsIdentity.DefaultNameClaimType,
                 ClaimsIdentity.DefaultRoleClaimType);
-            ClaimsPrincipal principal = new ClaimsPrincipal(id);
+            ClaimsPrincipal principal = new(id);
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
         }
     }
