@@ -33,16 +33,14 @@ namespace LibraryAccounting
         {
             services.AddDbContext<DataContext>(op => op.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"),
                 op => op.MigrationsAssembly("LibraryAccounting.Infrastructure.Repositories")));
-            services.AddIdentity<ApplicationUser, ApplictionUserRole>()
+            services.AddIdentity<ApplicationUser, ApplictionUserRole>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<DataContext>();
+
             services.AddTransient<IRepository<Book>, BookRepository>();
             services.AddTransient<IRepository<Booking>, BookingRepository>();
-            services.AddTransient<IRepository<ApplicationUser>, UserRepository>();
-            services.AddTransient<IStorageRequests<ApplictionUserRole>, RoleRequests>();
 
             services.AddTransient<ILibrarianTools, LibrarianTools>();
             services.AddTransient<IClientTools, ClientTools>();
-            services.AddTransient<IAdminTools, AdminTools>();
 
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
             services.AddValidatorsFromAssembly(MethodsAssembly.GetAssembly());

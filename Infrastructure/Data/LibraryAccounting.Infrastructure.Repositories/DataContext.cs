@@ -1,21 +1,16 @@
-﻿using Microsoft.AspNet.Identity;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using System;
+﻿using System;
 using LibraryAccounting.Domain.Model;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore.Design;
+using System.Configuration;
 
 namespace LibraryAccounting.Infrastructure.Repositories
 {
-    public class ApplicationUserLogin : IdentityUserLogin<int> { }
-    public class ApplicationUserClaim : IdentityUserClaim<int> { }
     public class DataContext : IdentityDbContext<ApplicationUser, ApplictionUserRole, int>
     {
         public DbSet<Book> Books { get; set; }
-        public new DbSet<ApplicationUser> Users { get; set; }
-        public new DbSet<ApplictionUserRole> Roles { get; set; }
         public DbSet<Booking> Bookings { get; set; }
 
         public DataContext(DbContextOptions options) : base(options)
@@ -24,19 +19,19 @@ namespace LibraryAccounting.Infrastructure.Repositories
         }
         protected override void OnModelCreating(ModelBuilder mb)
         {
-            //mb.Entity<Role>().HasData(new Role[]
+            //mb.Entity<ApplictionUserRole>().HasData(new ApplictionUserRole[]
             //{
-            //    new Role(){ Id = 1, Name = "client"},
-            //    new Role(){ Id = 2, Name = "librarian"},
-            //    new Role(){ Id = 3, Name = "admin"}
+            //    new ApplictionUserRole(){ Id = 1, Name = "client"},
+            //    new ApplictionUserRole(){ Id = 2, Name = "librarian"},
+            //    new ApplictionUserRole(){ Id = 3, Name = "admin"}
             //});
-            //mb.Entity<User>().HasData(new User[]
+            //mb.Entity<ApplicationUser>().HasData(new ApplicationUser[]
             //{
-            //    new User(){ Id = 1, UserName = "Иван", Email = "Ivan@gmail.com", Password = "1234567890", RoleId = 2},
-            //    new User(){ Id = 2, UserName = "Данил", Email = "Danil@gmail.com", Password = "1234567890", RoleId = 3},
-            //    new User(){ Id = 3, UserName = "Денис", Email = "Denis@gmail.com", Password = "dasf34rfew43", RoleId = 1},
-            //    new User(){ Id = 4, UserName = "Ваня", Email = "Vanek@gmail.com", Password = "23534534623423", RoleId = 1},
-            //    new User(){ Id = 5, UserName = "Дмитрий", Email = "DemRh@gmail.com", Password = "п54вув324ук", RoleId = 1},
+            //    new ApplicationUser(){ Id = 1, UserName = "Иван", Email = "Ivan@gmail.com", Password = "1234567890", RoleId = 2},
+            //    new ApplicationUser(){ Id = 2, UserName = "Данил", Email = "Danil@gmail.com", Password = "1234567890", RoleId = 3},
+            //    new ApplicationUser(){ Id = 3, UserName = "Денис", Email = "Denis@gmail.com", Password = "dasf34rfew43", RoleId = 1},
+            //    new ApplicationUser(){ Id = 4, UserName = "Ваня", Email = "Vanek@gmail.com", Password = "23534534623423", RoleId = 1},
+            //    new ApplicationUser(){ Id = 5, UserName = "Дмитрий", Email = "DemRh@gmail.com", Password = "п54вув324ук", RoleId = 1},
             //});
             mb.Entity<Book>().HasData(new Book[]
             {
@@ -80,4 +75,15 @@ namespace LibraryAccounting.Infrastructure.Repositories
             base.OnModelCreating(mb);
         }
     }
+    //public class BloggingContextFactory : IDesignTimeDbContextFactory<DataContext>
+    //{
+    //    public DataContext CreateDbContext(string[] args)
+    //    {
+    //        var optionsBuilder = new DbContextOptionsBuilder<DataContext>();
+    //        optionsBuilder.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"),
+    //            op => op.MigrationsAssembly("LibraryAccounting.Infrastructure.Repositories"));
+
+    //        return new DataContext(optionsBuilder.Options);
+    //    }
+    //}
 }

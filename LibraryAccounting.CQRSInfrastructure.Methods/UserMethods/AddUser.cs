@@ -2,6 +2,7 @@
 using LibraryAccounting.Domain.Interfaces.DataManagement;
 using LibraryAccounting.Domain.Model;
 using MediatR;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -23,13 +24,12 @@ namespace LibraryAccounting.CQRSInfrastructure.Methods.UserMethods
 
     public class AddUserHandler : UserHandler, IRequestHandler<AddUserCommand, ApplicationUser>
     {
-        public AddUserHandler(IRepository<ApplicationUser> db) : base(db)
+        public AddUserHandler(UserManager<ApplicationUser> db) : base(db)
         { }
 
         public async Task<ApplicationUser> Handle(AddUserCommand request, CancellationToken cancellationToken)
         {
-            await _db.AddAsync(request.User);
-            await _db.SaveAsync();
+            await _db.CreateAsync(request.User);
             return request.User;
         }
 

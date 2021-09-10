@@ -2,6 +2,8 @@
 using LibraryAccounting.Domain.Interfaces.DataManagement;
 using LibraryAccounting.Domain.Model;
 using MediatR;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -18,17 +20,16 @@ namespace LibraryAccounting.CQRSInfrastructure.Methods.UserMethods
 
     public class ChangingAllUserPropertiesHandler : UserHandler, IRequestHandler<ChangingAllPropertiesCommand, ApplicationUser>
     {
-        public ChangingAllUserPropertiesHandler(IRepository<ApplicationUser> _db) : base(_db)
+        public ChangingAllUserPropertiesHandler(UserManager<ApplicationUser> _db) : base(_db)
         { }
 
         public async Task<ApplicationUser> Handle(ChangingAllPropertiesCommand command, CancellationToken cancellationToken)
         {
-            var user = _db.Find(command.Id);
+            var user = await _db.Users.FirstOrDefaultAsync(u => u.Id == command.Id);
             user.UserName = command.Name;
             user.Email = command.Email;
             user.Password = command.Password;
             user.RoleId = command.RoleId;
-            await _db.SaveAsync();
 
             return user;
         }

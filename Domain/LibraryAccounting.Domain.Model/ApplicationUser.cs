@@ -10,13 +10,11 @@ namespace LibraryAccounting.Domain.Model
         public string Password { get; set; }
 
         public ApplicationUser()
-        {
-        }
+        { }
 
         public ApplicationUser(string name, string email, string password, ApplictionUserRole role)
         {
             UserName = name;
-            
             Email = email;
             Password = password;
             Role = role;

@@ -8,26 +8,35 @@ using System.Linq;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using System.IO;
+using Microsoft.AspNetCore.Identity;
+using LibraryAccounting.Services.ToolInterfaces;
 
 namespace LibraryAccounting.Infrastructure.UnitTests
 {
     [TestClass]
     public class RepositoryTests
     {
-        IRepository<Book> bookRepository;
-        IRepository<ApplicationUser> userRepository;
-        IRepository<Booking> bookingsRepository;
+        IRepository<Book> _bookRepository;
+        UserManager<ApplicationUser> _userManager;
+        IRepository<Booking> _bookingRepository;
         Book book;
         ApplicationUser user;
         Booking booking;
 
-        
+        public RepositoryTests(
+            IRepository<Book> bookRepository,
+            UserManager<ApplicationUser> userManager,
+            IRepository<Booking> bookingRepository)
+        {
+            _userManager = userManager;
+            _bookRepository = bookRepository;
+            _bookingRepository = bookingRepository;
+        }
+
 
         [TestMethod]
         public void BookRepositoryTest()
         {
-            
-
             using (DataContext db = new DataContext(Startup.OnConfiguring()))
             {
                 book = new Book()
@@ -37,22 +46,22 @@ namespace LibraryAccounting.Infrastructure.UnitTests
                     Publisher = "ООО Издетельство \"Эксмо\""
                 };
 
-                bookRepository = new BookRepository(db);
+                _bookRepository = new BookRepository(db);
                 
-                var AllElements = bookRepository.GetAll();
+                var AllElements = _bookRepository.GetAll();
                 Assert.IsNotNull(AllElements);
                 int AllElementsCount = AllElements.Count();
 
-                bookRepository.Add(book);
-                bookRepository.Save();
-                Assert.IsFalse(AllElementsCount == bookRepository.GetAll().Count());
+                _bookRepository.Add(book);
+                _bookRepository.Save();
+                Assert.IsFalse(AllElementsCount == _bookRepository.GetAll().Count());
 
-                Book ConcreteElement = bookRepository.Find(book.Id);
+                Book ConcreteElement = _bookRepository.Find(book.Id);
                 Assert.AreEqual(ConcreteElement, book);
 
-                bookRepository.Remove(book);
-                bookRepository.Save();
-                Assert.IsTrue(AllElementsCount == bookRepository.GetAll().Count());
+                _bookRepository.Remove(book);
+                _bookRepository.Save();
+                Assert.IsTrue(AllElementsCount == _bookRepository.GetAll().Count());
             }
         }
 
@@ -69,22 +78,18 @@ namespace LibraryAccounting.Infrastructure.UnitTests
 
             using (DataContext db = new DataContext(Startup.OnConfiguring()))
             {
-                userRepository = new UserRepository(db);
-
-                var AllElements = userRepository.GetAll();
+                var AllElements = _userManager.Users;
                 Assert.IsNotNull(AllElements);
                 int AllElementsCount = AllElements.Count();
 
-                userRepository.Add(user);
-                userRepository.Save();
-                Assert.IsFalse(AllElementsCount == userRepository.GetAll().Count());
+                _userManager.CreateAsync(user);
+                Assert.IsFalse(AllElementsCount == _userManager.Users.Count());
 
-                ApplicationUser ConcreteElement =  userRepository.Find(user.Id);
+                ApplicationUser ConcreteElement =  _userManager.Users.FirstOrDefault(u => u.Id == user.Id);
                 Assert.AreEqual(ConcreteElement, user);
 
-                userRepository.Remove(user);
-                userRepository.Save();
-                Assert.IsTrue(AllElementsCount == userRepository.GetAll().Count());
+                _userManager.DeleteAsync(user);
+                Assert.IsTrue(AllElementsCount == _userManager.Users.Count());
             }
         }
 
@@ -93,27 +98,27 @@ namespace LibraryAccounting.Infrastructure.UnitTests
         {
             using (DataContext db = new DataContext(Startup.OnConfiguring()))
             {
-                bookingsRepository = new BookingRepository(db);
+                _bookingRepository = new BookingRepository(db);
                 booking = new Booking(1, 1)
                 {
                     IsTransmitted = true,
                     TransferDate = DateTime.Now
                 };
 
-                var AllElements = bookingsRepository.GetAll();
+                var AllElements = _bookingRepository.GetAll();
                 Assert.IsNotNull(AllElements);
                 int AllElementsCount = AllElements.Count();
 
-                bookingsRepository.Add(booking);
-                bookingsRepository.Save();
-                Assert.IsFalse(AllElementsCount == bookingsRepository.GetAll().Count());
+                _bookingRepository.Add(booking);
+                _bookingRepository.Save();
+                Assert.IsFalse(AllElementsCount == _bookingRepository.GetAll().Count());
 
-                Booking ConcreteElement = bookingsRepository.Find(booking.Id);
+                Booking ConcreteElement = _bookingRepository.Find(booking.Id);
                 Assert.AreEqual(ConcreteElement, booking);
 
-                bookingsRepository.Remove(booking);
-                bookingsRepository.Save();
-                Assert.IsTrue(AllElementsCount == bookingsRepository.GetAll().Count());
+                _bookingRepository.Remove(booking);
+                _bookingRepository.Save();
+                Assert.IsTrue(AllElementsCount == _bookingRepository.GetAll().Count());
             }
         }
     }

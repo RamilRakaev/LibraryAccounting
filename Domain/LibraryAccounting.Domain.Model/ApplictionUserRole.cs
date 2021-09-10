@@ -5,6 +5,5 @@ namespace LibraryAccounting.Domain.Model
 {
     public class ApplictionUserRole : IdentityRole<int>
     {
-        public List<ApplicationUser> Users { get; set; }
     }
 }
