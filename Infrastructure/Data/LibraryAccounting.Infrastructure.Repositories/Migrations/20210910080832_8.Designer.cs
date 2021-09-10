@@ -10,8 +10,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace LibraryAccounting.Infrastructure.Repositories.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20210909142853_10")]
-    partial class _10
+    [Migration("20210910080832_8")]
+    partial class _8
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -242,7 +242,7 @@ namespace LibraryAccounting.Infrastructure.Repositories.Migrations
                         {
                             Id = 1,
                             BookId = 3,
-                            BookingDate = new DateTime(2021, 9, 9, 17, 28, 53, 406, DateTimeKind.Local).AddTicks(4417),
+                            BookingDate = new DateTime(2021, 9, 10, 11, 8, 32, 81, DateTimeKind.Local).AddTicks(9343),
                             ClientId = 3,
                             IsReturned = false,
                             IsTransmitted = false
@@ -353,7 +353,7 @@ namespace LibraryAccounting.Infrastructure.Repositories.Migrations
             modelBuilder.Entity("LibraryAccounting.Domain.Model.ApplicationUser", b =>
                 {
                     b.HasOne("LibraryAccounting.Domain.Model.ApplictionUserRole", "Role")
-                        .WithMany("Users")
+                        .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -410,11 +410,6 @@ namespace LibraryAccounting.Infrastructure.Repositories.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("LibraryAccounting.Domain.Model.ApplictionUserRole", b =>
-                {
-                    b.Navigation("Users");
                 });
 #pragma warning restore 612, 618
         }

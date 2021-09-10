@@ -240,7 +240,7 @@ namespace LibraryAccounting.Infrastructure.Repositories.Migrations
                         {
                             Id = 1,
                             BookId = 3,
-                            BookingDate = new DateTime(2021, 9, 10, 11, 0, 21, 504, DateTimeKind.Local).AddTicks(6052),
+                            BookingDate = new DateTime(2021, 9, 10, 11, 8, 32, 81, DateTimeKind.Local).AddTicks(9343),
                             ClientId = 3,
                             IsReturned = false,
                             IsTransmitted = false
