@@ -36,40 +36,35 @@ namespace LibraryAccounting.Pages.Account
         {
             if (ModelState.IsValid)
             {
-                var result = await _signInManager.PasswordSignInAsync(
-                    login.Email,
-                    login.Password,
-                    login.RememberMe,
-                    false);
-
-                if (result.Succeeded)
+                var user = await _userManager.FindByEmailAsync(login.Email);
+                if (user != null)
                 {
-                    if (!string.IsNullOrEmpty(login.ReturnUrl) && Url.IsLocalUrl(login.ReturnUrl))
+                    if (await _userManager.IsEmailConfirmedAsync(user))
                     {
-                        return RedirectToPage(login.ReturnUrl);
+                        var result = await _signInManager.PasswordSignInAsync(login.Email, login.Password, login.RememberMe, false);
+                        if (result.Succeeded)
+                        {
+                            await _signInManager.SignInAsync(user, false);
+                            await _userManager.AddClaimAsync(user, new Claim("roleId", user.RoleId.ToString()));
+                            await _userManager.UpdateAsync(user);
+                            switch (user.RoleId)
+                            {
+                                case 1:
+                                    return RedirectToPage("/ClientPages/BookCatalog");
+                                case 2:
+                                    return RedirectToPage("/LibrarianPages/BookCatalog");
+                                case 3:
+                                    return RedirectToPage("/AdminPages/UserList");
+                            }
+                        }
                     }
                     else
                     {
-                        var user = await _userManager.FindByEmailAsync(login.Email);
-                        await _signInManager.SignInAsync(user, false);
-                        _ = User.Claims.Append(new Claim("roleId", user.RoleId.ToString()));
-                        await _userManager.UpdateAsync(user);
-                        switch (user.RoleId)
-                        {
-                            case 1:
-                                return RedirectToPage("/ClientPages/BookCatalog");
-                            case 2:
-                                return RedirectToPage("/LibrarianPages/BookCatalog");
-                            case 3:
-                                return RedirectToPage("/AdminPages/UserList");
-                        }
+                        ModelState.AddModelError(string.Empty, "Вы не подтвердили свой email");
                     }
                 }
-                else
-                {
-                    ModelState.AddModelError("", "Неправильный логин и (или) пароль");
-                }
             }
+            ModelState.AddModelError("", "Неправильный логин и (или) пароль");
             return Page();
         }
     }
