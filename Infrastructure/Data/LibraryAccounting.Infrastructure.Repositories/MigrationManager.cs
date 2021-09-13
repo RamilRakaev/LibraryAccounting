@@ -19,7 +19,6 @@ namespace LibraryAccounting.Infrastructure.Repositories
                 }
                 catch (Exception ex)
                 {
-                    //TODO: Отладить запись на файл в отдельном проекте
                     string path = Environment.CurrentDirectory + "error log.txt";
                     FileStream fileStream = null;
                     fileStream = File.Open(path, File.Exists(path) ? FileMode.Append : FileMode.OpenOrCreate);

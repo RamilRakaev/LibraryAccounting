@@ -27,8 +27,7 @@ namespace LibraryAccounting.CQRSInfrastructure.Methods
         {
             if (_validators.Any())
             {
-                //string typeName = request.GetType().GetGenericTypeDefinition().Name; - ошибка при добавлении пользователя
-                string typeName = request.GetType().Name; /* Ошибка при удалении пользователя */
+                string typeName = request.GetType().Name;
                 _logger.LogInformation("----- Validating command {CommandType}", typeName);
 
                 ValidationContext<TRequest> context = new ValidationContext<TRequest>(request);
