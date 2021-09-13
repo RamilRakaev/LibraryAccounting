@@ -16,6 +16,7 @@ using Microsoft.Extensions.Hosting;
 using MediatR;
 using LibraryAccounting.CQRSInfrastructure.Methods;
 using Microsoft.AspNetCore.Identity;
+using LibraryAccounting.Pages.ClientPages;
 
 namespace LibraryAccounting
 {
@@ -43,6 +44,8 @@ namespace LibraryAccounting
             services.AddTransient<ILibrarianTools, LibrarianTools>();
             services.AddTransient<IClientTools, ClientTools>();
 
+            services.AddTransient<UserProperties, UserProperties>();
+
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
             services.AddValidatorsFromAssembly(MethodsAssembly.GetAssembly());
             services.AddMediatR(MethodsAssembly.GetAssembly());
@@ -56,7 +59,7 @@ namespace LibraryAccounting
                  opt =>
                  {
                      opt.AccessDeniedPath = new Microsoft.AspNetCore.Http.PathString("/Index");
-                     opt.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Index");
+                     opt.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Account/Login");
                  });
         }
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

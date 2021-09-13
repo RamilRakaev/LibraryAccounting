@@ -14,14 +14,13 @@ namespace LibraryAccounting.Pages.ClientPages
     {
         readonly private IClientTools _clientTools;
         public Dictionary<Booking, Book> armoredBooks;
-        public int ClientId { get; set; }
-        public BookedBooksModel(IClientTools clientTools, IHttpContextAccessor httpContext)
+        private readonly UserProperties _userProperties;
+        public BookedBooksModel(IClientTools clientTools, UserProperties userProperties)
         {
             _clientTools = clientTools;
             armoredBooks = new Dictionary<Booking, Book>();
-            if (httpContext.HttpContext.User.Identity.IsAuthenticated)
-                ClientId = Convert.ToInt32(httpContext.HttpContext.User.Claims.ElementAt(2).Value);
-            else
+            _userProperties = userProperties;
+            if (!_userProperties.IsAuthenticated) 
             {
                 RedirectToPage("/Index");
             }
@@ -29,13 +28,13 @@ namespace LibraryAccounting.Pages.ClientPages
 
         public async Task OnGet()
         {
-            armoredBooks = await Task.Run(() => ExtractArmoredBooks(_clientTools, ClientId));
+            armoredBooks = await Task.Run(() => ExtractArmoredBooks(_clientTools, _userProperties.UserId));
         }
 
         public async Task OnPost(int idBooking)
         {
             _clientTools.RemoveReservation(idBooking);
-            armoredBooks = await Task.Run(() =>ExtractArmoredBooks(_clientTools, ClientId));
+            armoredBooks = await Task.Run(() =>ExtractArmoredBooks(_clientTools, _userProperties.UserId));
         }
 
         private static Dictionary<Booking, Book> ExtractArmoredBooks(IClientTools ClientTools, int clientId)

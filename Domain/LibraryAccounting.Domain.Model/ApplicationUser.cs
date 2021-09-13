@@ -1,5 +1,7 @@
 ﻿using LibraryAccounting.Domain.Interfaces.DataManagement;
 using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace LibraryAccounting.Domain.Model
 {

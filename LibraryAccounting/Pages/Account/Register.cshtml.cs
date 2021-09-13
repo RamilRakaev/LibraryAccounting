@@ -1,9 +1,4 @@
-using System.Linq;
-using System.Security.Claims;
-using System.Threading;
 using System.Threading.Tasks;
-using Antlr.Runtime;
-using LibraryAccounting.CQRSInfrastructure.EmailManagement;
 using LibraryAccounting.Domain.Model;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -69,16 +64,6 @@ namespace LibraryAccounting.Pages.Account
                 }
             }
         }
-
-        //private async Task SendMessage(ApplicationUser user)
-        //{
-        //    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-        //    var callbackUrl = Url.Page( pageName: "/Account/ConfirmEmail", pageHandler:"",  values: new { userEmail = user.Email, code = code }, 
-        //        protocol: HttpContext.Request.Scheme);
-        //    MessageSending emailService = new MessageSending();
-        //    await emailService.SendEmailAsync(user.Email, "Confirm your account",
-        //        $"ѕодтвердите регистрацию, перейд€ по ссылке: <a href='{callbackUrl}'>link</a>");
-        //}
 
     }
 }

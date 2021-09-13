@@ -42,7 +42,7 @@
                     <p class="available-in">Есть в наличии</p>
                     <form method="post" asp-page="/ClientPages/ConcreteBook">
                         <input type="hidden" name="bookId" value="@book.Key.Id" />
-                        <input type="hidden" name="userId" value="@Model.ClientId" />
+                        <input type="hidden" name="userId" value="@Model.UserProperties.RoleId" />
                         <button type="submit" class="btn btn-dark booking-btn">Забронировать</button>
                     </form>
                 }
