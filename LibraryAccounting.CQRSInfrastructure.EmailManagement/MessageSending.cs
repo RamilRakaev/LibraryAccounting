@@ -10,7 +10,10 @@ namespace LibraryAccounting.CQRSInfrastructure.EmailManagement
         {
             var emailMessage = new MimeMessage();
 
-            emailMessage.From.Add(new MailboxAddress("Администрация сайта LibraryAccounting", "librarianacc1@gmail.com"));
+            emailMessage.From.Add(
+                new MailboxAddress("Администрация сайта LibraryAccounting",
+                "librarianacc1@gmail.com")
+                );
             emailMessage.To.Add(new MailboxAddress(recipientName, email));
             emailMessage.Subject = subject;
             emailMessage.Body = new TextPart(MimeKit.Text.TextFormat.Html)

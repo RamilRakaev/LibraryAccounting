@@ -22,15 +22,16 @@ namespace LibraryAccounting.CQRSInfrastructure.Methods.UserMethods
 
     public class GetUsersHandler : UserHandler, IRequestHandler<GetUsersQuery, List<ApplicationUser>>
     {
-        public GetUsersHandler(UserManager<ApplicationUser> _db) : base(_db)
+        private List<ApplicationUser> users;
+
+        public GetUsersHandler(UserManager<ApplicationUser> db) : base(db)
         { }
 
-        private List<ApplicationUser> Users;
         async Task<List<ApplicationUser>> IRequestHandler<GetUsersQuery, List<ApplicationUser>>.Handle(GetUsersQuery request, CancellationToken cancellationToken)
         {
-            Users = _db.Users.ToList();
+            users = _db.Users.ToList();
             await Task.Run(() => Filter(request));
-            return Users;
+            return users;
         }
 
         private void Filter(GetUsersQuery request)
@@ -43,18 +44,18 @@ namespace LibraryAccounting.CQRSInfrastructure.Methods.UserMethods
                 if (requestProperty.GetValue(request) != null)
                     if (userPropertyNames.Contains(requestProperty.Name))
                     {
-                        for (int i = 0; i < Users.Count(); i++)
+                        for (int i = 0; i < users.Count(); i++)
                         {
                             var userProperty = userProperties.FirstOrDefault(u => u.Name == requestProperty.Name);
-                            if (userProperty.GetValue(Users[i]).ToString() != requestProperty.GetValue(request).ToString())
+                            if (userProperty.GetValue(users[i]).ToString() != requestProperty.GetValue(request).ToString())
                             {
-                                Users.Remove(Users[i]);
+                                users.Remove(users[i]);
                             }
                         }
                     }
-
             }
         }
+
     }
 
     public class GetUsersValidator : AbstractValidator<ApplicationUser>

@@ -9,61 +9,65 @@ namespace LibraryAccounting.Infrastructure.Tools
 {
     public class ClientTools : IClientTools
     {
-        readonly protected IRepository<Book> BookRepository;
-        readonly protected IRepository<Booking> BookingRepository;
+        readonly protected IRepository<Book> _bookRepository;
+        readonly protected IRepository<Booking> _bookingRepository;
 
         public ClientTools(IRepository<Booking> bookingsRepository, IRepository<Book> bookRepository)
         {
-            BookingRepository = bookingsRepository;
-            BookRepository = bookRepository;
+            _bookingRepository = bookingsRepository;
+            _bookRepository = bookRepository;
         }
 
         #region books requests
         public Book GetBook(int id)
         {
-            return BookRepository.Find(id);
+            return _bookRepository.Find(id);
         }
 
         public Book GetBook(IReturningResultHandler<Book, Book> resultHandler)
         {
-            return resultHandler.Handle(BookRepository.GetAll());
+            return resultHandler.Handle(_bookRepository.GetAll());
         }
 
         public IEnumerable<Book> GetBooks(IRequestsHandlerComponent<Book> handlerComponent)
         {
-            var elements = BookRepository.GetAll().ToList();
+            var elements = _bookRepository.GetAll().ToList();
             handlerComponent.Handle(ref elements);
             return elements;
         }
 
         public IEnumerable<Book> GetAllBooks()
         {
-            return BookRepository.GetAll();
+            return _bookRepository.GetAll();
         }
         #endregion
 
+        #region reservation book
         public void AddReservation(Booking booking)
         {
-            BookingRepository.Add(booking);
-            BookingRepository.Save();
+            _bookingRepository.Add(booking);
+            _bookingRepository.Save();
         }
 
         public void RemoveReservation(int id)
         {
-            BookingRepository.Remove(BookingRepository.Find(id));
-            BookingRepository.Save();
+            _bookingRepository.Remove(_bookingRepository.Find(id));
+            _bookingRepository.Save();
         }
+        #endregion
 
+        #region get bookings
         public IEnumerable<Booking> GetBookings(IRequestsHandlerComponent<Booking> handlerComponent)
         {
-            var bookings = BookingRepository.GetAll().ToList();
+            var bookings = _bookingRepository.GetAll().ToList();
             handlerComponent.Handle(ref bookings);
             return bookings;
         }
 
         public IEnumerable<Booking> GetAllBookings()
         {
-            return BookingRepository.GetAll();
+            return _bookingRepository.GetAll();
         }
+        #endregion
     }
 }

@@ -19,8 +19,8 @@ namespace LibraryAccounting.Domain.Model
             UserName = name;
             Email = email;
             Password = password;
-            Role = role;
             RoleId = role.Id;
+            Role = role;
         }
 
         public ApplicationUser(string name, string email, string password, int roleId)

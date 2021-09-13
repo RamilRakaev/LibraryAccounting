@@ -26,14 +26,14 @@ namespace LibraryAccounting.Pages.AdminPages
             EstablishRoles();
         }
 
-        public async void EstablishRoles()
+        public void EstablishRoles()
         {
             var command = new GetRolesCommand();
-            var roles = await _mediator.Send(command, new CancellationToken(false));
+            var roles = _mediator.Send(command, new CancellationToken(false)).Result;
             Roles = new SelectList(roles, "Id", "Name");
         }
 
-        public async void OnGet(int? id)
+        public async Task OnGet(int? id)
         {
             if (id != null)
             {

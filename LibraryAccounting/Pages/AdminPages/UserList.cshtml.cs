@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using LibraryAccounting.CQRSInfrastructure.Methods.UserMethods;
@@ -20,7 +18,7 @@ namespace LibraryAccounting.Pages.AdminPages
             _mediator = mediator;
         }
 
-        public async void OnGet()
+        public async Task OnGet()
         {
             Users = await _mediator.Send(new GetUsersQuery(), new CancellationToken(false));
         }

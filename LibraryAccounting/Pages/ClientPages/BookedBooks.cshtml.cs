@@ -1,10 +1,8 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using LibraryAccounting.Infrastructure.Handlers;
 using LibraryAccounting.Domain.Model;
 using LibraryAccounting.Services.ToolInterfaces;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Threading.Tasks;
 
@@ -15,6 +13,7 @@ namespace LibraryAccounting.Pages.ClientPages
         readonly private IClientTools _clientTools;
         public Dictionary<Booking, Book> armoredBooks;
         private readonly UserProperties _userProperties;
+
         public BookedBooksModel(IClientTools clientTools, UserProperties userProperties)
         {
             _clientTools = clientTools;

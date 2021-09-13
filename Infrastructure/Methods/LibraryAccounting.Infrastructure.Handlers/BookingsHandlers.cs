@@ -8,17 +8,17 @@ namespace LibraryAccounting.Infrastructure.Handlers
 {
     public class BookingsByClientIdHandler : IRequestsHandlerComponent<Booking>
     {
-        readonly private int ClientId;
+        readonly private int _clientId;
 
         public BookingsByClientIdHandler(int clientId)
         {
-            ClientId = clientId;
+            _clientId = clientId;
         }
 
         public void Handle(ref List<Booking> elements)
         {
             elements = elements.
-                Where(b => !b.IsReturned && b.ClientId == ClientId).
+                Where(b => !b.IsReturned && b.ClientId == _clientId).
                 ToList();
         }
     }
@@ -49,33 +49,33 @@ namespace LibraryAccounting.Infrastructure.Handlers
 
     public class ExpiredBooksIdHandler : IReturningResultHandler<Booking[], Booking>
     {
-        private int MaxBookingPeriod;
+        private int _maxBookingPeriod;
 
         public ExpiredBooksIdHandler(int maxBookingPeriod)
         {
-            MaxBookingPeriod = maxBookingPeriod;
+            _maxBookingPeriod = maxBookingPeriod;
         }
 
         public Booking[] Handle(IEnumerable<Booking> elements)
         {
             return elements.
-                Where(b => (DateTime.Now - b.BookingDate).Days > MaxBookingPeriod).
+                Where(b => (DateTime.Now - b.BookingDate).Days > _maxBookingPeriod).
                 ToArray();
         }
     }
 
     public class BookingByBookIdHandler : IReturningResultHandler<Booking, Booking>
     {
-        readonly private int BookId;
+        readonly private int _bookId;
 
         public BookingByBookIdHandler(int bookId)
         {
-            BookId = bookId;
+            _bookId = bookId;
         }
 
         public Booking Handle(IEnumerable<Booking> elements)
         {
-            return elements.FirstOrDefault(b => !b.IsReturned && b.BookId == BookId);
+            return elements.FirstOrDefault(b => !b.IsReturned && b.BookId == _bookId);
         }
     }
 

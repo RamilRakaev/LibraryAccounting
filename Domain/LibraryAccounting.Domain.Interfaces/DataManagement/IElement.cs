@@ -9,5 +9,6 @@ namespace LibraryAccounting.Domain.Interfaces.DataManagement
 
     public interface IElement : IElement<IElement>
     {
+
     }
 }

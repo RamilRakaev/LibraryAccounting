@@ -26,27 +26,27 @@ namespace LibraryAccounting.Infrastructure.Tools
         #region add and remove
         public void AddBook(Book book)
         {
-            BookRepository.Add(book);
-            BookRepository.Save();
+            _bookRepository.Add(book);
+            _bookRepository.Save();
         }
 
         public void RemoveBook(Book book)
         {
-            BookRepository.Remove(book);
-            BookRepository.Save();
+            _bookRepository.Remove(book);
+            _bookRepository.Save();
         }
         #endregion
 
         #region booking books
         public void EditBooking(IVisitor<Booking> visitor, IReturningResultHandler<Booking, Booking> resultHandler)
         {
-            resultHandler.Handle(BookingRepository.GetAll()).Accept(visitor);
-            BookingRepository.Save();
+            resultHandler.Handle(_bookingRepository.GetAll()).Accept(visitor);
+            _bookingRepository.Save();
         }
 
         public Booking GetBooking(IReturningResultHandler<Booking, Booking> requestsHandler)
         {
-            var bookings = BookingRepository.GetAll().ToList();
+            var bookings = _bookingRepository.GetAll().ToList();
             return requestsHandler.Handle(bookings);
         }
         #endregion
@@ -78,7 +78,7 @@ namespace LibraryAccounting.Infrastructure.Tools
         #region edit books
         public void EditBook(IVisitor<Book> visitor, int id)
         {
-            if (!BookRepository.Find(id).Accept(visitor))
+            if (!_bookRepository.Find(id).Accept(visitor))
             {
                 throw new Exception("Error when editing book");
             }
@@ -86,7 +86,7 @@ namespace LibraryAccounting.Infrastructure.Tools
 
         public void EditBooks(IVisitor<Book> visitor, IRequestsHandlerComponent<Book> handlerComponent = null)
         {
-            compositeElement = new CompositeElement<Book>(BookRepository.GetAll().ToList());
+            compositeElement = new CompositeElement<Book>(_bookRepository.GetAll().ToList());
             if (!compositeElement.Accept(visitor, handlerComponent))
             {
                 throw new Exception("Error when editing books");

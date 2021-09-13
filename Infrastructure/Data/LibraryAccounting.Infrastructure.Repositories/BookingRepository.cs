@@ -21,6 +21,11 @@ namespace LibraryAccounting.Infrastructure.Repositories
             return db.Bookings;
         }
 
+        public IQueryable<Booking> GetAllAsQueryable()
+        {
+            return db.Bookings.AsQueryable();
+        }
+
         public Booking Find(int id)
         {
             return db.Bookings.Find(id);

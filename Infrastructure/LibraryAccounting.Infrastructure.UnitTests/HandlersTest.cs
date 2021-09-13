@@ -24,7 +24,7 @@ namespace LibraryAccounting.Infrastructure.UnitTests
                 new Booking(){ Id = 3, BookId = 3, ClientId = 2, BookingDate = DateTime.Now,
                     IsTransmitted = true, TransferDate = DateTime.Now, IsReturned = true, ReturnDate = DateTime.Now}
             };
-        List<Booking> BookingOutput;
+        List<Booking> bookingOutput;
         List<Book> booksOutput;
 
         [TestMethod]
@@ -42,20 +42,20 @@ namespace LibraryAccounting.Infrastructure.UnitTests
         [TestMethod]
         public void BookingBooksHandlers()
         {
-            BookingOutput = new List<Booking>(Bookings);
+            bookingOutput = new List<Booking>(Bookings);
             var byClientId = new BookingsByClientIdHandler(2);
-            byClientId.Handle(ref BookingOutput);
-            Assert.AreEqual(BookingOutput.Count, 1);
+            byClientId.Handle(ref bookingOutput);
+            Assert.AreEqual(bookingOutput.Count, 1);
 
             booksOutput = new List<Book>(Books);
             var bokingBooks = new BookingBooksHandler(Bookings);
             bokingBooks.Handle(ref booksOutput);
             Assert.AreEqual(booksOutput.Count, 3);
 
-            BookingOutput = new List<Booking>(Bookings);
+            bookingOutput = new List<Booking>(Bookings);
             var byBookingDate = new SortingByBookingDateHandler();
-            byBookingDate.Handle(ref BookingOutput);
-            Assert.AreEqual(BookingOutput[2].BookingDate, new DateTime(2021, 8, 21));
+            byBookingDate.Handle(ref bookingOutput);
+            Assert.AreEqual(bookingOutput[2].BookingDate, new DateTime(2021, 8, 21));
 
             var expiredBooksId = new ExpiredBooksIdHandler(3);
             Assert.AreEqual(expiredBooksId.Handle(Bookings).Length, 1);

@@ -9,6 +9,7 @@ namespace LibraryAccounting.Pages.Account
     public class LogoutModel : PageModel
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
+
         public LogoutModel(SignInManager<ApplicationUser> signInManager)
         {
             _signInManager = signInManager;

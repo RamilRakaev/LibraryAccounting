@@ -17,7 +17,7 @@ namespace LibraryAccounting.CQRSInfrastructure.Methods.UserMethods
 
     public class RemoveUserHandler : UserHandler, IRequestHandler<RemoveUserCommand, ApplicationUser>
     {
-        public RemoveUserHandler(UserManager<ApplicationUser> _db) : base(_db)
+        public RemoveUserHandler(UserManager<ApplicationUser> db) : base(db)
         { }
 
         public async Task<ApplicationUser> Handle(RemoveUserCommand request, CancellationToken cancellationToken)

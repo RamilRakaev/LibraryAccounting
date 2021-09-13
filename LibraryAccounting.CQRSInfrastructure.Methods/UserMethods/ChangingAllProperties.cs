@@ -30,7 +30,6 @@ namespace LibraryAccounting.CQRSInfrastructure.Methods.UserMethods
             user.Email = command.Email;
             user.Password = command.Password;
             user.RoleId = command.RoleId;
-
             return user;
         }
     }

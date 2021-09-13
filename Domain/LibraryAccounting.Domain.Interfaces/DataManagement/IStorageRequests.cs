@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace LibraryAccounting.Domain.Interfaces.DataManagement
@@ -14,5 +15,10 @@ namespace LibraryAccounting.Domain.Interfaces.DataManagement
         }
 
         public IEnumerable<Element> GetAll();
+
+        public IQueryable<Element> GetAllAsQueryable()
+        {
+            throw new Exception("Method is not overridden in child class");
+        } 
     }
 }

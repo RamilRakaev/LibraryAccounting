@@ -14,9 +14,8 @@ namespace LibraryAccounting.Infrastructure.Repositories
         public DbSet<Booking> Bookings { get; set; }
 
         public DataContext(DbContextOptions options) : base(options)
-        {
+        { }
 
-        }
         protected override void OnModelCreating(ModelBuilder mb)
         {
             mb.Entity<ApplicationUserRole>().HasData(new ApplicationUserRole[]
@@ -75,15 +74,4 @@ namespace LibraryAccounting.Infrastructure.Repositories
             base.OnModelCreating(mb);
         }
     }
-    //public class BloggingContextFactory : IDesignTimeDbContextFactory<DataContext>
-    //{
-    //    public DataContext CreateDbContext(string[] args)
-    //    {
-    //        var optionsBuilder = new DbContextOptionsBuilder<DataContext>();
-    //        optionsBuilder.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"),
-    //            op => op.MigrationsAssembly("LibraryAccounting.Infrastructure.Repositories"));
-
-    //        return new DataContext(optionsBuilder.Options);
-    //    }
-    //}
 }

@@ -7,6 +7,7 @@ namespace LibraryAccounting.Pages.ClientPages
     public class UserProperties
     {
         private readonly IHttpContextAccessor _httpContext;
+
         public UserProperties(IHttpContextAccessor httpContext)
         {
             _httpContext = httpContext;
@@ -32,6 +33,5 @@ namespace LibraryAccounting.Pages.ClientPages
         {
             get { return _httpContext.HttpContext.User.Identity.IsAuthenticated; }
         }
-
     }
 }

@@ -5,14 +5,16 @@ namespace LibraryAccounting.Infrastructure.Visitors
 {
     public class ChangePasswordVisitor : IVisitor<ApplicationUser>
     {
-        readonly private string Password;
+        readonly private string _password;
+
         public ChangePasswordVisitor(string password)
         {
-            Password = password;
+            _password = password;
         }
+
         public bool Visit(ApplicationUser element)
         {
-            element.Password = Password;
+            element.Password = _password;
             return true;
         }
     }

@@ -19,7 +19,7 @@ namespace LibraryAccounting.CQRSInfrastructure.Methods.UserMethods
 
     public class GetUserHandler : UserHandler, IRequestHandler<GetUserQuery, ApplicationUser>
     {
-        public GetUserHandler(UserManager<ApplicationUser> _db) : base(_db)
+        public GetUserHandler(UserManager<ApplicationUser> db) : base(db)
         { }
 
         public async Task<ApplicationUser> Handle(GetUserQuery request, CancellationToken cancellationToken)

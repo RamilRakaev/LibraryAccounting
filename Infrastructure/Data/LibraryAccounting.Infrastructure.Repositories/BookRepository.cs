@@ -23,6 +23,11 @@ namespace LibraryAccounting.Infrastructure.Repositories
             return result;
         }
 
+        public IQueryable<Book> GetAllAsQueryable()
+        {
+            return db.Books.AsQueryable();
+        }
+
         public Book Find(int id)
         {
             return db.Books.Find(id);

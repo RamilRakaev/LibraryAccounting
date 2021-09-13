@@ -10,6 +10,7 @@ namespace LibraryAccounting.Pages.Account
     {
         private readonly UserManager<ApplicationUser> _userManager;
         public RegisterViewModel Register { get; set; }
+
         public RegisterModel(UserManager<ApplicationUser> userManager)
         {
             Register = new RegisterViewModel();
@@ -64,6 +65,5 @@ namespace LibraryAccounting.Pages.Account
                 }
             }
         }
-
     }
 }

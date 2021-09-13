@@ -21,7 +21,7 @@ namespace LibraryAccounting.CQRSInfrastructure.Methods.UserMethods
 
     public class ChangePasswordHandler : UserHandler, IRequestHandler<ChangePasswordCommand, ApplicationUser>
     {
-        public ChangePasswordHandler(UserManager<ApplicationUser> _db):base(_db)
+        public ChangePasswordHandler(UserManager<ApplicationUser> db):base(db)
         { }
 
         public async Task<ApplicationUser> Handle(ChangePasswordCommand request, CancellationToken cancellationToken)

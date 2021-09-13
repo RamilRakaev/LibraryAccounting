@@ -13,7 +13,6 @@ namespace LibraryAccounting.CQRSInfrastructure.Methods.UserMethods
 {
     public class AddUserCommand : IRequest<ApplicationUser>
     {
-
         public ApplicationUser User { get; set; }
 
         public AddUserCommand(ApplicationUser user)

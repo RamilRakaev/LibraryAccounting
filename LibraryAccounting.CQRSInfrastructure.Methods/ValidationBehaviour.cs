@@ -32,9 +32,12 @@ namespace LibraryAccounting.CQRSInfrastructure.Methods
 
                 ValidationContext<TRequest> context = new ValidationContext<TRequest>(request);
                 ValidationResult[] validationResults =
-                    await Task.WhenAll(_validators.Select(v => v.ValidateAsync(context, cancellationToken)));
-                List<ValidationFailure> failures = validationResults.SelectMany(result => result.Errors)
-                    .Where(error => error != null).ToList();
+                    await Task.WhenAll(_validators.
+                    Select(v => v.ValidateAsync(context, cancellationToken)));
+                List<ValidationFailure> failures = validationResults.
+                    SelectMany(result => result.Errors).
+                    Where(error => error != null).ToList();
+
                 if (failures.Any())
                 {
                     _logger.LogWarning(

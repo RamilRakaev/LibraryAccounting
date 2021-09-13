@@ -38,7 +38,6 @@ namespace LibraryAccounting.Pages.ClientPages
 
         public async Task OnGet()
         {
-
             Books = await Task.Run(() => ExtractBooks(_clientTools));
         }
 

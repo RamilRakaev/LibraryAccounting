@@ -26,7 +26,8 @@ namespace LibraryAccounting.CQRSInfrastructure.Methods.BookMethods
             }
             else
             {
-                return _db.GetAll().FirstOrDefault(b => b.Title == request.Title);
+                return _db.GetAll().
+                    FirstOrDefault(b => b.Title == request.Title);
             }
         }
     }

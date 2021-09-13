@@ -5,63 +5,63 @@ namespace LibraryAccounting.Infrastructure.Visitors
 {
     public class BookTitleVisitor : IVisitor<Book>
     {
-        public string Title { get; set; }
+        private readonly string _title;
 
         public BookTitleVisitor(string title)
         {
-            Title = title;
+            _title = title;
         }
 
         public bool Visit(Book element)
         {
-            element.Title = Title;
+            element.Title = _title;
             return true;
         }
     }
     public class BookAuthorVisitor : IVisitor<Book>
     {
-        public string Author { get; set; }
+        private readonly string _author;
 
         public BookAuthorVisitor(string author)
         {
-            Author = author;
+            _author = author;
         }
 
         public bool Visit(Book element)
         {
-            element.Author = Author;
+            element.Author = _author;
             return true;
         }
     }
 
     public class BookGenreVisitor : IVisitor<Book>
     {
-        public string Genre { get; set; }
+        private readonly string _genre;
 
         public BookGenreVisitor(string genre)
         {
-            Genre = genre;
+            _genre = genre;
         }
 
         public bool Visit(Book element)
         {
-            element.Genre = Genre;
+            element.Genre = _genre;
             return true;
         }
     }
 
     public class BookPublisherVisitor : IVisitor<Book>
     {
-        public string Publisher { get; set; }
+        private readonly string _publisher;
 
         public BookPublisherVisitor(string publisher)
         {
-            Publisher = publisher;
+            _publisher = publisher;
         }
 
         public bool Visit(Book element)
         {
-            element.Publisher = Publisher;
+            element.Publisher = _publisher;
             return true;
         }
     }

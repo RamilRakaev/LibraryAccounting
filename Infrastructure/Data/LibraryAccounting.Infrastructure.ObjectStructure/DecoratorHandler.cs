@@ -6,39 +6,39 @@ namespace LibraryAccounting.Infrastructure.Handlers
 {
     public class DecoratorHandler<Element> : IRequestsHandlerComponent<Element>
     {
-        readonly private List<IRequestsHandlerComponent<Element>> HandlerComponents;
+        readonly private List<IRequestsHandlerComponent<Element>> handlerComponents;
 
         public DecoratorHandler()
         {
-            HandlerComponents = new List<IRequestsHandlerComponent<Element>>();
+            handlerComponents = new List<IRequestsHandlerComponent<Element>>();
+        }
+
+        public DecoratorHandler(IRequestsHandlerComponent<Element> handler)
+        {
+            handlerComponents = new List<IRequestsHandlerComponent<Element>>();
+            handlerComponents.Add(handler);
         }
 
         public DecoratorHandler(List<IRequestsHandlerComponent<Element>> requestsHandlers)
         {
-            HandlerComponents = requestsHandlers;
+            handlerComponents = requestsHandlers;
         }
 
         public void Add(IRequestsHandlerComponent<Element> requestsHandler)
         {
             if(requestsHandler != null)
-            HandlerComponents.Add(requestsHandler);
+            handlerComponents.Add(requestsHandler);
         }
 
         public void Remove(IRequestsHandlerComponent<Element> requestsHandler)
         {
             if (requestsHandler != null)
-                HandlerComponents.Remove(requestsHandler);
-        }
-
-        public DecoratorHandler(IRequestsHandlerComponent<Element> handler)
-        {
-            HandlerComponents = new List<IRequestsHandlerComponent<Element>>();
-            HandlerComponents.Add(handler);
+                handlerComponents.Remove(requestsHandler);
         }
 
         public void Handle(ref List<Element> elements)
         {
-            foreach (var handler in HandlerComponents)
+            foreach (var handler in handlerComponents)
             {
                 handler.Handle(ref elements);
             }
@@ -46,7 +46,7 @@ namespace LibraryAccounting.Infrastructure.Handlers
 
         public Element ConcreteElement(List<Element> elements)
         {
-            foreach (var handler in HandlerComponents)
+            foreach (var handler in handlerComponents)
             {
                 handler.Handle(ref elements);
             }
