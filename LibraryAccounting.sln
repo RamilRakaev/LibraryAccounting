@@ -39,7 +39,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CQRSInfrastructure", "CQRSI
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibraryAccounting.CQRSInfrastructure.Methods", "LibraryAccounting.CQRSInfrastructure.Methods\LibraryAccounting.CQRSInfrastructure.Methods.csproj", "{00888634-17D7-43B0-B7A1-DAD46DD47F52}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibraryAccounting.CQRSInfrastructure.EmailManagement", "LibraryAccounting.CQRSInfrastructure.EmailManagement\LibraryAccounting.CQRSInfrastructure.EmailManagement.csproj", "{E0B63499-8B7E-4541-9B14-6C7F040AEE5D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibraryAccounting.CQRSInfrastructure.EmailManagement", "LibraryAccounting.CQRSInfrastructure.EmailManagement\LibraryAccounting.CQRSInfrastructure.EmailManagement.csproj", "{E0B63499-8B7E-4541-9B14-6C7F040AEE5D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -15,6 +15,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MediatR;
 using LibraryAccounting.CQRSInfrastructure.Methods;
+using Microsoft.AspNetCore.Identity;
 
 namespace LibraryAccounting
 {
@@ -33,9 +34,8 @@ namespace LibraryAccounting
             services.AddHttpContextAccessor();
             services.AddDbContext<DataContext>(op => op.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"),
                 op => op.MigrationsAssembly("LibraryAccounting.Infrastructure.Repositories")));
-
             services.AddIdentity<ApplicationUser, ApplicationUserRole>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<DataContext>();
+                .AddEntityFrameworkStores<DataContext>().AddDefaultTokenProviders();
 
             services.AddTransient<IRepository<Book>, BookRepository>();
             services.AddTransient<IRepository<Booking>, BookingRepository>();

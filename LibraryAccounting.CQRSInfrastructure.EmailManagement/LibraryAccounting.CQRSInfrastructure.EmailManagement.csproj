@@ -6,6 +6,11 @@
 
   <ItemGroup>
     <PackageReference Include="MailKit" Version="2.15.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Domain\LibraryAccounting.Domain.Model\LibraryAccounting.Domain.Model.csproj" />
   </ItemGroup>
 
 </Project>

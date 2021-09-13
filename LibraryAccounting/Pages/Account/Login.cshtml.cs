@@ -60,7 +60,10 @@ namespace LibraryAccounting.Pages.Account
                     }
                     else
                     {
-                        ModelState.AddModelError(string.Empty, "Вы не подтвердили свой email");
+                        await this.SendMessage(user, _userManager);
+                        ModelState.AddModelError(string.Empty, "Вы не подтвердили свой email. " +
+                            "Проверьте свою почту и перейдите по ссылке, чтобы подтвердить почту");
+                        return Page();
                     }
                 }
             }
