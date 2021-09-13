@@ -15,23 +15,17 @@ namespace LibraryAccounting.Pages.ClientPages
 {
     public class BookCatalogModel : PageModel
     {
-        readonly private IClientTools _clientTools;
-        readonly private UserManager<ApplicationUser> _userManager;
+        private readonly IClientTools _clientTools;
+        public UserProperties UserProperties;
         public Dictionary<Book, bool> Books { get; set; }
-        public int ClientId { get; set; }
         public SelectList Authors { get; set; }
         public SelectList Genres { get; set; }
         public SelectList Publishers { get; set; }
 
-        public BookCatalogModel(IClientTools clientTools, IHttpContextAccessor httpContext, UserManager<ApplicationUser> userManager)
+        public BookCatalogModel(IClientTools clientTools, UserProperties userProperties)
         {
-            _userManager = userManager;
             _clientTools = clientTools;
-            if (httpContext.HttpContext.User.Identity.IsAuthenticated)
-            {
-                ClientId = Convert.ToInt32(httpContext.HttpContext.User.Claims.ElementAt(0).Value);
-            }
-
+            UserProperties = userProperties;
             var authors = _clientTools.GetAllBooks().Select(b => b.Author).Distinct();
             Authors = new SelectList(authors);
 
