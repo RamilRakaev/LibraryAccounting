@@ -14,7 +14,7 @@
             {
                 <p class="available-in">Есть в наличии</p>
                 <form method="post">
-                    <input type="hidden" name="userId" value="@Model.UserId" />
+                    <input type="hidden" name="userId" value="@Model.UserProperties.UserId" />
                     <input type="hidden" name="bookId" value="@Model.Book.Id" />
                     <button type="submit" class="btn btn-dark booking-btn">Забронировать</button>
                 </form>

@@ -18,12 +18,17 @@ namespace LibraryAccounting.Infrastructure.Repositories
 
         public IEnumerable<Booking> GetAll()
         {
-            return db.Bookings;
+            return db.Bookings.AsEnumerable();
         }
 
         public IQueryable<Booking> GetAllAsQueryable()
         {
             return db.Bookings.AsQueryable();
+        }
+
+        public IQueryable<Booking> GetAllAsNoTracking()
+        {
+            return db.Bookings.AsNoTracking();
         }
 
         public Booking Find(int id)

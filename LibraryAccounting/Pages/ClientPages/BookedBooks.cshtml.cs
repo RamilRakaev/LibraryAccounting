@@ -5,20 +5,24 @@ using LibraryAccounting.Domain.Model;
 using LibraryAccounting.Services.ToolInterfaces;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Threading.Tasks;
+using MediatR;
+using LibraryAccounting.CQRSInfrastructure.Methods.UserMethods;
 
 namespace LibraryAccounting.Pages.ClientPages
 {
     public class BookedBooksModel : PageModel
     {
         readonly private IClientTools _clientTools;
-        public Dictionary<Booking, Book> armoredBooks;
+        private readonly IMediator _mediator;
+        public Dictionary<Booking, Book> armoredBooks { get; private set; }
         private readonly UserProperties _userProperties;
 
-        public BookedBooksModel(IClientTools clientTools, UserProperties userProperties)
+        public BookedBooksModel(IClientTools clientTools, UserProperties userProperties, IMediator mediator)
         {
             _clientTools = clientTools;
             armoredBooks = new Dictionary<Booking, Book>();
             _userProperties = userProperties;
+            _mediator = mediator;
             if (_userProperties.IsAuthenticated == false)
             {
                 RedirectToPage("/Index");
@@ -27,7 +31,7 @@ namespace LibraryAccounting.Pages.ClientPages
 
         public async Task OnGet()
         {
-            armoredBooks = await Task.Run(() => ExtractArmoredBooks(_clientTools, _userProperties.UserId));
+            armoredBooks = await _mediator.Send(new GetArmoredBooksCommand() { CliendId = _userProperties.UserId });
         }
 
         public async Task OnPost(int idBooking)

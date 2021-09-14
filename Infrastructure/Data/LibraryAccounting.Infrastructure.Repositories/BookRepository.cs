@@ -19,13 +19,17 @@ namespace LibraryAccounting.Infrastructure.Repositories
 
         public IEnumerable<Book> GetAll()
         {
-            var result = new List<Book>(db.Books);
-            return result;
+            return db.Books.AsEnumerable();
         }
 
         public IQueryable<Book> GetAllAsQueryable()
         {
             return db.Books.AsQueryable();
+        }
+
+        public IQueryable<Book> GetAllAsNoTracking()
+        {
+            return db.Books.AsNoTracking();
         }
 
         public Book Find(int id)

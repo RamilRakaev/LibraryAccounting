@@ -19,6 +19,11 @@ namespace LibraryAccounting.Domain.Interfaces.DataManagement
         public IQueryable<Element> GetAllAsQueryable()
         {
             throw new Exception("Method is not overridden in child class");
-        } 
+        }
+
+        public IQueryable<Element> GetAllAsNoTracking()
+        {
+            throw new Exception("Method is not overridden in child class");
+        }
     }
 }

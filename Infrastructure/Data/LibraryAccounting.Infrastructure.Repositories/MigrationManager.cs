@@ -19,15 +19,8 @@ namespace LibraryAccounting.Infrastructure.Repositories
                 }
                 catch (Exception ex)
                 {
-                    string path = Environment.CurrentDirectory + "error log.txt";
-                    FileStream fileStream = null;
-                    fileStream = File.Open(path, File.Exists(path) ? FileMode.Append : FileMode.OpenOrCreate);
-
-                    using (StreamWriter fs = new StreamWriter(fileStream))
-                    {
-                        fs.WriteLine($"Message: {ex.Message} StackTrace: {ex.StackTrace}");
-                    };
-                    fileStream.Close();
+                    string path = Environment.CurrentDirectory + "/error log.txt";
+                    File.AppendAllText(path, $"Message: {ex.Message} StackTrace: {ex.StackTrace}\n");
                     throw;
                 }
             }
