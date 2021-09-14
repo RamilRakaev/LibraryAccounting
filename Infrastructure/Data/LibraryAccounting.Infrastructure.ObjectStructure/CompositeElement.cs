@@ -38,7 +38,7 @@ namespace LibraryAccounting.Infrastructure.ObjectStructure
             var IElementVisisor = (IVisitor<IElement>)visitor;
             for (int i = 0; i < Elements.Count(); i++)
             {
-                if (!elements.ElementAt(i).Accept(IElementVisisor))
+                if (elements.ElementAt(i).Accept(IElementVisisor) == false)
                     successfulCompletion = false;
             }
             return successfulCompletion;

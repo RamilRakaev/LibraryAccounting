@@ -18,7 +18,7 @@ namespace LibraryAccounting.Pages.LibrarianPages
         readonly private ILibrarianTools _librarianTools;
         readonly private IWebHostEnvironment _environment;
         private readonly IMediator _mediator;
-        public Book Book { get; set; }
+        public Book Book { get; private set; }
 
         public BookFormModel(ILibrarianTools librarianTools, IWebHostEnvironment environment, IMediator mediator)
         {

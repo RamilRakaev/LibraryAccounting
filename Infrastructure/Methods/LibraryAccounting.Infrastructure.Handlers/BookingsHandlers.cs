@@ -18,7 +18,7 @@ namespace LibraryAccounting.Infrastructure.Handlers
         public void Handle(ref List<Booking> elements)
         {
             elements = elements.
-                Where(b => !b.IsReturned && b.ClientId == _clientId).
+                Where(b => b.IsReturned == false && b.ClientId == _clientId).
                 ToList();
         }
     }

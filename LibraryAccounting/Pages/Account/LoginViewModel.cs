@@ -4,16 +4,16 @@ namespace LibraryAccounting.Pages.Account
 {
     public class LoginViewModel
     {
-        [Required]
-        [Display(Name = "Name")]
+        [Required(ErrorMessage = "Вы не ввели имя")]
+        [Display(Name = "Имя")]
         public string Email { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Вы не ввели пароль")]
         [DataType(DataType.Password)]
-        [Display(Name = "Password")]
+        [Display(Name = "Пароль")]
         public string Password { get; set; }
 
-        [Display(Name = "Remember Me?")]
+        [Display(Name = "Запомнить меня?")]
         public bool RememberMe { get; set; }
 
         public string ReturnUrl { get; set; }

@@ -78,7 +78,7 @@ namespace LibraryAccounting.Infrastructure.Tools
         #region edit books
         public void EditBook(IVisitor<Book> visitor, int id)
         {
-            if (!_bookRepository.Find(id).Accept(visitor))
+            if (_bookRepository.Find(id).Accept(visitor) == false)
             {
                 throw new Exception("Error when editing book");
             }
@@ -87,7 +87,7 @@ namespace LibraryAccounting.Infrastructure.Tools
         public void EditBooks(IVisitor<Book> visitor, IRequestsHandlerComponent<Book> handlerComponent = null)
         {
             compositeElement = new CompositeElement<Book>(_bookRepository.GetAll().ToList());
-            if (!compositeElement.Accept(visitor, handlerComponent))
+            if (compositeElement.Accept(visitor, handlerComponent) == false)
             {
                 throw new Exception("Error when editing books");
             }

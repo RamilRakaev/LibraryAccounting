@@ -39,7 +39,7 @@ namespace LibraryAccounting.Infrastructure.Tools
             var user = _userRepository.Find(id);
             if(user != null)
             {
-                if (!user.Accept(visitor))
+                if (user.Accept(visitor) == false)
                     throw new Exception("error when editing");
             }
         }

@@ -19,7 +19,7 @@ namespace LibraryAccounting.Pages.ClientPages
             _clientTools = clientTools;
             armoredBooks = new Dictionary<Booking, Book>();
             _userProperties = userProperties;
-            if (!_userProperties.IsAuthenticated) 
+            if (_userProperties.IsAuthenticated == false)
             {
                 RedirectToPage("/Index");
             }
@@ -33,7 +33,7 @@ namespace LibraryAccounting.Pages.ClientPages
         public async Task OnPost(int idBooking)
         {
             _clientTools.RemoveReservation(idBooking);
-            armoredBooks = await Task.Run(() =>ExtractArmoredBooks(_clientTools, _userProperties.UserId));
+            armoredBooks = await Task.Run(() => ExtractArmoredBooks(_clientTools, _userProperties.UserId));
         }
 
         private static Dictionary<Booking, Book> ExtractArmoredBooks(IClientTools ClientTools, int clientId)

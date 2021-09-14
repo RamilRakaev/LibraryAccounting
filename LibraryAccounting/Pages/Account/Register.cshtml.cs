@@ -28,7 +28,7 @@ namespace LibraryAccounting.Pages.Account
                 var existingUser = await _userManager.FindByEmailAsync(register.Email);
                 if (existingUser != null)
                 {
-                    if (!await _userManager.IsEmailConfirmedAsync(existingUser))
+                    if (await _userManager.IsEmailConfirmedAsync(existingUser) == false)
                     {
                         ModelState.AddModelError("", "Аккаунт с текущей почтой уже существует. Почта ещё не подтверждена. " +
                             "Чтобы подтвердить email перейдите по ссылке в письме");

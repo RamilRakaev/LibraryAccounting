@@ -1,26 +1,23 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using LibraryAccounting.Infrastructure.Handlers;
 using LibraryAccounting.Domain.Interfaces.PocessingRequests;
 using LibraryAccounting.Domain.Model;
 using LibraryAccounting.Services.ToolInterfaces;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
 
 namespace LibraryAccounting.Pages.ClientPages
 {
     public class BookCatalogModel : PageModel
     {
         private readonly IClientTools _clientTools;
-        public UserProperties UserProperties;
-        public Dictionary<Book, bool> Books { get; set; }
-        public SelectList Authors { get; set; }
-        public SelectList Genres { get; set; }
-        public SelectList Publishers { get; set; }
+        public UserProperties UserProperties { get; private set; }
+        public Dictionary<Book, bool> Books { get; private set; }
+        public SelectList Authors { get; private set; }
+        public SelectList Genres { get; private set; }
+        public SelectList Publishers { get; private set; }
 
         public BookCatalogModel(IClientTools clientTools, UserProperties userProperties)
         {

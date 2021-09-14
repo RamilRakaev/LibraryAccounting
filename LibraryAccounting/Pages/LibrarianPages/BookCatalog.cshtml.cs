@@ -23,9 +23,9 @@ namespace LibraryAccounting.Pages.LibrarianPages
         public Dictionary<Book, bool> Books { get; private set; }
         public Dictionary<int, ApplicationUser> Users { get; private set; }
         public Dictionary<int, Booking> Bookings { get; private set; }
-        public SelectList Authors { get; set; }
-        public SelectList Genres { get; set; }
-        public SelectList Publishers { get; set; }
+        public SelectList Authors { get; private set; }
+        public SelectList Genres { get; private set; }
+        public SelectList Publishers { get; private set; }
 
         public BookCatalogModel(ILibrarianTools librarianTools, IWebHostEnvironment environment, IMediator mediator)
         {
