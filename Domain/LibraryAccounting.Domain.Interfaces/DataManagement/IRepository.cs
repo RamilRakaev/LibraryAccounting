@@ -11,6 +11,11 @@ namespace LibraryAccounting.Domain.Interfaces.DataManagement
 
         public void Remove(Element element);
 
+        public void RemoveRange(IEnumerable<Element> elements) 
+        {
+            throw new Exception("Method is not overridden in child class");
+        }
+
         public void Save();
 
         public Task AddAsync(Element element)

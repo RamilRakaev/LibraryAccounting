@@ -1,11 +1,7 @@
-﻿using FluentValidation;
-using LibraryAccounting.Domain.Interfaces.DataManagement;
+﻿using LibraryAccounting.Domain.Interfaces.DataManagement;
 using LibraryAccounting.Domain.Model;
-using LibraryAccounting.Infrastructure.Repositories;
 using MediatR;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 

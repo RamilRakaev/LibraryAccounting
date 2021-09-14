@@ -42,6 +42,11 @@ namespace LibraryAccounting.Infrastructure.Repositories
                 db.Bookings.Remove(element);
         }
 
+        public void RemoveRange(IEnumerable<Booking> elements)
+        {
+            db.Bookings.RemoveRange(elements);
+        }
+
         public void Save()
         {
             db.SaveChanges();

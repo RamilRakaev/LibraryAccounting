@@ -5,7 +5,7 @@ namespace LibraryAccounting.Timer
 {
     public class BookingDeleteShedule
     {
-        readonly static public int Days = 3;
+        readonly static public int Days = 1;
         public static async void Start()
         {
             IScheduler scheduler = await StdSchedulerFactory.GetDefaultScheduler();

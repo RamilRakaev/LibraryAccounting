@@ -1,33 +1,22 @@
-﻿using LibraryAccounting.Infrastructure.Handlers;
-using LibraryAccounting.Infrastructure.Repositories;
-using LibraryAccounting.Services.ToolInterfaces;
-using LibraryAccounting.Infrastructure.Tools;
-using Microsoft.EntityFrameworkCore;
-using Quartz;
-using System.Linq;
+﻿using Quartz;
 using System.Threading.Tasks;
+using MediatR;
+using System;
+using LibraryAccounting.CQRSInfrastructure.Methods.BookingMethods;
 
 namespace LibraryAccounting.Timer
 {
     public class DeletingOverdueBookings : IJob
     {
-        readonly private IClientTools _clientTools;
-        public DeletingOverdueBookings(IClientTools clientTools)
+        private readonly IMediator _mediator;
+
+        public DeletingOverdueBookings(IMediator mediator)
         {
-            _clientTools = clientTools;
+            _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }
         public async Task Execute(IJobExecutionContext context)
         {
-            await Task.Run(() => Search());
-        }
-
-        void Search()
-        {
-            var booksId = new ExpiredBooksIdHandler(BookingDeleteShedule.Days).Handle(_clientTools.GetAllBookings()).Select(b => b.Id);
-            foreach (int id in booksId)
-            {
-                _clientTools.RemoveReservation(id);
-            }
+            await _mediator.Send(new DeletingExpiredBooksCommand());
         }
     }
 }
