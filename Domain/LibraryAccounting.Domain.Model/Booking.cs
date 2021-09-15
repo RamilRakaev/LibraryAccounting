@@ -18,6 +18,10 @@ namespace LibraryAccounting.Domain.Model
         public DateTime BookingDate { get; set; }
         public DateTime? TransferDate { get; set; }
         public DateTime? ReturnDate { get; set; }
+        [ForeignKey("BookId")]
+        public Book Book { get; set; }
+        [ForeignKey("ClientId")]
+        public ApplicationUser Client { get; set; }
 
         public Booking()
         {
@@ -29,11 +33,6 @@ namespace LibraryAccounting.Domain.Model
             BookingDate = DateTime.Now;
             BookId = bookId;
             ClientId = userId;
-        }
-
-        public bool Accept(IVisitor<Booking> visitor)
-        {
-            return visitor.Visit(this);
         }
     }
 }

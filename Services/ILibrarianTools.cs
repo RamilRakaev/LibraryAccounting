@@ -16,8 +16,6 @@ namespace LibraryAccounting.Services.ToolInterfaces
         #region reception and delivery of books
         void AddReservation(Booking booking);
 
-        void EditBooking(IVisitor<Booking> visitor, IReturningResultHandler<Booking, Booking> resultHandler);
-
         Booking GetBooking(IReturningResultHandler<Booking, Booking> requestsHandler);
 
         IEnumerable<Booking> GetBookings(IRequestsHandlerComponent<Booking> requestsHandler);
@@ -43,12 +41,6 @@ namespace LibraryAccounting.Services.ToolInterfaces
         IEnumerable<Book> GetBooks(IRequestsHandlerComponent<Book> handlerComponent);
 
         IEnumerable<Book> GetAllBooks();
-        #endregion
-
-        #region edit books
-        void EditBook(IVisitor<Book> visitor, int id);
-
-        void EditBooks(IVisitor<Book> visitor, IRequestsHandlerComponent<Book> handlerComponent = null);
         #endregion
     }
 }

@@ -9,13 +9,6 @@ namespace LibraryAccounting.Domain.Model
         public string Author { get; set; }
         public string Genre { get; set; }
         public string Publisher { get; set; }
-
-        public bool Accept(IVisitor<Book> visitor)
-        {
-            if (visitor.GetType() == typeof(IVisitor<Book>))
-                return visitor.Visit(this);
-            else
-                return false;
-        }
+        public Booking Booking { get; set; }
     }
 }

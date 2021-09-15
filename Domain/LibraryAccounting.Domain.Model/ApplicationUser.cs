@@ -9,6 +9,7 @@ namespace LibraryAccounting.Domain.Model
     {
         public int RoleId { get; set; }
         public ApplicationUserRole Role { get; set; }
+        public Booking Booking { get; set; }
         public string Password { get; set; }
 
         public ApplicationUser()

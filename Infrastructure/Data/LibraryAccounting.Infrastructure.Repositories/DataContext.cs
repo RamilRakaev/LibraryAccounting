@@ -32,45 +32,12 @@ namespace LibraryAccounting.Infrastructure.Repositories
                 new ApplicationUser(){ Id = 4, UserName = "Vanya", Email = "Vanek@gmail.com", Password = "Dgf34eR34r34r4", RoleId = 1},
                 new ApplicationUser(){ Id = 5, UserName = "Dmitry", Email = "DemRh@gmail.com", Password = "DE32f34r", RoleId = 1},
             });
-            mb.Entity<Book>().HasData(new Book[]
-            {
-            new Book() { Id = 1, Title = "Подсознание может все!", Author = "Кехо Джон", Genre = "Психология", Publisher = "Попурри" },
-                new Book() { Id = 2, Title = "История", Author = "Некто", Genre = "Наука", Publisher = "Москва" },
-                new Book() { Id = 3, Title = "Биология", Author = "Некто", Genre = "Наука", Publisher = "Москва" },
-                new Book() { Id = 4, Title = "Химия", Author = "Некто", Genre = "Наука", Publisher = "Питер" },
-                new Book()
-                {
-                    Id = 5,
-                    Title = "Семь навыков высокоэффективных людей.",
-                    Author = "Стивен Кови",
-                    Genre = "Книги по личностному росту от Стивена Кови",
-                    Publisher = "Альпина Паблишер"
-                },
-                new Book()
-                {
-                    Id = 6,
-                    Title = "Семьдесят богатырей",
-                    Author = "А. Ивич; Рис. Э. Беньяминсона, Б. Кыштымова",
-                    Genre = "Детская литература",
-                    Publisher = "Москва"
-                },
-                new Book()
-                {
-                    Id = 7,
-                    Title = "Периодическая система химических элементов",
-                    Author = "Д.И. Менделеев",
-                    Genre = "Наука",
-                    Publisher = "АСТ"
-                },
-            });
-            mb.Entity<Booking>().HasData(new Booking[]
-            {
-                new Booking() { Id = 1, BookId = 3, ClientId = 3, BookingDate = DateTime.Now, IsTransmitted = false, IsReturned = false}
-            });
+
             mb.Ignore<IdentityUserLogin<string>>();
             mb.Ignore<IdentityUserClaim<string>>();
             mb.Ignore<IdentityUserToken<string>>();
 
+            mb.ApplyConfiguration(new BookingConfiguration());
             base.OnModelCreating(mb);
         }
     }

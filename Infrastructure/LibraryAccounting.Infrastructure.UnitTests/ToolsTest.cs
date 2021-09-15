@@ -60,13 +60,6 @@ namespace LibraryAccounting.Infrastructure.UnitTests
             _bookingRepository.AddAsync(booking);
             _bookingRepository.SaveAsync();
 
-
-            _librarianTools.EditBooking(new GiveBookToClientVisitor(), new BookingByBookIdHandler(book.Id));
-            Assert.IsNotNull(_librarianTools.GetBooking(new BookingByBookIdHandler(book.Id)));
-
-            _librarianTools.EditBooking(new GetBookFromClientVisitor(), new BookingByBookIdHandler(book.Id));
-            Assert.IsNull(_librarianTools.GetBooking(new BookingByBookIdHandler(book.Id)));
-
             _librarianTools.RemoveBook(book);
             Assert.AreEqual(_librarianTools.GetAllBooks().Count(), count);
 
