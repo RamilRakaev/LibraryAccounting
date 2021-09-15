@@ -33,16 +33,6 @@ namespace LibraryAccounting.Infrastructure.Tools
         #endregion
 
         #region users
-        public void EditUser(IVisitor<ApplicationUser> visitor, int id)
-        {
-            var user = GetUser(id);
-            if (user != null)
-            {
-                if (user.Accept(visitor) == false)
-                    throw new Exception("error when editing");
-            }
-        }
-
         public ApplicationUser GetUser(int id)
         {
             return _userRepository.Users.FirstOrDefault(u => u.Id == id);

@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using System;
 using System.IO;
 using System.Threading;
@@ -11,15 +12,19 @@ namespace LibraryAccounting.Infrastructure.Repositories
     public class MigrationManager : IHostedService, IDisposable
     {
         private readonly IHost _host;
+        private readonly ILogger<MigrationManager> _logger;
         private Timer _timer;
 
-        public MigrationManager(IHost host)
+        public MigrationManager(IHost host,
+            ILogger<MigrationManager> logger)
         {
             _host = host;
+            _logger = logger;
         }
 
         private void MigrateDatabase(object state)
         {
+            _logger.LogInformation($"Start timer of MigragionManager: {DateTime.Now:T}");
             using var scope = _host.Services.CreateScope();
             using var appContext = scope.ServiceProvider.GetRequiredService<DataContext>();
             try

@@ -13,7 +13,6 @@ namespace LibraryAccounting.Services.ToolInterfaces
         #endregion
 
         #region get users
-        void EditUser(IVisitor<ApplicationUser> visitor, int id);
         public ApplicationUser GetUser(int id);
         ApplicationUser GetUser(IReturningResultHandler<ApplicationUser, ApplicationUser> resultHandler);
         IEnumerable<ApplicationUser> GetUsers(IRequestsHandlerComponent<ApplicationUser> handlerComponent);

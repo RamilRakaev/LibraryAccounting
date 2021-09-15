@@ -27,8 +27,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibraryAccounting.Infrastru
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibraryAccounting.Infrastructure.Handlers", "Infrastructure\Methods\LibraryAccounting.Infrastructure.Handlers\LibraryAccounting.Infrastructure.Handlers.csproj", "{3E6324C8-B1B2-460F-9A80-EB2CAA9DFF94}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibraryAccounting.Infrastructure.Visitors", "Infrastructure\Methods\LibraryAccounting.Infrastructure.Visitors\LibraryAccounting.Infrastructure.Visitors.csproj", "{CED5924C-4B45-4DD7-A7DF-A6E45508E899}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibraryAccounting.Infrastructure.UnitTests", "Infrastructure\LibraryAccounting.Infrastructure.UnitTests\LibraryAccounting.Infrastructure.UnitTests.csproj", "{0E56F217-CDCD-46D5-B851-201CDCF2A1C2}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibraryAccounting.Services.ToolInterfaces", "Services\LibraryAccounting.Services.ToolInterfaces.csproj", "{0A42CE8A-B7BD-4492-95C8-17AFAD704D81}"
@@ -75,10 +73,6 @@ Global
 		{3E6324C8-B1B2-460F-9A80-EB2CAA9DFF94}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3E6324C8-B1B2-460F-9A80-EB2CAA9DFF94}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3E6324C8-B1B2-460F-9A80-EB2CAA9DFF94}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CED5924C-4B45-4DD7-A7DF-A6E45508E899}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CED5924C-4B45-4DD7-A7DF-A6E45508E899}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CED5924C-4B45-4DD7-A7DF-A6E45508E899}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CED5924C-4B45-4DD7-A7DF-A6E45508E899}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0E56F217-CDCD-46D5-B851-201CDCF2A1C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0E56F217-CDCD-46D5-B851-201CDCF2A1C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0E56F217-CDCD-46D5-B851-201CDCF2A1C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -112,7 +106,6 @@ Global
 		{FAEF689A-46A3-4F68-B7DE-610AF2B4A2E1} = {9E477758-1345-45EA-AFFA-0E5946A2E65C}
 		{5CBE4E58-6F72-48F8-9885-E2B2C733A54C} = {9E477758-1345-45EA-AFFA-0E5946A2E65C}
 		{3E6324C8-B1B2-460F-9A80-EB2CAA9DFF94} = {433A525E-7E87-4209-AD17-EB94E4260A46}
-		{CED5924C-4B45-4DD7-A7DF-A6E45508E899} = {433A525E-7E87-4209-AD17-EB94E4260A46}
 		{0E56F217-CDCD-46D5-B851-201CDCF2A1C2} = {80CD6BAF-2A6E-4A15-9D19-C89CC3A8B1B1}
 		{0A42CE8A-B7BD-4492-95C8-17AFAD704D81} = {2F80554F-246D-4DDD-AF39-3D033405AF48}
 		{D2B779D0-3B24-41AC-B072-F21DE7267DC4} = {80CD6BAF-2A6E-4A15-9D19-C89CC3A8B1B1}

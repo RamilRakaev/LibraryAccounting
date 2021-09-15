@@ -31,10 +31,5 @@ namespace LibraryAccounting.Domain.Model
             Password = password;
             RoleId = roleId;
         }
-
-        public bool Accept(IVisitor<ApplicationUser> visitor)
-        {
-            return visitor.Visit(this);
-        }
     }
 }

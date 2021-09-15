@@ -1,5 +1,4 @@
 ﻿using LibraryAccounting.Infrastructure.Handlers;
-using LibraryAccounting.Infrastructure.Visitors;
 using LibraryAccounting.Domain.Interfaces.DataManagement;
 using LibraryAccounting.Domain.Interfaces.PocessingRequests;
 using LibraryAccounting.Domain.Model;
@@ -39,7 +38,6 @@ namespace LibraryAccounting.Infrastructure.UnitTests
         [TestMethod]
         public void LibrarianToolsTest()
         {
-
             int count = _librarianTools.GetAllBooks().Count();
             _librarianTools.AddBook(new Book() { Title = "book1", Author = "author1", Genre = "genre2", Publisher = "publisher1" });
             Assert.AreEqual(_librarianTools.GetAllBooks().Count(), count + 1);
@@ -79,9 +77,6 @@ namespace LibraryAccounting.Infrastructure.UnitTests
 
             user = _adminTools.GetUser(new UserByEmailHandler("email@gmail.com"));
             Assert.AreEqual(user.UserName, "Name1");
-
-            _adminTools.EditUser(new ChangePasswordVisitor("newPassword1"), user.Id);
-            Assert.AreEqual(_adminTools.GetUser(user.Id).Password, "newPassword1");
 
             _adminTools.RemoveUser(user);
             Assert.AreEqual(_adminTools.GetAllUsers().Count(), count);
