@@ -1,10 +1,8 @@
-﻿using System;
-using LibraryAccounting.Domain.Model;
+﻿using LibraryAccounting.Domain.Model;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore.Design;
-using System.Configuration;
+using LibraryAccounting.Infrastructure.Repositories.Configuration;
 
 namespace LibraryAccounting.Infrastructure.Repositories
 {
@@ -12,6 +10,8 @@ namespace LibraryAccounting.Infrastructure.Repositories
     {
         public DbSet<Book> Books { get; set; }
         public DbSet<Booking> Bookings { get; set; }
+        public DbSet<Author> Authors { get; set; }
+        public DbSet<Genre> Genres { get; set; }
 
         public DataContext(DbContextOptions options) : base(options)
         { }
@@ -38,6 +38,8 @@ namespace LibraryAccounting.Infrastructure.Repositories
             mb.Ignore<IdentityUserToken<string>>();
 
             mb.ApplyConfiguration(new BookingConfiguration());
+            mb.ApplyConfiguration(new BookConfiguration());
+            mb.ApplyConfiguration(new GenreConfiguration());
             base.OnModelCreating(mb);
         }
     }
