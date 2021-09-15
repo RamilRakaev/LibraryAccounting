@@ -16,15 +16,5 @@ namespace LibraryAccounting.Domain.Interfaces.DataManagement
         }
 
         public Task SaveAsync();
-
-        //public Task AddAsync(Element element)
-        //{
-        //    throw new Exception("Method is not overridden in child class");
-        //}
-
-        //public Task SaveAsync()
-        //{
-        //    throw new Exception("Method is not overridden in child class");
-        //}
     }
 }
