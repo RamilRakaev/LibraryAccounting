@@ -4,27 +4,27 @@ using System.Threading.Tasks;
 
 namespace LibraryAccounting.Domain.Interfaces.DataManagement
 {
-    
-    public interface IRepository<Element> : IStorageRequests<Element>
+    public interface IRepository<Element> : IStorageRequests<Element> where Element : IElement<Element>
     {
-        public void Add(Element element);
+        public Task AddAsync(Element element);
 
-        public void Remove(Element element);
+        public Task RemoveAsync(Element element);
 
-        public void RemoveRange(IEnumerable<Element> elements) 
+        public Task RemoveRangeAsync(IEnumerable<Element> elements)
         {
             throw new Exception("Method is not overridden in child class");
         }
 
-        public void Save();
+        public Task SaveAsync();
 
-        public Task AddAsync(Element element)
-        {
-            throw new Exception();
-        }
-        public Task SaveAsync()
-        {
-            throw new Exception();
-        }
+        //public Task AddAsync(Element element)
+        //{
+        //    throw new Exception("Method is not overridden in child class");
+        //}
+
+        //public Task SaveAsync()
+        //{
+        //    throw new Exception("Method is not overridden in child class");
+        //}
     }
 }

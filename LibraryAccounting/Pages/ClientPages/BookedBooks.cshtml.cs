@@ -13,7 +13,7 @@ namespace LibraryAccounting.Pages.ClientPages
     public class BookedBooksModel : PageModel
     {
         private readonly IMediator _mediator;
-        public Dictionary<Booking, Book> armoredBooks { get; private set; }
+        public Dictionary<Booking, Book> ArmoredBooks { get; private set; }
         private readonly UserProperties _userProperties;
         private readonly ILogger<BookedBooksModel> _logger;
 
@@ -21,7 +21,7 @@ namespace LibraryAccounting.Pages.ClientPages
             IMediator mediator,
             ILogger<BookedBooksModel> logger)
         {
-            armoredBooks = new Dictionary<Booking, Book>();
+            ArmoredBooks = new Dictionary<Booking, Book>();
             _userProperties = userProperties;
             _mediator = mediator;
             _logger = logger;
@@ -34,14 +34,14 @@ namespace LibraryAccounting.Pages.ClientPages
         public async Task OnGet()
         {
             _logger.LogInformation($"BookedBooks page is visited: {DateTime.Now:T}");
-               armoredBooks = await _mediator.Send(new GetArmoredBooksQuery() { CliendId = _userProperties.UserId });
+               ArmoredBooks = await _mediator.Send(new GetArmoredBooksQuery() { CliendId = _userProperties.UserId });
         }
 
         public async Task OnPost(int idBooking)
         {
             await _mediator.Send(new RemoveBookingCommand(idBooking));
             _logger.LogDebug($"Booking {idBooking} is removed: {DateTime.Now:T}");
-            armoredBooks = await _mediator.Send(new GetArmoredBooksQuery() { CliendId = _userProperties.UserId });
+            ArmoredBooks = await _mediator.Send(new GetArmoredBooksQuery() { CliendId = _userProperties.UserId });
         }
     }
 }

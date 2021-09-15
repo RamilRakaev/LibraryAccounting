@@ -16,55 +16,35 @@ namespace LibraryAccounting.Infrastructure.Repositories
             db = context;
         }
 
-        public IEnumerable<Booking> GetAll()
+        public IQueryable<Booking> GetAll()
         {
-            return db.Bookings.AsEnumerable();
-        }
-
-        public IQueryable<Booking> GetAllAsQueryable()
-        {
-            return db.Bookings.AsQueryable();
+            return db.Set<Booking>().AsQueryable();
         }
 
         public IQueryable<Booking> GetAllAsNoTracking()
         {
-            return db.Bookings.AsNoTracking();
-        }
-
-        public Booking Find(int id)
-        {
-            return db.Bookings.Find(id);
-        }
-
-        public void Add(Booking element)
-        {
-            db.Bookings.Add(element);
-        }
-
-        public void Remove(Booking element)
-        {
-            if (db.Bookings.Contains(element))
-                db.Bookings.Remove(element);
-        }
-
-        public void RemoveRange(IEnumerable<Booking> elements)
-        {
-            db.Bookings.RemoveRange(elements);
-        }
-
-        public void Save()
-        {
-            db.SaveChanges();
+            return db.Set<Booking>().AsNoTracking();
         }
 
         public async Task<Booking> FindAsync(int id)
         {
-            return await db.Bookings.FindAsync(id);
+            return await db.Set<Booking>().FindAsync(id);
         }
 
         public async Task AddAsync(Booking element)
         {
-            await db.Bookings.AddAsync(element);
+            await db.Set<Booking>().AddAsync(element);
+        }
+
+        public async Task RemoveAsync(Booking element)
+        {
+            if (db.Set<Booking>().Contains(element))
+                await Task.Run(() => db.Set<Booking>().Remove(element));
+        }
+
+        public async Task RemoveRangeAsync(IEnumerable<Booking> elements)
+        {
+            await Task.Run(() => db.Set<Booking>().RemoveRange(elements));
         }
 
         public async Task SaveAsync()

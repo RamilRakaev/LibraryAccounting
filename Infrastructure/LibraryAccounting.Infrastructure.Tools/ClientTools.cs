@@ -21,7 +21,7 @@ namespace LibraryAccounting.Infrastructure.Tools
         #region books requests
         public Book GetBook(int id)
         {
-            return _bookRepository.Find(id);
+            return _bookRepository.FindAsync(id).Result;
         }
 
         public Book GetBook(IReturningResultHandler<Book, Book> resultHandler)
@@ -45,14 +45,14 @@ namespace LibraryAccounting.Infrastructure.Tools
         #region reservation book
         public void AddReservation(Booking booking)
         {
-            _bookingRepository.Add(booking);
-            _bookingRepository.Save();
+            _bookingRepository.AddAsync(booking);
+            _bookingRepository.SaveAsync();
         }
 
         public void RemoveReservation(int id)
         {
-            _bookingRepository.Remove(_bookingRepository.Find(id));
-            _bookingRepository.Save();
+            _bookingRepository.RemoveAsync(_bookingRepository.FindAsync(id).Result);
+            _bookingRepository.SaveAsync();
         }
         #endregion
 

@@ -57,8 +57,8 @@ namespace LibraryAccounting.Infrastructure.UnitTests
             _userManager.CreateAsync(new ApplicationUser("name1", "email1@gmail.com", "password1", 1));
             var user = _userManager.Users.First(u => u.UserName == "name1");
             var booking = new Booking(book.Id, user.Id);
-            _bookingRepository.Add(booking);
-            _bookingRepository.Save();
+            _bookingRepository.AddAsync(booking);
+            _bookingRepository.SaveAsync();
 
 
             _librarianTools.EditBooking(new GiveBookToClientVisitor(), new BookingByBookIdHandler(book.Id));
@@ -71,8 +71,8 @@ namespace LibraryAccounting.Infrastructure.UnitTests
             Assert.AreEqual(_librarianTools.GetAllBooks().Count(), count);
 
             _userManager.DeleteAsync(user);
-            _bookingRepository.Remove(booking);
-            _bookingRepository.Save();
+            _bookingRepository.RemoveAsync(booking);
+            _bookingRepository.SaveAsync();
         }
 
         [TestMethod]

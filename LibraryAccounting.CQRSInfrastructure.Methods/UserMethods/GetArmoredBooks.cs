@@ -29,8 +29,8 @@ namespace LibraryAccounting.CQRSInfrastructure.Methods.UserMethods
         public async Task<Dictionary<Booking, Book>> Handle(GetArmoredBooksQuery request, CancellationToken cancellationToken)
         {
             var value = await Task.Run(() =>
-            _bookRepository.GetAllAsQueryable()
-                .Join(_bookingRepository.GetAllAsQueryable()
+            _bookRepository.GetAll()
+                .Join(_bookingRepository.GetAll()
                 .Where(b => b.ClientId == request.CliendId),
                 book => book.Id,
                 booking => booking.BookId,

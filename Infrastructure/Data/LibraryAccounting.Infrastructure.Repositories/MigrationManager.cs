@@ -20,19 +20,17 @@ namespace LibraryAccounting.Infrastructure.Repositories
 
         private void MigrateDatabase(object state)
         {
-            using (var scope = _host.Services.CreateScope())
+            using var scope = _host.Services.CreateScope();
+            using var appContext = scope.ServiceProvider.GetRequiredService<DataContext>();
+            try
             {
-                using var appContext = scope.ServiceProvider.GetRequiredService<DataContext>();
-                try
-                {
-                    appContext.Database.Migrate();
-                }
-                catch (Exception ex)
-                {
-                    string path = Environment.CurrentDirectory + "/error log.txt";
-                    File.AppendAllText(path, $"Message: {ex.Message} StackTrace: {ex.StackTrace}\n");
-                    throw;
-                }
+                appContext.Database.Migrate();
+            }
+            catch (Exception ex)
+            {
+                string path = Environment.CurrentDirectory + "/error log.txt";
+                File.AppendAllText(path, $"Message: {ex.Message} StackTrace: {ex.StackTrace}\n");
+                throw;
             }
         }
 

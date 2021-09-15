@@ -17,50 +17,35 @@ namespace LibraryAccounting.Infrastructure.Repositories
             db = context;
         }
 
-        public IEnumerable<Book> GetAll()
+        public IQueryable<Book> GetAll()
         {
-            return db.Books.AsEnumerable();
-        }
-
-        public IQueryable<Book> GetAllAsQueryable()
-        {
-            return db.Books.AsQueryable();
+            return db.Set<Book>().AsQueryable();
         }
 
         public IQueryable<Book> GetAllAsNoTracking()
         {
-            return db.Books.AsNoTracking();
-        }
-
-        public Book Find(int id)
-        {
-            return db.Books.Find(id);
-        }
-
-        public void Add(Book element)
-        {
-            db.Books.Add(element);
-        }
-
-        public void Remove(Book element)
-        {
-            if (db.Books.Contains(element))
-                db.Books.Remove(element);
-        }
-
-        public void Save()
-        {
-            db.SaveChanges();
+            return db.Set<Book>().AsNoTracking();
         }
 
         public async Task<Book> FindAsync(int id)
         {
-            return await db.Books.FindAsync(id);
+            return await db.Set<Book>().FindAsync(id);
         }
 
         public async Task AddAsync(Book element)
         {
-            await db.Books.AddAsync(element);
+            await db.Set<Book>().AddAsync(element);
+        }
+
+        public async Task RemoveAsync(Book element)
+        {
+            if (db.Set<Book>().Contains(element))
+                await Task.Run(() => db.Set<Book>().Remove(element));
+        }
+
+        public async Task RemoveRangeAsync(IEnumerable<Book> elements)
+        {
+            await Task.Run(() => db.Set<Book>().RemoveRange(elements));
         }
 
         public async Task SaveAsync()

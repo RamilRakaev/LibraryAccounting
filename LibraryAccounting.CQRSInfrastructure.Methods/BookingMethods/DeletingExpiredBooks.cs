@@ -25,9 +25,9 @@ namespace LibraryAccounting.CQRSInfrastructure.Methods.BookingMethods
 
         public async Task<IEnumerable<Booking>> Handle(DeletingExpiredBooksCommand request, CancellationToken cancellationToken)
         {
-            var bookings = await Task.Run(() => _bookings.GetAllAsQueryable().
+            var bookings = await Task.Run(() => _bookings.GetAll().
                Where(b => (DateTime.Now - b.BookingDate).Days > request.MaxBookingPeriod));
-            _bookings.RemoveRange(bookings);
+            await _bookings.RemoveRangeAsync(bookings);
             await _bookings.SaveAsync();
             return bookings;
         }

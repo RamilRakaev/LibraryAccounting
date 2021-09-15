@@ -26,14 +26,14 @@ namespace LibraryAccounting.Infrastructure.Tools
         #region add and remove
         public void AddBook(Book book)
         {
-            _bookRepository.Add(book);
-            _bookRepository.Save();
+            _bookRepository.AddAsync(book);
+            _bookRepository.SaveAsync();
         }
 
         public void RemoveBook(Book book)
         {
-            _bookRepository.Remove(book);
-            _bookRepository.Save();
+            _bookRepository.RemoveAsync(book);
+            _bookRepository.SaveAsync();
         }
         #endregion
 
@@ -41,7 +41,7 @@ namespace LibraryAccounting.Infrastructure.Tools
         public void EditBooking(IVisitor<Booking> visitor, IReturningResultHandler<Booking, Booking> resultHandler)
         {
             resultHandler.Handle(_bookingRepository.GetAll()).Accept(visitor);
-            _bookingRepository.Save();
+            _bookingRepository.SaveAsync();
         }
 
         public Booking GetBooking(IReturningResultHandler<Booking, Booking> requestsHandler)
@@ -78,7 +78,7 @@ namespace LibraryAccounting.Infrastructure.Tools
         #region edit books
         public void EditBook(IVisitor<Book> visitor, int id)
         {
-            if (_bookRepository.Find(id).Accept(visitor) == false)
+            if (_bookRepository.FindAsync(id).Result.Accept(visitor) == false)
             {
                 throw new Exception("Error when editing book");
             }

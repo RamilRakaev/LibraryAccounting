@@ -32,7 +32,7 @@
         @foreach (var book in Model.Books)
         {
             <div class="col-lg-2 col-md-2 col-12 m-3">
-                <a asp-page="ConcreteBook" asp-route-id="@book.Key.Id" asp-route-isBooking="@book.Value">
+                <a asp-page="ConcreteBook" asp-route-bookId="@book.Key.Id" asp-route-isBooking="@book.Value">
                     <img class="img-fluid" src="~/img/@(book.Key.Title).jpg" />
                     <p class="title-book">@book.Key.Title</p>
                     <p class="author-book">@book.Key.Author</p>

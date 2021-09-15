@@ -2,6 +2,7 @@
 using LibraryAccounting.Domain.Interfaces.PocessingRequests;
 using LibraryAccounting.Domain.Model;
 using LibraryAccounting.Services.ToolInterfaces;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,10 +11,10 @@ namespace LibraryAccounting.Infrastructure.Tools
 {
     public class AdminTools : IAdminTools
     {
-        readonly private IRepository<ApplicationUser> _userRepository;
+        readonly private UserManager<ApplicationUser> _userRepository;
         readonly private IStorageRequests<ApplicationUserRole> _roleRepository;
 
-        public AdminTools(IRepository<ApplicationUser> userRepository, IStorageRequests<ApplicationUserRole> roleRepository)
+        public AdminTools(UserManager<ApplicationUser> userRepository, IStorageRequests<ApplicationUserRole> roleRepository)
         {
             _userRepository = userRepository;
             _roleRepository = roleRepository;
@@ -22,22 +23,20 @@ namespace LibraryAccounting.Infrastructure.Tools
         #region add and remove
         public void AddUser(ApplicationUser user)
         {
-            _userRepository.Add(user);
-            _userRepository.Save();
+            _userRepository.CreateAsync(user);
         }
 
         public void RemoveUser(ApplicationUser user)
         {
-            _userRepository.Remove(user);
-            _userRepository.Save();
+            _userRepository.DeleteAsync(user);
         }
         #endregion
 
         #region users
         public void EditUser(IVisitor<ApplicationUser> visitor, int id)
         {
-            var user = _userRepository.Find(id);
-            if(user != null)
+            var user = GetUser(id);
+            if (user != null)
             {
                 if (user.Accept(visitor) == false)
                     throw new Exception("error when editing");
@@ -46,24 +45,24 @@ namespace LibraryAccounting.Infrastructure.Tools
 
         public ApplicationUser GetUser(int id)
         {
-            return _userRepository.Find(id);
+            return _userRepository.Users.FirstOrDefault(u => u.Id == id);
         }
 
         public ApplicationUser GetUser(IReturningResultHandler<ApplicationUser, ApplicationUser> resultHandler)
         {
-            return resultHandler.Handle(_userRepository.GetAll().ToList());
+            return resultHandler.Handle(_userRepository.Users.ToList());
         }
 
         public IEnumerable<ApplicationUser> GetUsers(IRequestsHandlerComponent<ApplicationUser> handlerComponent)
         {
-            var elements = _userRepository.GetAll().ToList();
+            var elements = _userRepository.Users.ToList();
             handlerComponent.Handle(ref elements);
             return elements;
         }
 
         public IEnumerable<ApplicationUser> GetAllUsers()
         {
-            return _userRepository.GetAll();
+            return _userRepository.Users;
         }
 
         public IEnumerable<ApplicationUserRole> GetRoles()

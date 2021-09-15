@@ -15,8 +15,10 @@ namespace LibraryAccounting.Infrastructure.Handlers
 
         public DecoratorHandler(IRequestsHandlerComponent<Element> handler)
         {
-            handlerComponents = new List<IRequestsHandlerComponent<Element>>();
-            handlerComponents.Add(handler);
+            handlerComponents = new List<IRequestsHandlerComponent<Element>>
+            {
+                handler
+            };
         }
 
         public DecoratorHandler(List<IRequestsHandlerComponent<Element>> requestsHandlers)

@@ -30,9 +30,9 @@ namespace LibraryAccounting.CQRSInfrastructure.Methods.BookingMethods
         public async Task<Booking> Handle(RemoveBookingCommand request, CancellationToken cancellationToken)
         {
             var booking = await Task.Run(() =>
-            _repository.GetAllAsQueryable()
+            _repository.GetAll()
                 .FirstOrDefault(b => b.Id == request.Id));
-            _repository.Remove(booking);
+            await _repository.RemoveAsync(booking);
             return booking;
         }
     }

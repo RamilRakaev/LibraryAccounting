@@ -12,9 +12,9 @@ namespace LibraryAccounting.Pages.Account
         public static async Task SendMessage(this PageModel page, ApplicationUser user, UserManager<ApplicationUser> userManager)
         {
             var code = await userManager.GenerateEmailConfirmationTokenAsync(user);
-            var callbackUrl = page.Url.Page(pageName: "/Account/ConfirmEmail", pageHandler: "", values: new { userEmail = user.Email, code = code },
+            var callbackUrl = page.Url.Page(pageName: "/Account/ConfirmEmail", pageHandler: "", values: new { userEmail = user.Email, code },
                 protocol: page.HttpContext.Request.Scheme);
-            MessageSending emailService = new MessageSending();
+            MessageSending emailService = new();
             await emailService.SendEmailAsync(user.Email, "Confirm your account",
                 $"Подтвердите регистрацию, перейдя по ссылке: <a href='{callbackUrl}'>link</a>");
         }
