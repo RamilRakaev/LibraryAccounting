@@ -11,6 +11,16 @@ namespace LibraryAccounting.CQRSInfrastructure.Methods.BookMethods
     {
         public int Id { get; set; }
         public string Title { get; set; }
+
+        public GetBookCommand(int id)
+        {
+            Id = id;
+        }
+
+        public GetBookCommand(string title)
+        {
+            Title = title;
+        }
     }
 
     public class GetBookHandler : BookHandler, IRequestHandler<GetBookCommand, Book>

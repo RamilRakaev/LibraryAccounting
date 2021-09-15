@@ -3,14 +3,24 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.IO;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace LibraryAccounting.Infrastructure.Repositories
 {
-    public static class MigrationManager
+    public class MigrationManager : IHostedService, IDisposable
     {
-        public static IHost MigrateDatabase(this IHost host)
+        private readonly IHost _host;
+        private Timer _timer;
+
+        public MigrationManager(IHost host)
         {
-            using (var scope = host.Services.CreateScope())
+            _host = host;
+        }
+
+        private void MigrateDatabase(object state)
+        {
+            using (var scope = _host.Services.CreateScope())
             {
                 using var appContext = scope.ServiceProvider.GetRequiredService<DataContext>();
                 try
@@ -24,8 +34,23 @@ namespace LibraryAccounting.Infrastructure.Repositories
                     throw;
                 }
             }
+        }
 
-            return host;
+        public Task StartAsync(CancellationToken cancellationToken)
+        {
+            _timer = new Timer(MigrateDatabase, null, TimeSpan.Zero, TimeSpan.FromHours(5));
+            return Task.CompletedTask;
+        }
+
+        public Task StopAsync(CancellationToken cancellationToken)
+        {
+            _timer?.Change(Timeout.Infinite, 0);
+            return Task.CompletedTask;
+        }
+
+        public void Dispose()
+        {
+            _timer?.Dispose();
         }
     }
 }

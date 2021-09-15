@@ -17,7 +17,7 @@ namespace LibraryAccounting
     {
         public static void Main(string[] args)
         {
-            CreateHostBuilder(args).Build().MigrateDatabase().Run();
+            CreateHostBuilder(args).Build().Run();
             BookingDeleteShedule.Start();
         }
 

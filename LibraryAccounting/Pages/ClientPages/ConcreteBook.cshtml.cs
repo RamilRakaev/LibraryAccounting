@@ -1,12 +1,9 @@
-using System;
-using System.Linq;
 using System.Threading.Tasks;
 using LibraryAccounting.CQRSInfrastructure.Methods.BookingMethods;
 using LibraryAccounting.CQRSInfrastructure.Methods.BookMethods;
 using LibraryAccounting.Domain.Model;
 using LibraryAccounting.Services.ToolInterfaces;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace LibraryAccounting.Pages.ClientPages
@@ -26,16 +23,17 @@ namespace LibraryAccounting.Pages.ClientPages
             UserProperties = userProperties;
         }
 
-        public async Task OnGet(int id, bool isBooking)
+        public async Task OnGet(int bookId, bool isBooking)
         {
-            Book = await Task.Run(() => ExtractBook(_clientTools, id));
+            Book = await Task.Run(() => ExtractBook(_clientTools, bookId));
+            Book = await _mediator.Send(new GetBookCommand(bookId));
             IsFree = isBooking;
         }
 
         public async Task OnPost(int userId, int bookId)
         {
             await _mediator.Send(new AddBookingCommand() { ClientId = userId, BookId = bookId });
-            Book = await _mediator.Send(new GetBookCommand() { Id = bookId });
+            Book = await _mediator.Send(new GetBookCommand(bookId) { Id = bookId });
             IsFree = false;
         }
 

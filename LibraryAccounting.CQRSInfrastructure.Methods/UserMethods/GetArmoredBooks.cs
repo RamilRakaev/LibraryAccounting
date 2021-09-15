@@ -1,21 +1,19 @@
 ﻿using LibraryAccounting.Domain.Interfaces.DataManagement;
 using LibraryAccounting.Domain.Model;
 using MediatR;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace LibraryAccounting.CQRSInfrastructure.Methods.UserMethods
 {
-    public class GetArmoredBooksCommand : IRequest<Dictionary<Booking, Book>>
+    public class GetArmoredBooksQuery : IRequest<Dictionary<Booking, Book>>
     {
         public int CliendId { get; set; }
     }
 
-    public class GetArmoredBooksHandler : IRequestHandler<GetArmoredBooksCommand, Dictionary<Booking, Book>>
+    public class GetArmoredBooksHandler : IRequestHandler<GetArmoredBooksQuery, Dictionary<Booking, Book>>
     {
         private readonly IRepository<Book> _bookRepository;
         private readonly IRepository<Booking> _bookingRepository;
@@ -28,7 +26,7 @@ namespace LibraryAccounting.CQRSInfrastructure.Methods.UserMethods
             dictionary = new Dictionary<Booking, Book>();
         }
 
-        public async Task<Dictionary<Booking, Book>> Handle(GetArmoredBooksCommand request, CancellationToken cancellationToken)
+        public async Task<Dictionary<Booking, Book>> Handle(GetArmoredBooksQuery request, CancellationToken cancellationToken)
         {
             var value = await Task.Run(() =>
             _bookRepository.GetAllAsQueryable()
