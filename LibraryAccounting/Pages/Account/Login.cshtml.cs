@@ -1,9 +1,11 @@
+using System;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using LibraryAccounting.Domain.Model;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Logging;
 
 namespace LibraryAccounting.Pages.Account
 {
@@ -11,18 +13,23 @@ namespace LibraryAccounting.Pages.Account
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly ILogger<LoginModel> _logger;
         public LoginViewModel Login { get; set; }
 
         public LoginModel(UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager)
+            SignInManager<ApplicationUser> signInManager,
+            ILogger<LoginModel> logger)
         {
             Login = new LoginViewModel() { ReturnUrl = null };
             _userManager = userManager;
             _signInManager = signInManager;
+            _logger = logger;
         }
 
         public void OnGet()
-        { }
+        {
+            _logger.LogInformation($"Login page visited: {DateTime.Now:T}");
+        }
 
         public async Task<IActionResult> OnPost(LoginViewModel login)
         {
@@ -39,6 +46,7 @@ namespace LibraryAccounting.Pages.Account
                             await _signInManager.SignInAsync(user, false);
                             await _userManager.AddClaimAsync(user, new Claim("roleId", user.RoleId.ToString()));
                             await _userManager.UpdateAsync(user);
+                            _logger.LogInformation($"Succeeded login: {DateTime.Now:T}");
                             switch (user.RoleId)
                             {
                                 case 1:
@@ -60,6 +68,7 @@ namespace LibraryAccounting.Pages.Account
                 }
             }
             ModelState.AddModelError("", "Неправильный логин и (или) пароль");
+            _logger.LogWarning($"Incorrect username and (or) password: {DateTime.Now:T}");
             return Page();
         }
     }

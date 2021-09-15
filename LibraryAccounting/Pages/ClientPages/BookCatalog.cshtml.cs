@@ -7,19 +7,24 @@ using LibraryAccounting.Services.ToolInterfaces;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
+using System;
 
 namespace LibraryAccounting.Pages.ClientPages
 {
     public class BookCatalogModel : PageModel
     {
         private readonly IClientTools _clientTools;
+        private readonly ILogger<BookCatalogModel> _logger;
         public UserProperties UserProperties { get; private set; }
         public Dictionary<Book, bool> Books { get; private set; }
         public SelectList Authors { get; private set; }
         public SelectList Genres { get; private set; }
         public SelectList Publishers { get; private set; }
 
-        public BookCatalogModel(IClientTools clientTools, UserProperties userProperties)
+        public BookCatalogModel(IClientTools clientTools, 
+            UserProperties userProperties,
+            ILogger<BookCatalogModel> logger)
         {
             _clientTools = clientTools;
             UserProperties = userProperties;
@@ -31,15 +36,18 @@ namespace LibraryAccounting.Pages.ClientPages
 
             var publishers = _clientTools.GetAllBooks().Select(b => b.Publisher).Distinct();
             Publishers = new SelectList(publishers);
+            _logger = logger;
         }
 
         public async Task OnGet()
         {
+            _logger.LogInformation($"BookCatalog page visited: {DateTime.Now:T}");
             Books = await Task.Run(() => ExtractBooks(_clientTools));
         }
 
-        static Dictionary<Book, bool> ExtractBooks(IClientTools clientTools)
+        Dictionary<Book, bool> ExtractBooks(IClientTools clientTools)
         {
+            _logger.LogDebug($"Books are retrieved from the database: {DateTime.Now:T}");
             return new BookCatalogHandler().Handle(clientTools.GetAllBooks(), clientTools.GetAllBookings());
         }
 
@@ -54,6 +62,7 @@ namespace LibraryAccounting.Pages.ClientPages
 
             var books = _clientTools.GetBooks(decorator);
             Books = await Task.Run(() => ExtractBooks(_clientTools));
+            _logger.LogInformation($"Books sorted: {DateTime.Now:T}");
         }
     }
 }

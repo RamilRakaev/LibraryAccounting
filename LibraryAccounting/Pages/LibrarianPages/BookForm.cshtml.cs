@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Logging;
 
 namespace LibraryAccounting.Pages.LibrarianPages
 {
@@ -18,22 +19,30 @@ namespace LibraryAccounting.Pages.LibrarianPages
         readonly private ILibrarianTools _librarianTools;
         readonly private IWebHostEnvironment _environment;
         private readonly IMediator _mediator;
+        readonly private ILogger<BookCatalogModel> _logger;
         public Book Book { get; private set; }
 
-        public BookFormModel(ILibrarianTools librarianTools, IWebHostEnvironment environment, IMediator mediator)
+        public BookFormModel(ILibrarianTools librarianTools, 
+            IWebHostEnvironment environment, 
+            IMediator mediator,
+            ILogger<BookCatalogModel> logger)
         {
             _librarianTools = librarianTools;
             _environment = environment;
             Book = new Book();
             _mediator = mediator;
+            _logger = logger;
         }
 
         public void OnGet(int? id)
         {
+            _logger.LogInformation($"BookForm page visited: {DateTime.Now:T}");
             if (id != null)
             {
+                _logger.LogDebug($"id is not zero: {DateTime.Now:T}");
                 Book = _librarianTools.GetBook(Convert.ToInt32(id));
             }
+            _logger.LogDebug($"id is zero: {DateTime.Now:T}");
         }
 
         public async Task<IActionResult> OnPost(Book book, IFormFile cover)
@@ -49,9 +58,13 @@ namespace LibraryAccounting.Pages.LibrarianPages
                             await cover.CopyToAsync(fileStream);
                         }
                         await _mediator.Send(new AddBookCommand() { Book = book }, CancellationToken.None);
+                        _logger.LogInformation($"Added Book {book.Title}: {DateTime.Now:T}");
                     }
                     else
+                    {
                         await _mediator.Send(new ChangeAllBookPropertiesCommand() { Book = book }, CancellationToken.None);
+                        _logger.LogInformation($"Ñhanged all properties of the book {book.Title}: {DateTime.Now:T}");
+                    }
                     return RedirectToPage("/LibrarianPages/BookCatalog");
                 }
             return RedirectToPage("/LibrarianPages/BookForm");
