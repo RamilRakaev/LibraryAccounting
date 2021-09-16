@@ -7,30 +7,30 @@ namespace LibraryAccounting.Infrastructure.Handlers
 {
     public class BooksByAuthorHandler : IRequestsHandlerComponent<Book>
     {
-        readonly private string _author;
-        public BooksByAuthorHandler(string author)
+        readonly private Author _author;
+        public BooksByAuthorHandler(Author author)
         {
             _author = author;
         }
 
         public void Handle(ref List<Book> elements)
         {
-            if (_author != "emtpy")
+            if (_author != null)
                 elements = elements.Where(b => b.Author == _author).ToList();
         }
     }
 
     public class BooksByGenreHandler : IRequestsHandlerComponent<Book>
     {
-        readonly private string _genre;
-        public BooksByGenreHandler(string genre)
+        readonly private Genre _genre;
+        public BooksByGenreHandler(Genre genre)
         {
             _genre = genre;
         }
 
         public void Handle(ref List<Book> elements)
         {
-            if (_genre != "emtpy")
+            if (_genre != null)
                 elements = elements.Where(b => b.Genre == _genre).ToList();
         }
     }
@@ -53,7 +53,7 @@ namespace LibraryAccounting.Infrastructure.Handlers
     }
     public class BookByTitleHandler : IReturningResultHandler<Book, Book>
     {
-        private string _title;
+        private readonly string _title;
         public BookByTitleHandler(string title)
         {
             _title = title;

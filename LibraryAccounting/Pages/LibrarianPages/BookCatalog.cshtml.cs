@@ -67,7 +67,7 @@ namespace LibraryAccounting.Pages.LibrarianPages
             _logger.LogInformation($"Book {book.Title} is removed: {DateTime.Now:T}");
         }
 
-        public async Task OnPost(string author, string genre, string publisher)
+        public async Task OnPost(Author author, Genre genre, string publisher)
         {
             var decorator = new DecoratorHandler<Book>(
                 new List<IRequestsHandlerComponent<Book>>()

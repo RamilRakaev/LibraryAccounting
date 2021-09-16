@@ -38,48 +38,13 @@ namespace LibraryAccounting.Infrastructure.UnitTests
         [TestMethod]
         public void LibrarianToolsTest()
         {
-            int count = _librarianTools.GetAllBooks().Count();
-            _librarianTools.AddBook(new Book() { Title = "book1", Author = "author1", Genre = "genre2", Publisher = "publisher1" });
-            Assert.AreEqual(_librarianTools.GetAllBooks().Count(), count + 1);
-
-            var handlers = new List<IRequestsHandlerComponent<Book>>() {
-                new BooksByAuthorHandler("author1"),
-                new BooksByGenreHandler("genre2"),
-                new BooksByPublisherHandler("publisher1")
-            };
-
-            var decorator = new DecoratorHandler<Book>(handlers);
-            var book = _librarianTools.GetBooks(decorator).ElementAt(0);
-            Assert.IsNotNull(book);
-
-            _userManager.CreateAsync(new ApplicationUser("name1", "email1@gmail.com", "password1", 1));
-            var user = _userManager.Users.First(u => u.UserName == "name1");
-            var booking = new Booking(book.Id, user.Id);
-            _bookingRepository.AddAsync(booking);
-            _bookingRepository.SaveAsync();
-
-            _librarianTools.RemoveBook(book);
-            Assert.AreEqual(_librarianTools.GetAllBooks().Count(), count);
-
-            _userManager.DeleteAsync(user);
-            _bookingRepository.RemoveAsync(booking);
-            _bookingRepository.SaveAsync();
+           
         }
 
         [TestMethod]
         public void AdminToolsTest()
         {
-            ApplicationUser user = new ApplicationUser("Name1", "email@gmail.com", "password1", 1);
 
-            int count = _adminTools.GetAllUsers().Count();
-            _adminTools.AddUser(user);
-            Assert.AreEqual(_adminTools.GetAllUsers().Count(), count + 1);
-
-            user = _adminTools.GetUser(new UserByEmailHandler("email@gmail.com"));
-            Assert.AreEqual(user.UserName, "Name1");
-
-            _adminTools.RemoveUser(user);
-            Assert.AreEqual(_adminTools.GetAllUsers().Count(), count);
         }
     }
 }

@@ -40,9 +40,7 @@ namespace LibraryAccounting.Infrastructure.UnitTests
             using DataContext db = new DataContext(Startup.OnConfiguring());
             book = new Book()
             {
-                Title = "Геном",
-                Author = "Мэтт Ридли",
-                Publisher = "ООО Издетельство \"Эксмо\""
+             
             };
 
             _bookRepository = new BookRepository(db);

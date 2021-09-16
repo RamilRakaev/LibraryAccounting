@@ -51,7 +51,7 @@ namespace LibraryAccounting.Pages.ClientPages
             return new BookCatalogHandler().Handle(clientTools.GetAllBooks(), clientTools.GetAllBookings());
         }
 
-        public async Task OnPost(string author, string genre, string publisher)
+        public async Task OnPost(Author author, Genre genre, string publisher)
         {
             var decorator = new DecoratorHandler<Book>(
                 new List<IRequestsHandlerComponent<Book>>()

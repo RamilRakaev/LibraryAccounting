@@ -1,9 +1,6 @@
 ﻿using LibraryAccounting.Domain.Model;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace LibraryAccounting.Infrastructure.Repositories.Configuration
 {
@@ -13,8 +10,12 @@ namespace LibraryAccounting.Infrastructure.Repositories.Configuration
         {
             builder.HasData(new Author[]
             {
-                new Author(){Name = "Некто"}
-            })
+                new Author(){ Id = 1, Name = "Некто"},
+                new Author(){ Id = 2, Name = "Кехо Джон"},
+                new Author(){ Id = 3, Name = "А. Ивич; Рис. Э. Беньяминсона, Б. Кыштымова"},
+                new Author(){ Id = 4, Name = "Д.И. Менделеев"},
+                new Author(){ Id = 5, Name = "Стивен Кови"},
+            });
         }
     }
 }

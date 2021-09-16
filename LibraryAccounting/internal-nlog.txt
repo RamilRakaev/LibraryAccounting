@@ -8,3 +8,26 @@
 2021-09-15 17:21:09.9953 Info Adding target FileTarget(Name=allfile)
 2021-09-15 17:21:10.0345 Info Adding target FileTarget(Name=ownFile-web)
 2021-09-15 17:21:10.0743 Info Validating config: TargetNames=allfile, ownFile-web, ConfigItems=45, FilePath=C:\Users\Admin\Source\Repos\LibraryAccounting\LibraryAccounting\bin\Debug\net5.0\nlog.config
+2021-09-16 11:23:42.8094 Info Message Template Auto Format enabled
+2021-09-16 11:23:42.8656 Info Loading assembly: NLog.Web.AspNetCore
+2021-09-16 11:23:42.9211 Info Adding target FileTarget(Name=allfile)
+2021-09-16 11:23:42.9211 Info Adding target FileTarget(Name=ownFile-web)
+2021-09-16 11:23:42.9726 Info Validating config: TargetNames=allfile, ownFile-web, ConfigItems=45, FilePath=C:\Users\Admin\Source\Repos\LibraryAccounting\LibraryAccounting\bin\Debug\net5.0\nlog.config
+2021-09-16 11:24:02.9133 Info Message Template Auto Format enabled
+2021-09-16 11:24:02.9133 Info Loading assembly: NLog.Web.AspNetCore
+2021-09-16 11:24:02.9579 Info Adding target FileTarget(Name=allfile)
+2021-09-16 11:24:02.9579 Info Adding target FileTarget(Name=ownFile-web)
+2021-09-16 11:24:02.9813 Info Validating config: TargetNames=allfile, ownFile-web, ConfigItems=45, FilePath=C:\Users\Admin\Source\Repos\LibraryAccounting\LibraryAccounting\bin\Debug\net5.0\NLog.config
+2021-09-16 11:24:02.9956 Info Configuration initialized.
+2021-09-16 11:24:02.9956 Info NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 4.7.11.13229. Product version: 4.7.11+33ed3a9f86277651e93ddf39cda64a046a06778b. GlobalAssemblyCache: False
+2021-09-16 11:24:03.7618 Info AppDomain Shutting down. Logger closing...
+2021-09-16 11:24:03.7729 Info Logger has been shut down.
+2021-09-16 11:26:00.4650 Info Message Template Auto Format enabled
+2021-09-16 11:26:00.4704 Info Loading assembly: NLog.Web.AspNetCore
+2021-09-16 11:26:00.5089 Info Adding target FileTarget(Name=allfile)
+2021-09-16 11:26:00.5089 Info Adding target FileTarget(Name=ownFile-web)
+2021-09-16 11:26:00.5291 Info Validating config: TargetNames=allfile, ownFile-web, ConfigItems=45, FilePath=C:\Users\Admin\Source\Repos\LibraryAccounting\LibraryAccounting\bin\Debug\net5.0\NLog.config
+2021-09-16 11:26:00.5421 Info Configuration initialized.
+2021-09-16 11:26:00.5421 Info NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 4.7.11.13229. Product version: 4.7.11+33ed3a9f86277651e93ddf39cda64a046a06778b. GlobalAssemblyCache: False
+2021-09-16 11:26:02.0114 Info AppDomain Shutting down. Logger closing...
+2021-09-16 11:26:02.0244 Info Logger has been shut down.

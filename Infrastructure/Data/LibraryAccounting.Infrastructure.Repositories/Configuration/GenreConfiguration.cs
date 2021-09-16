@@ -11,7 +11,16 @@ namespace LibraryAccounting.Infrastructure.Repositories.Configuration
     {
         public void Configure(EntityTypeBuilder<Genre> builder)
         {
-            builder.HasMany(g => g.Authors).WithMany(a => a.Genres).
+            builder.HasMany(g => g.Authors)
+                .WithMany(a => a.Genres)
+                .UsingEntity<Book>(b => b.HasOne(b => b.Author)
+                .WithMany(a => a.Books)
+                .HasForeignKey(b => b.AuthorId),
+                b => b.HasOne(b => b.Genre)
+                .WithMany(g => g.Books)
+                .HasForeignKey(b => b.GenreId)
+                );
+
             builder.HasData(new Genre[]
             {
                 new Genre(){Id = 1, Name = "Наука"},
