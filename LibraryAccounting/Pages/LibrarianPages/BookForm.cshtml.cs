@@ -2,7 +2,9 @@ using System;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
+using LibraryAccounting.CQRSInfrastructure.Methods.AuthorMethods;
 using LibraryAccounting.CQRSInfrastructure.Methods.BookMethods;
+using LibraryAccounting.CQRSInfrastructure.Methods.GenreMethods;
 using LibraryAccounting.Domain.Model;
 using LibraryAccounting.Services.ToolInterfaces;
 using MediatR;
@@ -10,6 +12,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 
 namespace LibraryAccounting.Pages.LibrarianPages
@@ -21,9 +24,11 @@ namespace LibraryAccounting.Pages.LibrarianPages
         private readonly IMediator _mediator;
         readonly private ILogger<BookCatalogModel> _logger;
         public Book Book { get; private set; }
+        public SelectList Genres { get; set; }
+        public SelectList Authors { get; set; }
 
-        public BookFormModel(ILibrarianTools librarianTools, 
-            IWebHostEnvironment environment, 
+        public BookFormModel(ILibrarianTools librarianTools,
+            IWebHostEnvironment environment,
             IMediator mediator,
             ILogger<BookCatalogModel> logger)
         {
@@ -32,6 +37,8 @@ namespace LibraryAccounting.Pages.LibrarianPages
             Book = new Book();
             _mediator = mediator;
             _logger = logger;
+            Genres = new SelectList(_mediator.Send(new GetGenresQuery()).Result, "Id", "Name");
+            Authors = new SelectList(_mediator.Send(new GetAuthorsQuery()).Result, "Id", "Name");
         }
 
         public void OnGet(int? id)

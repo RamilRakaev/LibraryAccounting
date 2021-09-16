@@ -9,6 +9,9 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using System;
+using MediatR;
+using LibraryAccounting.CQRSInfrastructure.Methods.BookMethods;
+using LibraryAccounting.CQRSInfrastructure.Methods.AuthorMethods;
 
 namespace LibraryAccounting.Pages.ClientPages
 {
@@ -16,6 +19,7 @@ namespace LibraryAccounting.Pages.ClientPages
     {
         private readonly IClientTools _clientTools;
         private readonly ILogger<BookCatalogModel> _logger;
+        private readonly IMediator _mediator;
         public UserProperties UserProperties { get; private set; }
         public Dictionary<Book, bool> Books { get; private set; }
         public SelectList Authors { get; private set; }
@@ -24,11 +28,12 @@ namespace LibraryAccounting.Pages.ClientPages
 
         public BookCatalogModel(IClientTools clientTools, 
             UserProperties userProperties,
-            ILogger<BookCatalogModel> logger)
+            ILogger<BookCatalogModel> logger,
+            IMediator mediator)
         {
             _clientTools = clientTools;
             UserProperties = userProperties;
-            var authors = _clientTools.GetAllBooks().Select(b => b.Author).Distinct();
+            var authors = _mediator.Send(new GetAuthorsQuery()).Result;
             Authors = new SelectList(authors);
 
             var genres = _clientTools.GetAllBooks().Select(b => b.Genre).Distinct();
@@ -37,31 +42,18 @@ namespace LibraryAccounting.Pages.ClientPages
             var publishers = _clientTools.GetAllBooks().Select(b => b.Publisher).Distinct();
             Publishers = new SelectList(publishers);
             _logger = logger;
+            _mediator = mediator;
         }
 
         public async Task OnGet()
         {
             _logger.LogInformation($"BookCatalog page visited: {DateTime.Now:T}");
-            Books = await Task.Run(() => ExtractBooks(_clientTools));
+            Books = await _mediator.Send(new BookAccessDictionaryQuery());
         }
 
-        Dictionary<Book, bool> ExtractBooks(IClientTools clientTools)
+        public async Task OnPost(int? authorId, int? genreId, string publisher)
         {
-            _logger.LogDebug($"Books are retrieved from the database: {DateTime.Now:T}");
-            return new BookCatalogHandler().Handle(clientTools.GetAllBooks(), clientTools.GetAllBookings());
-        }
-
-        public async Task OnPost(Author author, Genre genre, string publisher)
-        {
-            var decorator = new DecoratorHandler<Book>(
-                new List<IRequestsHandlerComponent<Book>>()
-                {new BooksByAuthorHandler(author),
-                new BooksByGenreHandler(genre),
-                new BooksByPublisherHandler(publisher)
-                });
-
-            var books = _clientTools.GetBooks(decorator);
-            Books = await Task.Run(() => ExtractBooks(_clientTools));
+            Books = await _mediator.Send(new BookAccessDictionaryQuery(authorId, genreId, publisher));
             _logger.LogInformation($"Books sorted: {DateTime.Now:T}");
         }
     }

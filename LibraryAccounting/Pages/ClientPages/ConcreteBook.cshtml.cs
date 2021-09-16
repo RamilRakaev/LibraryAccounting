@@ -34,7 +34,7 @@ namespace LibraryAccounting.Pages.ClientPages
         {
             _logger.LogInformation($"ConcreteBook page is visited: {DateTime.Now:T}");
             Book = await Task.Run(() => ExtractBook(_clientTools, bookId));
-            Book = await _mediator.Send(new GetBookCommand(bookId));
+            Book = await _mediator.Send(new GetBookQuery(bookId));
             IsFree = isBooking;
         }
 
@@ -42,7 +42,7 @@ namespace LibraryAccounting.Pages.ClientPages
         {
             await _mediator.Send(new AddBookingCommand() { ClientId = userId, BookId = bookId });
             _logger.LogInformation($"Added new booking: {DateTime.Now:T}");
-            Book = await _mediator.Send(new GetBookCommand(bookId) { Id = bookId });
+            Book = await _mediator.Send(new GetBookQuery(bookId) { Id = bookId });
             IsFree = false;
         }
 

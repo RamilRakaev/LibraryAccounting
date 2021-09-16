@@ -19,17 +19,25 @@ namespace LibraryAccounting.Infrastructure.Repositories
 
         public IQueryable<Book> GetAll()
         {
-            return db.Set<Book>().AsQueryable();
+            return db.Set<Book>().Include(b => new { b.Genre, b.Author }).AsQueryable();
         }
 
-        public IQueryable<Book> GetAllAsNoTracking()
+        public List<Book> GetAllAsNoTracking()
         {
-            return db.Set<Book>().AsNoTracking();
+            return db.Set<Book>()
+                .Include(b => b.Author)
+                .Include(b => b.Genre)
+                .Include(b => b.Booking).Include(b => b.Booking.Client)
+                .AsNoTracking().ToList();
         }
 
         public async Task<Book> FindAsync(int id)
         {
-            return await db.Set<Book>().FindAsync(id);
+            return await db.Set<Book>()
+                .Include(b => b.Author)
+                .Include(b => b.Genre)
+                .Include(b => b.Booking)
+                .FirstOrDefaultAsync(b => b.Id == id);
         }
 
         public async Task AddAsync(Book element)
@@ -39,7 +47,7 @@ namespace LibraryAccounting.Infrastructure.Repositories
 
         public async Task RemoveAsync(Book element)
         {
-            if (db.Set<Book>().Contains(element))
+            if (await db.Set<Book>().ContainsAsync(element))
                 await Task.Run(() => db.Set<Book>().Remove(element));
         }
 

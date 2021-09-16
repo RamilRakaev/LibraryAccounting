@@ -7,28 +7,28 @@ using System.Threading.Tasks;
 
 namespace LibraryAccounting.CQRSInfrastructure.Methods.BookMethods
 {
-    public class GetBookCommand : IRequest<Book>
+    public class GetBookQuery : IRequest<Book>
     {
         public int Id { get; set; }
         public string Title { get; set; }
 
-        public GetBookCommand(int id)
+        public GetBookQuery(int id)
         {
             Id = id;
         }
 
-        public GetBookCommand(string title)
+        public GetBookQuery(string title)
         {
             Title = title;
         }
     }
 
-    public class GetBookHandler : BookHandler, IRequestHandler<GetBookCommand, Book>
+    public class GetBookHandler : BookHandler, IRequestHandler<GetBookQuery, Book>
     {
         public GetBookHandler(IRepository<Book> db) : base(db)
         { }
 
-        public async Task<Book> Handle(GetBookCommand request, CancellationToken cancellationToken)
+        public async Task<Book> Handle(GetBookQuery request, CancellationToken cancellationToken)
         {
             if(request.Id != 0)
             {

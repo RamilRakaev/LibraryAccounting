@@ -40,6 +40,8 @@ namespace LibraryAccounting
 
             services.AddTransient<IRepository<Book>, BookRepository>();
             services.AddTransient<IRepository<Booking>, BookingRepository>();
+            services.AddTransient<IRepository<Genre>, GenreRepository>();
+            services.AddTransient<IRepository<Author>, AuthorRepository>();
 
             services.AddHostedService<MigrationManager>();
 

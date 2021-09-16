@@ -21,14 +21,20 @@ namespace LibraryAccounting.Infrastructure.Repositories
             return db.Set<Booking>().AsQueryable();
         }
 
-        public IQueryable<Booking> GetAllAsNoTracking()
+        public List<Booking> GetAllAsNoTracking()
         {
-            return db.Set<Booking>().AsNoTracking();
+            return db.Set<Booking>()
+                .Include(b => b.Book)
+                .Include(b => (ApplicationUser) b.Client)
+                .AsNoTracking().ToList();
         }
 
         public async Task<Booking> FindAsync(int id)
         {
-            return await db.Set<Booking>().FindAsync(id);
+            return await db.Set<Booking>()
+                .Include(b => b.Book)
+                .Include(b => b.Client)
+                .FirstOrDefaultAsync(b => b.Id == id);
         }
 
         public async Task AddAsync(Booking element)

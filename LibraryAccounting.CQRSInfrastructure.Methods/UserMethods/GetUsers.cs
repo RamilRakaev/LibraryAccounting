@@ -1,12 +1,10 @@
 ﻿using FluentValidation;
-using LibraryAccounting.Domain.Interfaces.DataManagement;
 using LibraryAccounting.Domain.Model;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -30,33 +28,13 @@ namespace LibraryAccounting.CQRSInfrastructure.Methods.UserMethods
         async Task<List<ApplicationUser>> IRequestHandler<GetUsersQuery, List<ApplicationUser>>.Handle(GetUsersQuery request, CancellationToken cancellationToken)
         {
             users = _db.Users.ToList();
-            await Task.Run(() => Filter(request));
+            QueryFilter<ApplicationUser, GetUsersQuery> filter = 
+                new QueryFilter<ApplicationUser, GetUsersQuery>(users);
+            await Task.Run(() => filter.Filter(request));
             return users;
         }
-
-        private void Filter(GetUsersQuery request)
-        {
-            var userProperties = typeof(ApplicationUser).GetProperties();
-            var userPropertyNames = userProperties.Select(p => p.Name);
-
-            foreach (var requestProperty in typeof(GetUsersQuery).GetProperties())
-            {
-                if (requestProperty.GetValue(request) != null)
-                    if (userPropertyNames.Contains(requestProperty.Name))
-                    {
-                        for (int i = 0; i < users.Count(); i++)
-                        {
-                            var userProperty = userProperties.FirstOrDefault(u => u.Name == requestProperty.Name);
-                            if (userProperty.GetValue(users[i]).ToString() != requestProperty.GetValue(request).ToString())
-                            {
-                                users.Remove(users[i]);
-                            }
-                        }
-                    }
-            }
-        }
-
     }
+
 
     public class GetUsersValidator : AbstractValidator<ApplicationUser>
     {

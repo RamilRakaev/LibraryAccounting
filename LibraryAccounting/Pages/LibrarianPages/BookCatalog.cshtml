@@ -7,13 +7,13 @@
     <form class="form-inline" method="post">
         <div class="form-group">
             <label class="m-2">Автор: </label>
-            <select name="author" class="form-control" asp-items="Model.Authors">
+            <select name="authorId" class="form-control" asp-items="Model.Authors">
                 <option value="emtpy">Пусто</option>
             </select>
         </div>
         <div class="form-group">
             <label class="m-2">Жанр: </label>
-            <select name="genre" class="form-control" asp-items="Model.Genres">
+            <select name="genreId" class="form-control" asp-items="Model.Genres">
                 <option value="emtpy">Пусто</option>
             </select>
         </div>
@@ -30,40 +30,38 @@
         {
             <div class="col-lg-3 col-md-2 col-12">
                 <a>
-                    <h4>@book.Key.Title</h4>
-                    <p>Автор: @book.Key.Author <br />Жанр: @book.Key.Genre <br />Издатель: @book.Key.Publisher</p>
+                    <h4>@book.Title</h4>
+                    <p>Автор: @book.Author.Name <br />Жанр: @book.Genre.Name <br />Издатель: @book.Publisher</p>
                 </a>
-                @if (book.Value)
+                @if (book.Booking == null)
                 {
                     <p>В наличии</p>
-                    <a class="btn btn-warning booking-btn" asp-page="BookForm" asp-route-id="@book.Key.Id">Редактировать</a>
-                    <a class="btn btn-warning booking-btn" asp-page-handler="Remove" asp-route-id="@book.Key.Id">Удалить</a>
+                    <a class="btn btn-warning booking-btn" asp-page="BookForm" asp-route-id="@book.Id">Редактировать</a>
+                    <a class="btn btn-warning booking-btn" asp-page-handler="Remove" asp-route-id="@book.Id">Удалить</a>
                 }
                 else
                 {
-                    <p>Забронировано @Model.Users[Model.Bookings[book.Key.Id].ClientId].UserName @Model.Bookings[book.Key.Id].BookingDate</p>
-                    if (Model.Bookings[book.Key.Id].IsTransmitted)
+
+                    <p>Забронировано @book.Booking.Client.UserName</p>
+                    @if (book.Booking.IsTransmitted)
                     {
-                        <p>Передано @Model.Bookings[book.Key.Id].TransferDate</p>
-                        if (Model.Bookings[book.Key.Id].IsReturned)
-                        {
-                            <p>Принято @Model.Bookings[book.Key.Id].ReturnDate</p>
-                        }
-                        else
-                        {
-                            <form method="post" asp-page-handler="Return">
-                                <input type="hidden" name="id" value="@Model.Bookings[book.Key.Id].Id" />
-                                <button class="btn btn-info booking-btn">Принять</button>
-                            </form>
-                        }
+                        <p>Передано @book.Booking.TransferDate</p>
+                        <form method="post" asp-page-handler="Return">
+                            <input type="hidden" name="id" value="" />
+                            <button class="btn btn-info booking-btn">Принять</button>
+                        </form>
                     }
                     else
                     {
                         <p>Не передано</p>
                         <form method="post" asp-page-handler="Transfer">
-                            <input type="hidden" name="id" value="@Model.Bookings[book.Key.Id].Id" />
+                            <input type="hidden" name="id" value="" />
                             <button class="btn btn-danger booking-btn">Передать</button>
                         </form>
+                    }
+                    @if (book.Booking.IsReturned)
+                    {
+                        <p>Принято </p>
                     }
                 }
             </div>

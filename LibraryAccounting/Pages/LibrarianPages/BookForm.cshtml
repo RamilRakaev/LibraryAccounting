@@ -13,15 +13,21 @@
                 </div>
                 <div class="form-group">
                     <label>Автор</label>
-                    <input type="text" class="form-control" asp-for="@Model.Book.Author" />
+                    <select asp-for="@Model.Book.AuthorId" 
+                            class="form-control" asp-items="Model.Authors">
+                        <option value="0">Другое</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Жанр</label>
+                    <select asp-for="@Model.Book.GenreId" 
+                            class="form-control" asp-items="Model.Genres">
+                        <option value="0">Другое</option>
+                    </select>
                 </div>
                 <div class="form-group">
                     <label>Издатель</label>
                     <input type="text" class="form-control" asp-for="@Model.Book.Publisher" />
-                </div>
-                <div class="form-group">
-                    <label>Жанр</label>
-                    <input type="text" class="form-control" asp-for="@Model.Book.Genre" />
                 </div>
                 <div class="form-group">
                     <label>Обложка</label>

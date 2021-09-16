@@ -8,11 +8,11 @@ namespace LibraryAccounting.Domain.Model
         public int Id { get; set; }
         public string Title { get; set; }
 
-        public int AuthorId { get; set; }
+        public int? AuthorId { get; set; }
         [ForeignKey("AuthorId")]
         public Author Author { get; set; }
 
-        public int GenreId { get; set; }
+        public int? GenreId { get; set; }
         [ForeignKey("GenreId")]
         public Genre Genre { get; set; }
 

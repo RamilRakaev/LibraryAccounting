@@ -10,11 +10,11 @@ namespace LibraryAccounting.Infrastructure.Repositories.Configuration
         {
             builder.HasData(new Author[]
             {
-                new Author(){ Id = 1, Name = "Некто"},
-                new Author(){ Id = 2, Name = "Кехо Джон"},
-                new Author(){ Id = 3, Name = "А. Ивич; Рис. Э. Беньяминсона, Б. Кыштымова"},
-                new Author(){ Id = 4, Name = "Д.И. Менделеев"},
-                new Author(){ Id = 5, Name = "Стивен Кови"},
+                new Author("Некто"){ Id = 1},
+                new Author("Кехо Джон"){ Id = 2},
+                new Author("А. Ивич; Рис. Э. Беньяминсона, Б. Кыштымова"){ Id = 3},
+                new Author("Д.И. Менделеев"){ Id = 4},
+                new Author("Стивен Кови") { Id = 5},
             });
         }
     }

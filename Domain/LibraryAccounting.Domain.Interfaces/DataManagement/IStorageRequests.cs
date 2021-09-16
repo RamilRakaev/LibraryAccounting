@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace LibraryAccounting.Domain.Interfaces.DataManagement
@@ -9,6 +10,6 @@ namespace LibraryAccounting.Domain.Interfaces.DataManagement
 
         public IQueryable<Element> GetAll();
 
-        public IQueryable<Element> GetAllAsNoTracking();
+        public List<Element> GetAllAsNoTracking();
     }
 }

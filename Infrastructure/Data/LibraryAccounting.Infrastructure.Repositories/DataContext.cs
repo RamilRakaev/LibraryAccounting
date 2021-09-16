@@ -26,11 +26,16 @@ namespace LibraryAccounting.Infrastructure.Repositories
             });
             mb.Entity<ApplicationUser>().HasData(new ApplicationUser[]
             {
-                new ApplicationUser(){ Id = 1, UserName = "Ivan", Email = "Ivan@gmail.com", Password = "sdfgDs23de", RoleId = 2},
-                new ApplicationUser(){ Id = 2, UserName = "Danil", Email = "Danil@gmail.com", Password = "e23D23df32", RoleId = 3},
-                new ApplicationUser(){ Id = 3, UserName = "Denis", Email = "Denis@gmail.com", Password = "Fd3D23d32r4", RoleId = 1},
-                new ApplicationUser(){ Id = 4, UserName = "Vanya", Email = "Vanek@gmail.com", Password = "Dgf34eR34r34r4", RoleId = 1},
-                new ApplicationUser(){ Id = 5, UserName = "Dmitry", Email = "DemRh@gmail.com", Password = "DE32f34rf38jL", RoleId = 1},
+                new ApplicationUser(){ Id = 1, UserName = "Ivan", Email = "Ivan@gmail.com", 
+                    Password = "sdfgDs23de", RoleId = 2, EmailConfirmed = true},
+                new ApplicationUser(){ Id = 2, UserName = "Danil", Email = "Danil@gmail.com", 
+                    Password = "e23D23df32", RoleId = 3, EmailConfirmed = true},
+                new ApplicationUser(){ Id = 3, UserName = "Denis", Email = "Denis@gmail.com", 
+                    Password = "Fd3D23d32r4", RoleId = 1, EmailConfirmed = true},
+                new ApplicationUser(){ Id = 4, UserName = "Vanya", Email = "Vanek@gmail.com", 
+                    Password = "Dgf34eR34r34r4", RoleId = 1, EmailConfirmed = true},
+                new ApplicationUser(){ Id = 5, UserName = "Dmitry", Email = "DemRh@gmail.com", 
+                    Password = "DE32f34rf38jL", RoleId = 1, EmailConfirmed = true},
             });
 
             mb.Ignore<IdentityUserLogin<string>>();

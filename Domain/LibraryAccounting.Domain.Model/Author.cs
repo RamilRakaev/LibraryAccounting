@@ -11,5 +11,15 @@ namespace LibraryAccounting.Domain.Model
         public string Name { get; set; }
         public List<Book> Books { get; set; } = new List<Book>();
         public List<Genre> Genres { get; set; } = new List<Genre>();
+
+        public Author()
+        {
+
+        }
+
+        public Author(string name)
+        {
+            Name = name;
+        }
     }
 }

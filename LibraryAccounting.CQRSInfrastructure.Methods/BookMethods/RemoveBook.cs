@@ -10,6 +10,11 @@ namespace LibraryAccounting.CQRSInfrastructure.Methods.BookMethods
     public class RemoveBookCommand : IRequest<Book>
     {
         public int Id { get; set; }
+
+        public RemoveBookCommand(int id)
+        {
+            Id = id;
+        }
     }
 
     public class RemoveBookHandler : BookHandler, IRequestHandler<RemoveBookCommand, Book>

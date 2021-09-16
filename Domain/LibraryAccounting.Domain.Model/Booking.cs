@@ -8,8 +8,6 @@ namespace LibraryAccounting.Domain.Model
     public class Booking : IElement<Booking>
     {
         public int Id { get; set; }
-        public int BookId { get; set; }
-        public int ClientId { get; set; }
         [DefaultValue(false)]
         public bool IsTransmitted { get; set; }
         [DefaultValue(false)]
@@ -17,8 +15,10 @@ namespace LibraryAccounting.Domain.Model
         public DateTime BookingDate { get; set; }
         public DateTime? TransferDate { get; set; }
         public DateTime? ReturnDate { get; set; }
+        public int BookId { get; set; }
         [ForeignKey("BookId")]
         public Book Book { get; set; }
+        public int ClientId { get; set; }
         [ForeignKey("ClientId")]
         public ApplicationUser Client { get; set; }
 

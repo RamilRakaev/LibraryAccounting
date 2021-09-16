@@ -3,15 +3,17 @@ using System;
 using LibraryAccounting.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace LibraryAccounting.Infrastructure.Repositories.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20210916101058_15")]
+    partial class _15
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -97,7 +99,7 @@ namespace LibraryAccounting.Infrastructure.Repositories.Migrations
                         {
                             Id = 1,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "c4381a87-8bf2-4474-8860-33c1997b2cb1",
+                            ConcurrencyStamp = "a688fc90-02cc-4f16-98e2-b8db867cf9a9",
                             Email = "Ivan@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
@@ -111,7 +113,7 @@ namespace LibraryAccounting.Infrastructure.Repositories.Migrations
                         {
                             Id = 2,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "e495f0e8-1cdf-4c3e-b953-457323234a81",
+                            ConcurrencyStamp = "ce305cb0-04e0-4860-a417-273bf3b7a2d6",
                             Email = "Danil@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
@@ -125,7 +127,7 @@ namespace LibraryAccounting.Infrastructure.Repositories.Migrations
                         {
                             Id = 3,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "c0cec7a8-11d4-43de-a67c-a53d160438b7",
+                            ConcurrencyStamp = "030caa13-a922-431b-a587-19874650922c",
                             Email = "Denis@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
@@ -139,7 +141,7 @@ namespace LibraryAccounting.Infrastructure.Repositories.Migrations
                         {
                             Id = 4,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "e919cbda-cae5-4309-aede-97ac1c73c194",
+                            ConcurrencyStamp = "9f47e767-3675-466c-9ba0-2eacda6d654d",
                             Email = "Vanek@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
@@ -153,7 +155,7 @@ namespace LibraryAccounting.Infrastructure.Repositories.Migrations
                         {
                             Id = 5,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "34d45867-a49a-48fa-9227-a5b0184257bf",
+                            ConcurrencyStamp = "b1935d14-30ed-4ed2-b7de-e04d8ca3a0c4",
                             Email = "DemRh@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
@@ -196,19 +198,19 @@ namespace LibraryAccounting.Infrastructure.Repositories.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "23b79ae3-41cd-4ba9-9b89-a59eb643dd7a",
+                            ConcurrencyStamp = "4dc4f08a-c7c0-4af0-8d9c-8e1cd1c0a8eb",
                             Name = "client"
                         },
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "27b81a7e-dedc-42ca-b4ae-4f9beb051011",
+                            ConcurrencyStamp = "0f07168c-6d15-4695-a739-568e20654d3a",
                             Name = "librarian"
                         },
                         new
                         {
                             Id = 3,
-                            ConcurrencyStamp = "1f97ff11-3bdc-47bb-9805-a40d24bbe586",
+                            ConcurrencyStamp = "1c84e1ab-c1b0-4602-a2e2-bcfc00783230",
                             Name = "admin"
                         });
                 });
@@ -262,10 +264,10 @@ namespace LibraryAccounting.Infrastructure.Repositories.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                    b.Property<int?>("AuthorId")
+                    b.Property<int>("AuthorId")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("GenreId")
+                    b.Property<int>("GenreId")
                         .HasColumnType("integer");
 
                     b.Property<string>("Publisher")
@@ -384,7 +386,7 @@ namespace LibraryAccounting.Infrastructure.Repositories.Migrations
                         {
                             Id = 1,
                             BookId = 3,
-                            BookingDate = new DateTime(2021, 9, 16, 15, 15, 34, 707, DateTimeKind.Local).AddTicks(2452),
+                            BookingDate = new DateTime(2021, 9, 16, 13, 10, 57, 805, DateTimeKind.Local).AddTicks(996),
                             ClientId = 3,
                             IsReturned = false,
                             IsTransmitted = false
@@ -549,11 +551,15 @@ namespace LibraryAccounting.Infrastructure.Repositories.Migrations
                 {
                     b.HasOne("LibraryAccounting.Domain.Model.Author", "Author")
                         .WithMany("Books")
-                        .HasForeignKey("AuthorId");
+                        .HasForeignKey("AuthorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("LibraryAccounting.Domain.Model.Genre", "Genre")
                         .WithMany("Books")
-                        .HasForeignKey("GenreId");
+                        .HasForeignKey("GenreId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Author");
 
