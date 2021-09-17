@@ -8,8 +8,8 @@
         @foreach (var book in Model.ArmoredBooks)
         {
             <li class="list-group-item mb-2">
-                <p>@book.Value.Title</p>
-                @if (@book.Key.IsTransmitted)
+                <p>@book.Title</p>
+                @if (book.Booking.IsTransmitted)
                 {
                     <p>Статус: забронировано, выдано</p>
                 }
@@ -17,11 +17,11 @@
                 {
                     <p>Статус: забронировано, не выдано</p>
                     <form method="post">
-                        <input type="hidden" name="idBooking" value="@book.Key.Id" />
+                        <input type="hidden" name="idBooking" value="@book.Booking.Id" />
                         <button type="submit" class="btn btn-dark booking-btn">Отменить бронировку</button>
                     </form>
                 }
-                <p>Дата бронировки: @book.Key.BookingDate</p>
+                <p>Дата бронировки: @book.Booking.BookingDate</p>
             </li>
         }
     </ul>

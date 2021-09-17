@@ -4,17 +4,17 @@
 
     ViewData["ClientPages/BookCatalog"] = "disabled";
 }
-<div class="container">
+<div class="container mt-3">
     <form class="form-inline" method="post">
         <div class="form-group">
             <label class="m-2">Автор: </label>
-            <select name="author" class="form-control" asp-items="Model.Authors">
+            <select name="authorId" class="form-control" asp-items="Model.Authors">
                 <option value="emtpy">Пусто</option>
             </select>
         </div>
         <div class="form-group">
             <label class="m-2">Жанр: </label>
-            <select name="genre" class="form-control" asp-items="Model.Genres">
+            <select name="genreId" class="form-control" asp-items="Model.Genres">
                 <option value="emtpy">Пусто</option>
             </select>
         </div>
@@ -26,29 +26,26 @@
         </div>
         <button class="btn btn-info m-2" type="submit">Фильтровать</button>
     </form>
-</div>
-<div class="container">
     <div class="row justify-content-md-start">
         @foreach (var book in Model.Books)
         {
-            <div class="col-lg-2 col-md-2 col-12 m-3">
-                <a asp-page="ConcreteBook" asp-route-bookId="@book.Key.Id" asp-route-isBooking="@book.Value">
-                    <img class="img-fluid" src="~/img/@(book.Key.Title).jpg" />
-                    <p class="title-book">@book.Key.Title</p>
-                    <p class="author-book">@book.Key.Author</p>
+            <div class="col-lg-3 col-md-2 col-12">
+                <a asp-page="/ClientPages/ConcreteBook" asp-route-bookId="@book.Id">
+                    <h4>@book.Title</h4>
+                    <p>Автор: @book.Author.Name <br />Жанр: @book.Genre.Name <br />Издатель: @book.Publisher</p>
                 </a>
-                @if (book.Value)
+                @if (book.Booking == null)
                 {
-                    <p class="available-in">Есть в наличии</p>
-                    <form method="post" asp-page="/ClientPages/ConcreteBook">
-                        <input type="hidden" name="bookId" value="@book.Key.Id" />
-                        <input type="hidden" name="userId" value="@Model.UserProperties.UserId" />
-                        <button type="submit" class="btn btn-dark booking-btn">Забронировать</button>
+                    <p>В наличии</p>
+                    <form method="post" asp-page-handler="Booking">
+                        <input type="hidden" name="bookId" value="@book.Id" />
+                        <input type="hidden" name="clientId" value="@Model.User.UserId" />
+                        <button class="btn btn-dark">Забронировать</button>
                     </form>
                 }
                 else
                 {
-                    <p class="out-of-stock">Забронировано</p>
+                    <p>Забронировано: @book.Booking.Client.UserName</p>
                 }
             </div>
         }

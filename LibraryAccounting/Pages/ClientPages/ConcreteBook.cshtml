@@ -10,18 +10,18 @@
             <p>Автор: @Model.Book.Author</p>
             <p>Жанр: @Model.Book.Genre</p>
             <p>Издательство: @Model.Book.Publisher</p>
-            @if (Model.IsFree)
+            @if (Model.Book.Booking == null)
             {
                 <p class="available-in">Есть в наличии</p>
                 <form method="post">
-                    <input type="hidden" name="userId" value="@Model.UserProperties.UserId" />
+                    <input type="hidden" name="userId" value="@Model.User.UserId" />
                     <input type="hidden" name="bookId" value="@Model.Book.Id" />
                     <button type="submit" class="btn btn-dark booking-btn">Забронировать</button>
                 </form>
             }
             else
             {
-                <p class="out-of-stock">Нет в наличии</p>
+                <p>Забронировано: @Model.Book.Booking.Client.UserName</p>
             }
         </div>
     </div>

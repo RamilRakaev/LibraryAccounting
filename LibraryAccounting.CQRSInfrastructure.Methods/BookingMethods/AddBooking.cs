@@ -14,6 +14,12 @@ namespace LibraryAccounting.CQRSInfrastructure.Methods.BookingMethods
     {
         public int BookId { get; set; }
         public int ClientId { get; set; }
+
+        public AddBookingCommand(int bookId, int clientId)
+        {
+            BookId = bookId;
+            ClientId = clientId;
+        }
     }
 
     public class AddBookingHandler : IRequestHandler<AddBookingCommand, Booking>

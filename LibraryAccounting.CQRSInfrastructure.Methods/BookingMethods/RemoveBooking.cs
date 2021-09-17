@@ -33,6 +33,7 @@ namespace LibraryAccounting.CQRSInfrastructure.Methods.BookingMethods
             _repository.GetAll()
                 .FirstOrDefault(b => b.Id == request.Id));
             await _repository.RemoveAsync(booking);
+            await _repository.SaveAsync();
             return booking;
         }
     }

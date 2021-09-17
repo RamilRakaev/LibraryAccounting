@@ -12,6 +12,7 @@ namespace LibraryAccounting.CQRSInfrastructure.Methods.BookMethods
         public int? GenreId { get; set; }
         public string Publisher { get; set; }
         public int? AuthorId { get; set; }
+        public int? BookingId { get; set; }
 
         public GetBooksQuery()
         { }
