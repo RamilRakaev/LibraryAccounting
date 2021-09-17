@@ -17,7 +17,6 @@ using System;
 using LibraryAccounting.CQRSInfrastructure.Methods.AuthorMethods;
 using LibraryAccounting.CQRSInfrastructure.Methods.GenreMethods;
 using LibraryAccounting.CQRSInfrastructure.Methods.BookMethods;
-using LibraryAccounting.CQRSInfrastructure.Methods.UserMethods;
 
 namespace LibraryAccounting.Pages.LibrarianPages
 {

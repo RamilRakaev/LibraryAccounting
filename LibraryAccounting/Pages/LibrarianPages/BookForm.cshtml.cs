@@ -79,6 +79,10 @@ namespace LibraryAccounting.Pages.LibrarianPages
                     }
                     return RedirectToPage("/LibrarianPages/BookCatalog");
                 }
+                else
+                {
+                    ModelState.AddModelError("", "Вы не добавили изображение");
+                }
             return RedirectToPage("/LibrarianPages/BookForm");
         }
     }
