@@ -24,12 +24,12 @@ namespace LibraryAccounting.Infrastructure.Repositories
 
         private void MigrateDatabase(object state)
         {
-            _logger.LogInformation($"Start timer of MigragionManager: {DateTime.Now:T}");
             using var scope = _host.Services.CreateScope();
             using var appContext = scope.ServiceProvider.GetRequiredService<DataContext>();
             try
             {
                 appContext.Database.Migrate();
+                _logger.LogInformation($"Migrate: {DateTime.Now:T}");
             }
             catch (Exception ex)
             {
@@ -42,12 +42,14 @@ namespace LibraryAccounting.Infrastructure.Repositories
         public Task StartAsync(CancellationToken cancellationToken)
         {
             _timer = new Timer(MigrateDatabase, null, TimeSpan.Zero, TimeSpan.FromHours(5));
+            _logger.LogInformation($"Start timer of MigragionManager: {DateTime.Now:T}");
             return Task.CompletedTask;
         }
 
         public Task StopAsync(CancellationToken cancellationToken)
         {
             _timer?.Change(Timeout.Infinite, 0);
+            _logger.LogInformation($"Stop timer of MigragionManager: {DateTime.Now:T}");
             return Task.CompletedTask;
         }
 
