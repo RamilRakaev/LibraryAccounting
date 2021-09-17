@@ -52,8 +52,13 @@ namespace LibraryAccounting.Pages.LibrarianPages
             _logger.LogDebug($"id is zero: {DateTime.Now:T}");
         }
 
-        public async Task<IActionResult> OnPost(Book book, IFormFile cover)
+        public async Task<IActionResult> OnPost(
+            Book book,
+            IFormFile cover,
+            string anotherAuthor,
+            string anotherGenre)
         {
+            book.AddGenreAndAuthor(anotherAuthor, anotherGenre);
             if (cover != null)
                 if (ModelState.IsValid)
                 {
@@ -64,17 +69,33 @@ namespace LibraryAccounting.Pages.LibrarianPages
                         {
                             await cover.CopyToAsync(fileStream);
                         }
-                        await _mediator.Send(new AddBookCommand() { Book = book }, CancellationToken.None);
+                        await _mediator.Send(new AddBookCommand() { Book = book });
                         _logger.LogInformation($"Added Book {book.Title}: {DateTime.Now:T}");
                     }
                     else
                     {
-                        await _mediator.Send(new ChangeAllBookPropertiesCommand() { Book = book }, CancellationToken.None);
+                        await _mediator.Send(new ChangeAllBookPropertiesCommand(Book));
                         _logger.LogInformation($"Ñhanged all properties of the book {book.Title}: {DateTime.Now:T}");
                     }
                     return RedirectToPage("/LibrarianPages/BookCatalog");
                 }
             return RedirectToPage("/LibrarianPages/BookForm");
+        }
+    }
+
+    static class BookExtension
+    {
+        public static void AddGenreAndAuthor(this Book book, string anotherAuthor, string anotherGenre)
+        {
+            if (string.IsNullOrEmpty(anotherGenre) == false)
+            {
+                book.Genre = new Genre(anotherGenre);
+            }
+
+            if (string.IsNullOrEmpty(anotherAuthor) == false)
+            {
+                book.Author = new Author(anotherAuthor);
+            }
         }
     }
 }

@@ -9,8 +9,11 @@ namespace LibraryAccounting.CQRSInfrastructure.Methods.BookMethods
 {
     public class ChangeAllBookPropertiesCommand : IRequest<Book>
     {
-        public int Id { get; set; }
         public Book Book { get; set; }
+        public ChangeAllBookPropertiesCommand(Book book)
+        {
+            Book = book;
+        }
     }
 
     public class ChangeAllBookPropertiesHandler : BookHandler, IRequestHandler<ChangeAllBookPropertiesCommand, Book>
@@ -20,13 +23,15 @@ namespace LibraryAccounting.CQRSInfrastructure.Methods.BookMethods
 
         public async Task<Book> Handle(ChangeAllBookPropertiesCommand request, CancellationToken cancellationToken)
         {
-            var book = await _db.FindAsync(request.Id);
+            var book = await _db.FindAsync(request.Book.Id);
             if(book == null)
             {
                 throw new NullReferenceException("The book with the given id was not found");
             }
             book.Title = request.Book.Title;
+            book.AuthorId = request.Book.AuthorId;
             book.Author = request.Book.Author;
+            book.GenreId = request.Book.GenreId;
             book.Genre = request.Book.Genre;
             book.Publisher = request.Book.Publisher;
             await _db.SaveAsync();

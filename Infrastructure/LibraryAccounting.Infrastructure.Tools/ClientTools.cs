@@ -21,7 +21,7 @@ namespace LibraryAccounting.Infrastructure.Tools
         #region books requests
         public Book GetBook(int id)
         {
-            return _bookRepository.FindAsync(id).Result;
+            return _bookRepository.FindNoTrackingAsync(id).Result;
         }
 
         public Book GetBook(IReturningResultHandler<Book, Book> resultHandler)
@@ -51,7 +51,7 @@ namespace LibraryAccounting.Infrastructure.Tools
 
         public void RemoveReservation(int id)
         {
-            _bookingRepository.RemoveAsync(_bookingRepository.FindAsync(id).Result);
+            _bookingRepository.RemoveAsync(_bookingRepository.FindNoTrackingAsync(id).Result);
             _bookingRepository.SaveAsync();
         }
         #endregion

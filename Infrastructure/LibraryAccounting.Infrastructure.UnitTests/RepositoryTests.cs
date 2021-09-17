@@ -53,7 +53,7 @@ namespace LibraryAccounting.Infrastructure.UnitTests
             _bookRepository.SaveAsync();
             Assert.IsFalse(AllElementsCount == _bookRepository.GetAll().Count());
 
-            Book ConcreteElement = _bookRepository.FindAsync(book.Id).Result;
+            Book ConcreteElement = _bookRepository.FindNoTrackingAsync(book.Id).Result;
             Assert.AreEqual(ConcreteElement, book);
 
             _bookRepository.RemoveAsync(book);
@@ -106,7 +106,7 @@ namespace LibraryAccounting.Infrastructure.UnitTests
             _bookingRepository.SaveAsync();
             Assert.IsFalse(AllElementsCount == _bookingRepository.GetAll().Count());
 
-            Booking ConcreteElement = _bookingRepository.FindAsync(booking.Id).Result;
+            Booking ConcreteElement = _bookingRepository.FindNoTrackingAsync(booking.Id).Result;
             Assert.AreEqual(ConcreteElement, booking);
 
             _bookingRepository.RemoveAsync(booking);

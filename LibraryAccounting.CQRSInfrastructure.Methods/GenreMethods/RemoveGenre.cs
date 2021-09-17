@@ -28,7 +28,7 @@ namespace LibraryAccounting.CQRSInfrastructure.Methods.GenreMethods
 
         public async Task<Genre> Handle(RemoveGenreCommand request, CancellationToken cancellationToken)
         {
-            var genre = await _db.FindAsync(request.Id);
+            var genre = await _db.FindNoTrackingAsync(request.Id);
             await _db.RemoveAsync(genre);
             return genre;
         }

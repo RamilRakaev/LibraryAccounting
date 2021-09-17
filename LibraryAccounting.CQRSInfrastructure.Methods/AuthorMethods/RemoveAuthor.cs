@@ -28,7 +28,7 @@ namespace LibraryAccounting.CQRSInfrastructure.Methods.AuthorMethods
 
         public async Task<Author> Handle(RemoveAuthorCommand request, CancellationToken cancellationToken)
         {
-            var Author = await _db.FindAsync(request.Id);
+            var Author = await _db.FindNoTrackingAsync(request.Id);
             await _db.RemoveAsync(Author);
             return Author;
         }

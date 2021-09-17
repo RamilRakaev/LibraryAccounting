@@ -76,7 +76,7 @@ namespace LibraryAccounting.Pages.ClientPages
         public async Task OnPostBooking(int bookId, int clientId)
         {
             await _mediator.Send(new AddBookingCommand(bookId, clientId));
-            _logger.LogInformation($"Added booking: {DateTime.Now:T}");
+            _logger.LogInformation($"Added new booking: {DateTime.Now:T}");
             await GetSelectLists();
             Books = await _mediator.Send(new GetBooksQuery());
         }

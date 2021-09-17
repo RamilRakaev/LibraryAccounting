@@ -31,12 +31,18 @@ namespace LibraryAccounting.Infrastructure.Repositories
                 .AsNoTracking().ToList();
         }
 
-        public async Task<Book> FindAsync(int id)
+        public async Task<Book> FindNoTrackingAsync(int id)
         {
             return await db.Set<Book>()
                 .Include(b => b.Author)
                 .Include(b => b.Genre)
                 .Include(b => b.Booking)
+                .FirstOrDefaultAsync(b => b.Id == id);
+        }
+
+        public async Task<Book> FindAsync(int id)
+        {
+            return await db.Set<Book>()
                 .FirstOrDefaultAsync(b => b.Id == id);
         }
 

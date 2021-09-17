@@ -32,7 +32,7 @@ namespace LibraryAccounting.CQRSInfrastructure.Methods.BookMethods
         {
             if(request.Id != 0)
             {
-                return await _db.FindAsync(request.Id);
+                return await _db.FindNoTrackingAsync(request.Id);
             }
             else
             {

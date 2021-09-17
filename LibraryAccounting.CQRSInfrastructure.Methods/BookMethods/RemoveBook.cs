@@ -24,7 +24,7 @@ namespace LibraryAccounting.CQRSInfrastructure.Methods.BookMethods
 
         public async Task<Book> Handle(RemoveBookCommand request, CancellationToken cancellationToken)
         {
-            var book = await _db.FindAsync(request.Id);
+            var book = await _db.FindNoTrackingAsync(request.Id);
             await _db.RemoveAsync(book);
             await _db.SaveAsync();
             return book;

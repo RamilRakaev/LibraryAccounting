@@ -7,23 +7,32 @@
     <div class="row justify-content-center">
         <div class="col-5">
             <form method="post" enctype="multipart/form-data">
+                <input asp-for="@Model.Book.Id" value="@Model.Book.Id" />
                 <div class="form-group">
                     <label>Название</label>
                     <input type="text" class="form-control" asp-for="@Model.Book.Title" />
                 </div>
                 <div class="form-group">
                     <label>Автор</label>
-                    <select asp-for="@Model.Book.AuthorId" 
+                    <select asp-for="@Model.Book.AuthorId"
                             class="form-control" asp-items="Model.Authors">
                         <option value="0">Другое</option>
                     </select>
                 </div>
                 <div class="form-group">
+                    <label>Другой автор</label>
+                    <input type="text" name="anotherAuthor" class="form-control" />
+                </div>
+                <div class="form-group">
                     <label>Жанр</label>
-                    <select asp-for="@Model.Book.GenreId" 
+                    <select asp-for="@Model.Book.GenreId"
                             class="form-control" asp-items="Model.Genres">
                         <option value="0">Другое</option>
                     </select>
+                </div>
+                <div class="form-group">
+                    <label>Другой жанр</label>
+                    <input type="text" name="anotherGenre" class="form-control" />
                 </div>
                 <div class="form-group">
                     <label>Издатель</label>

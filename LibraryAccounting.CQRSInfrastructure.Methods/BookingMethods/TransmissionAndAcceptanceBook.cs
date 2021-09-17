@@ -30,7 +30,7 @@ namespace LibraryAccounting.CQRSInfrastructure.Methods.BookingMethods
         {
             if (request.Id != 0)
             {
-                booking = await _db.FindAsync(request.Id);
+                booking = await _db.FindNoTrackingAsync(request.Id);
             }
             else
             {

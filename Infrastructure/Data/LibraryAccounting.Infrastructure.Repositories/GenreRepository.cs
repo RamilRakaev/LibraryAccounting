@@ -29,11 +29,17 @@ namespace LibraryAccounting.Infrastructure.Repositories
                 .AsNoTracking().ToList();
         }
 
-        public async Task<Genre> FindAsync(int id)
+        public async Task<Genre> FindNoTrackingAsync(int id)
         {
             return await db.Set<Genre>()
                 .Include(g => g.Books)
                 .Include(g => g.Authors)
+                .FirstOrDefaultAsync(b => b.Id == id);
+        }
+
+        public async Task<Genre> FindAsync(int id)
+        {
+            return await db.Set<Genre>()
                 .FirstOrDefaultAsync(b => b.Id == id);
         }
 
