@@ -71,22 +71,13 @@ namespace LibraryAccounting.Pages.LibrarianPages
 
         public async Task OnPost(int authorId, int genreId, string publisher)
         {
-            var query = new GetBooksQuery();
-            if (authorId != 0)
-            {
-                query.AuthorId = authorId;
-            }
-            if (genreId != 0)
-            {
-                query.GenreId = genreId;
-            }
-            if (publisher != string.Empty)
-            {
-                query.Publisher = publisher;
-            }
-
             Books = await _mediator
-                .Send(query);
+                .Send(new GetBooksQuery()
+                {
+                    AuthorId = authorId,
+                    GenreId = genreId,
+                    Publisher = publisher
+                });
             await GetSelectLists();
             _logger.LogInformation($"Books filter out: {DateTime.Now:T}");
         }
