@@ -7,30 +7,42 @@ namespace LibraryAccounting.CQRSInfrastructure.Methods
 {
     public class QueryFilter<Element, Query>
     {
-        private readonly List<Element> _elements;
+        private List<Element> _elements;
         public QueryFilter(List<Element> element)
         {
             _elements = element.ToList();
         }
         public List<Element> Filter(Query query)
         {
-            var elementProperties = typeof(Element).GetProperties();
-            var elementPropertyNames = elementProperties.Select(p => p.Name);
+            var queryProperties = typeof(Query).GetProperties().Where(p => p.GetValue(query) != null);
+            var elementProperties = typeof(Element)
+                .GetProperties()
+                .Where(g => queryProperties
+                .Select(p => p.Name)
+                .Contains(g.Name));
 
-            foreach (var requestProperty in typeof(Query).GetProperties())
+            foreach (var elementProperty in elementProperties)
             {
-                if (requestProperty.GetValue(query) != null)
-                    if (elementPropertyNames.Contains(requestProperty.Name))
+                int i = 0;
+                while (i < _elements.Count())
+                {
+                    bool success = true;
+                    var a = elementProperty
+                        .GetValue(_elements[i])
+                        .ToString();
+
+                    var b = queryProperties
+                        .FirstOrDefault(q => q.Name == elementProperty.Name)
+                        .GetValue(query).ToString();
+                    if (a != b)
                     {
-                        for (int i = 0; i < _elements.Count(); i++)
-                        {
-                            var elementProperty = elementProperties.FirstOrDefault(u => u.Name == requestProperty.Name);
-                            if (elementProperty.GetValue(_elements[i]).ToString() != requestProperty.GetValue(query).ToString())
-                            {
-                                _elements.Remove(_elements[i]);
-                            }
-                        }
+                        _elements.Remove(_elements[i]);
+                        success = false;
                     }
+
+                    if (success)
+                        i++;
+                }
             }
             return _elements;
         }

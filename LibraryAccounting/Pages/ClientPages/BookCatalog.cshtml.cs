@@ -62,15 +62,17 @@ namespace LibraryAccounting.Pages.ClientPages
             _logger.LogInformation($"BookCatalog page visited: {DateTime.Now:T}");
         }
 
-        public async Task OnPost(int? authorId, int? genreId, string publisher)
+        public async Task OnPost(int authorId, int genreId, string publisher)
         {
             Books = await _mediator
-                .Send(new GetBooksQuery(
-                    authorId,
-                    genreId,
-                    publisher));
+                .Send(new GetBooksQuery()
+                {
+                    AuthorId = authorId,
+                    GenreId = genreId,
+                    Publisher = publisher
+                });
             await GetSelectLists();
-            _logger.LogInformation($"Books filtered out: {DateTime.Now:T}");
+            _logger.LogInformation($"Books filter out: {DateTime.Now:T}");
         }
 
         public async Task OnPostBooking(int bookId, int clientId)

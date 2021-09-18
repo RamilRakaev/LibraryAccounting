@@ -291,3 +291,58 @@
 2021-09-17 12:30:41.7026 Info Adding target FileTarget(Name=allfile)
 2021-09-17 12:30:41.7125 Info Adding target FileTarget(Name=ownFile-web)
 2021-09-17 12:30:41.7670 Info Validating config: TargetNames=allfile, ownFile-web, ConfigItems=45, FilePath=C:\Users\Admin\Source\Repos\LibraryAccounting\LibraryAccounting\bin\Debug\net5.0\nlog.config
+2021-09-18 17:06:26.1672 Info Message Template Auto Format enabled
+2021-09-18 17:06:26.3099 Info Loading assembly: NLog.Web.AspNetCore
+2021-09-18 17:06:26.5883 Info Adding target FileTarget(Name=allfile)
+2021-09-18 17:06:26.7046 Info Adding target FileTarget(Name=ownFile-web)
+2021-09-18 17:06:26.8788 Info Validating config: TargetNames=allfile, ownFile-web, ConfigItems=45, FilePath=C:\Users\A-156\source\repos\LibraryAccounting\LibraryAccounting\bin\Debug\net5.0\nlog.config
+2021-09-18 17:15:00.0365 Info Message Template Auto Format enabled
+2021-09-18 17:15:00.3041 Info Loading assembly: NLog.Web.AspNetCore
+2021-09-18 17:15:00.5615 Info Adding target FileTarget(Name=allfile)
+2021-09-18 17:15:00.7728 Info Adding target FileTarget(Name=ownFile-web)
+2021-09-18 17:15:00.9225 Info Validating config: TargetNames=allfile, ownFile-web, ConfigItems=45, FilePath=C:\Users\A-156\source\repos\LibraryAccounting\LibraryAccounting\bin\Debug\net5.0\nlog.config
+2021-09-18 17:15:46.9947 Info Message Template Auto Format enabled
+2021-09-18 17:15:47.0720 Info Loading assembly: NLog.Web.AspNetCore
+2021-09-18 17:15:47.2345 Info Adding target FileTarget(Name=allfile)
+2021-09-18 17:15:47.2691 Info Adding target FileTarget(Name=ownFile-web)
+2021-09-18 17:15:47.3860 Info Validating config: TargetNames=allfile, ownFile-web, ConfigItems=45, FilePath=C:\Users\A-156\source\repos\LibraryAccounting\LibraryAccounting\bin\Debug\net5.0\nlog.config
+2021-09-18 17:23:42.9614 Info Message Template Auto Format enabled
+2021-09-18 17:23:43.2527 Info Loading assembly: NLog.Web.AspNetCore
+2021-09-18 17:23:43.6669 Info Adding target FileTarget(Name=allfile)
+2021-09-18 17:23:43.9140 Info Adding target FileTarget(Name=ownFile-web)
+2021-09-18 17:23:44.2430 Info Validating config: TargetNames=allfile, ownFile-web, ConfigItems=45, FilePath=C:\Users\A-156\source\repos\LibraryAccounting\LibraryAccounting\bin\Debug\net5.0\nlog.config
+2021-09-18 17:25:19.5018 Info Message Template Auto Format enabled
+2021-09-18 17:25:19.6697 Info Loading assembly: NLog.Web.AspNetCore
+2021-09-18 17:25:20.0440 Info Adding target FileTarget(Name=allfile)
+2021-09-18 17:25:20.1127 Info Adding target FileTarget(Name=ownFile-web)
+2021-09-18 17:25:20.3198 Info Validating config: TargetNames=allfile, ownFile-web, ConfigItems=45, FilePath=C:\Users\A-156\source\repos\LibraryAccounting\LibraryAccounting\bin\Debug\net5.0\nlog.config
+2021-09-18 17:28:42.5505 Info Message Template Auto Format enabled
+2021-09-18 17:28:42.6118 Info Loading assembly: NLog.Web.AspNetCore
+2021-09-18 17:28:42.8479 Info Adding target FileTarget(Name=allfile)
+2021-09-18 17:28:42.8809 Info Adding target FileTarget(Name=ownFile-web)
+2021-09-18 17:28:43.0312 Info Validating config: TargetNames=allfile, ownFile-web, ConfigItems=45, FilePath=C:\Users\A-156\source\repos\LibraryAccounting\LibraryAccounting\bin\Debug\net5.0\nlog.config
+2021-09-18 17:35:12.3286 Info Message Template Auto Format enabled
+2021-09-18 17:35:12.4723 Info Loading assembly: NLog.Web.AspNetCore
+2021-09-18 17:35:12.7734 Info Adding target FileTarget(Name=allfile)
+2021-09-18 17:35:12.8167 Info Adding target FileTarget(Name=ownFile-web)
+2021-09-18 17:35:13.1073 Info Validating config: TargetNames=allfile, ownFile-web, ConfigItems=45, FilePath=C:\Users\A-156\source\repos\LibraryAccounting\LibraryAccounting\bin\Debug\net5.0\nlog.config
+2021-09-18 17:36:29.6150 Info Message Template Auto Format enabled
+2021-09-18 17:36:29.7272 Info Loading assembly: NLog.Web.AspNetCore
+2021-09-18 17:36:30.0571 Info Adding target FileTarget(Name=allfile)
+2021-09-18 17:36:30.1059 Info Adding target FileTarget(Name=ownFile-web)
+2021-09-18 17:36:30.2630 Info Validating config: TargetNames=allfile, ownFile-web, ConfigItems=45, FilePath=C:\Users\A-156\source\repos\LibraryAccounting\LibraryAccounting\bin\Debug\net5.0\nlog.config
+2021-09-18 17:38:26.2979 Info Message Template Auto Format enabled
+2021-09-18 17:38:26.5242 Info Loading assembly: NLog.Web.AspNetCore
+2021-09-18 17:38:26.8765 Info Adding target FileTarget(Name=allfile)
+2021-09-18 17:38:26.9527 Info Adding target FileTarget(Name=ownFile-web)
+2021-09-18 17:38:27.4316 Info Validating config: TargetNames=allfile, ownFile-web, ConfigItems=45, FilePath=C:\Users\A-156\source\repos\LibraryAccounting\LibraryAccounting\bin\Debug\net5.0\nlog.config
+2021-09-18 17:39:56.2658 Info Message Template Auto Format enabled
+2021-09-18 17:39:56.3305 Info Loading assembly: NLog.Web.AspNetCore
+2021-09-18 17:39:56.5506 Info Adding target FileTarget(Name=allfile)
+2021-09-18 17:39:56.6738 Info Adding target FileTarget(Name=ownFile-web)
+2021-09-18 17:39:56.8693 Info Validating config: TargetNames=allfile, ownFile-web, ConfigItems=45, FilePath=C:\Users\A-156\source\repos\LibraryAccounting\LibraryAccounting\bin\Debug\net5.0\nlog.config
+2021-09-18 17:42:31.5652 Info Message Template Auto Format enabled
+2021-09-18 17:42:31.6584 Info Loading assembly: NLog.Web.AspNetCore
+2021-09-18 17:42:31.8935 Info Adding target FileTarget(Name=allfile)
+2021-09-18 17:42:31.9203 Info Adding target FileTarget(Name=ownFile-web)
+2021-09-18 17:42:32.1052 Info Validating config: TargetNames=allfile, ownFile-web, ConfigItems=45, FilePath=C:\Users\A-156\source\repos\LibraryAccounting\LibraryAccounting\bin\Debug\net5.0\nlog.config
