@@ -46,8 +46,7 @@ namespace LibraryAccounting
 
             services.AddHostedService<MigrationManager>();
 
-            services.AddTransient<ILibrarianTools, LibrarianTools>();
-            services.AddTransient<IClientTools, ClientTools>();
+            services.Configure<EmailOptions>(Configuration);
 
             services.AddTransient<UserProperties, UserProperties>();
 
@@ -58,8 +57,6 @@ namespace LibraryAccounting
             services.AddTransient<IValidator<Book>, BookValidator>();
             services.AddTransient<IValidator<Booking>, BookingValidator>();
             services.AddTransient<IValidator<ApplicationUser>, UserValidator>();
-
-            services.Configure<EmailOptions>(Configuration);
 
             services.AddRazorPages().AddFluentValidation();
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(

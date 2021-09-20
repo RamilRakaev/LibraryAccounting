@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using LibraryAccounting.Domain.Model;
 using Microsoft.AspNetCore.Identity;
@@ -39,6 +40,8 @@ namespace LibraryAccounting.Pages.Account
             var result = await _userManager.ConfirmEmailAsync(user, code);
             if (result.Succeeded)
             {
+                await _userManager.AddClaimAsync(user, new Claim("roleId", user.RoleId.ToString()));
+                await _userManager.UpdateAsync(user);
                 _logger.LogInformation($"User confirmation was successful: {DateTime.Now:T}");
                 return RedirectToPage("/ClientPages/BookCatalog");
             }
