@@ -20,7 +20,6 @@
     <ProjectReference Include="..\..\Services\LibraryAccounting.Services.ToolInterfaces.csproj" />
     <ProjectReference Include="..\Data\LibraryAccounting.Infrastructure.Repositories\LibraryAccounting.Infrastructure.Repositories.csproj" />
     <ProjectReference Include="..\LibraryAccounting.Infrastructure.Tools\LibraryAccounting.Infrastructure.Tools.csproj" />
-    <ProjectReference Include="..\Methods\LibraryAccounting.Infrastructure.Handlers\LibraryAccounting.Infrastructure.Handlers.csproj" />
   </ItemGroup>
 
 </Project>

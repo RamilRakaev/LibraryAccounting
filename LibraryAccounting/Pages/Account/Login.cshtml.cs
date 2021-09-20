@@ -2,10 +2,12 @@ using System;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using LibraryAccounting.Domain.Model;
+using LibraryAccounting.Services.Mailing;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace LibraryAccounting.Pages.Account
 {
@@ -14,16 +16,19 @@ namespace LibraryAccounting.Pages.Account
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
+        private readonly IOptions<EmailOptions> _options;
         public LoginViewModel Login { get; set; }
 
         public LoginModel(UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
-            ILogger<LoginModel> logger)
+            ILogger<LoginModel> logger,
+            IOptions<EmailOptions> options)
         {
             Login = new LoginViewModel() { ReturnUrl = null };
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
+            _options = options;
         }
 
         public void OnGet()
@@ -60,7 +65,7 @@ namespace LibraryAccounting.Pages.Account
                     }
                     else
                     {
-                        await this.SendMessage(user, _userManager);
+                        await this.SendMessage(user, _userManager, _options);
                         ModelState.AddModelError(string.Empty, "Вы не подтвердили свой email. " +
                             "Проверьте свою почту и перейдите по ссылке, чтобы подтвердить почту");
                         return Page();

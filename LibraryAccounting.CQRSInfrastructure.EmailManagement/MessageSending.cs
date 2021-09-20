@@ -1,18 +1,31 @@
-﻿using MailKit.Net.Smtp;
+﻿using LibraryAccounting.Services.Mailing;
+using MailKit.Net.Smtp;
+using Microsoft.Extensions.Options;
 using MimeKit;
 using System.Threading.Tasks;
 
-namespace LibraryAccounting.CQRSInfrastructure.EmailManagement
+namespace LibraryAccounting.CQRSInfrastructure.Mailing
 {
-    public class MessageSending
+    public class MessageSending : IMessageSending
     {
-        public async Task SendEmailAsync(string email, string subject, string message, string recipientName = "")
+        private readonly EmailOptions _options;
+
+        public MessageSending(IOptions<EmailOptions> options)
+        {
+            _options = options.Value;
+        }
+
+        public async Task SendEmailAsync(
+            string email,
+            string subject,
+            string message,
+            string recipientName = "")
         {
             var emailMessage = new MimeMessage();
 
             emailMessage.From.Add(
-                new MailboxAddress("Администрация сайта LibraryAccounting",
-                "librarianacc1@gmail.com")
+                new MailboxAddress(_options.SenderName,
+                _options.SenderAddress)
                 );
             emailMessage.To.Add(new MailboxAddress(recipientName, email));
             emailMessage.Subject = subject;
@@ -20,14 +33,12 @@ namespace LibraryAccounting.CQRSInfrastructure.EmailManagement
             {
                 Text = message
             };
-            using (var client = new SmtpClient())
-            {
-                await client.ConnectAsync("smtp.gmail.com", 465, true);
-                await client.AuthenticateAsync("librarianacc1@gmail.com", "fg36Kd2s");
-                await client.SendAsync(emailMessage);
+            using var client = new SmtpClient();
+            await client.ConnectAsync(_options.SMTP, _options.Port, _options.UseSSL);
+            await client.AuthenticateAsync(_options.SenderAddress, _options.Password);
+            await client.SendAsync(emailMessage);
 
-                await client.DisconnectAsync(true);
-            }
+            await client.DisconnectAsync(true);
         }
     }
 }

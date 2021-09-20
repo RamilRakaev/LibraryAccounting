@@ -17,6 +17,7 @@ using MediatR;
 using LibraryAccounting.CQRSInfrastructure.Methods;
 using Microsoft.AspNetCore.Identity;
 using LibraryAccounting.Pages.ClientPages;
+using LibraryAccounting.Services.Mailing;
 
 namespace LibraryAccounting
 {
@@ -57,6 +58,8 @@ namespace LibraryAccounting
             services.AddTransient<IValidator<Book>, BookValidator>();
             services.AddTransient<IValidator<Booking>, BookingValidator>();
             services.AddTransient<IValidator<ApplicationUser>, UserValidator>();
+
+            services.Configure<EmailOptions>(Configuration);
 
             services.AddRazorPages().AddFluentValidation();
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(
