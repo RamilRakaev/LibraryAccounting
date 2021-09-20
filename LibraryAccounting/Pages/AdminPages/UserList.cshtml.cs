@@ -1,7 +1,8 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using LibraryAccounting.CQRSInfrastructure.Methods.UserMethods;
+using LibraryAccounting.CQRSInfrastructure.Methods.Commands.Requests;
+using LibraryAccounting.CQRSInfrastructure.Methods.Queries.Requests;
 using LibraryAccounting.Domain.Model;
 using MediatR;
 using Microsoft.AspNetCore.Mvc.RazorPages;

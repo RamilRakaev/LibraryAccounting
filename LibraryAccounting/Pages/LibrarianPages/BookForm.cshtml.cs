@@ -1,12 +1,9 @@
 using System;
 using System.IO;
-using System.Threading;
 using System.Threading.Tasks;
-using LibraryAccounting.CQRSInfrastructure.Methods.AuthorMethods;
-using LibraryAccounting.CQRSInfrastructure.Methods.BookMethods;
-using LibraryAccounting.CQRSInfrastructure.Methods.GenreMethods;
+using LibraryAccounting.CQRSInfrastructure.Methods.Commands.Requests;
+using LibraryAccounting.CQRSInfrastructure.Methods.Queries.Requests;
 using LibraryAccounting.Domain.Model;
-using LibraryAccounting.Services.ToolInterfaces;
 using MediatR;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -19,7 +16,6 @@ namespace LibraryAccounting.Pages.LibrarianPages
 {
     public class BookFormModel : PageModel
     {
-        readonly private ILibrarianTools _librarianTools;
         readonly private IWebHostEnvironment _environment;
         private readonly IMediator _mediator;
         readonly private ILogger<BookCatalogModel> _logger;
@@ -27,12 +23,10 @@ namespace LibraryAccounting.Pages.LibrarianPages
         public SelectList Genres { get; set; }
         public SelectList Authors { get; set; }
 
-        public BookFormModel(ILibrarianTools librarianTools,
-            IWebHostEnvironment environment,
+        public BookFormModel(IWebHostEnvironment environment,
             IMediator mediator,
             ILogger<BookCatalogModel> logger)
         {
-            _librarianTools = librarianTools;
             _environment = environment;
             Book = new Book();
             _mediator = mediator;
@@ -41,13 +35,13 @@ namespace LibraryAccounting.Pages.LibrarianPages
             Authors = new SelectList(_mediator.Send(new GetAuthorsQuery()).Result, "Id", "Name");
         }
 
-        public void OnGet(int? id)
+        public async Task OnGet(int? id)
         {
             _logger.LogInformation($"BookForm page visited: {DateTime.Now:T}");
             if (id != null)
             {
                 _logger.LogDebug($"id is not zero: {DateTime.Now:T}");
-                Book = _librarianTools.GetBook(Convert.ToInt32(id));
+                Book = await _mediator.Send(new GetBookQuery(Convert.ToInt32(id)));
             }
             _logger.LogDebug($"id is zero: {DateTime.Now:T}");
         }

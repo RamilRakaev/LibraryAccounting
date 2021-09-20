@@ -1,20 +1,14 @@
 using System.Collections.Generic;
 using System.Linq;
-using LibraryAccounting.Infrastructure.Handlers;
-using LibraryAccounting.Domain.Interfaces.PocessingRequests;
 using LibraryAccounting.Domain.Model;
-using LibraryAccounting.Services.ToolInterfaces;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using System;
 using MediatR;
-using LibraryAccounting.CQRSInfrastructure.Methods.BookMethods;
-using LibraryAccounting.CQRSInfrastructure.Methods.AuthorMethods;
-using LibraryAccounting.CQRSInfrastructure.Methods.GenreMethods;
-using Microsoft.AspNetCore.Hosting;
-using LibraryAccounting.CQRSInfrastructure.Methods.BookingMethods;
+using LibraryAccounting.CQRSInfrastructure.Methods.Queries.Requests;
+using LibraryAccounting.CQRSInfrastructure.Methods.Commands.Requests;
 
 namespace LibraryAccounting.Pages.ClientPages
 {

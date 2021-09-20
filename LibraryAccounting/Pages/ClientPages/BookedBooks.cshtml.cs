@@ -3,10 +3,10 @@ using LibraryAccounting.Domain.Model;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Threading.Tasks;
 using MediatR;
-using LibraryAccounting.CQRSInfrastructure.Methods.BookingMethods;
 using Microsoft.Extensions.Logging;
 using System;
-using LibraryAccounting.CQRSInfrastructure.Methods.BookMethods;
+using LibraryAccounting.CQRSInfrastructure.Methods.Commands.Requests;
+using LibraryAccounting.CQRSInfrastructure.Methods.Queries.Requests;
 
 namespace LibraryAccounting.Pages.ClientPages
 {

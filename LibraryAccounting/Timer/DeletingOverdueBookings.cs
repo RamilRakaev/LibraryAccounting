@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using MediatR;
 using System;
-using LibraryAccounting.CQRSInfrastructure.Methods.BookingMethods;
+using LibraryAccounting.CQRSInfrastructure.Methods.Commands.Requests;
 
 namespace LibraryAccounting.Timer
 {

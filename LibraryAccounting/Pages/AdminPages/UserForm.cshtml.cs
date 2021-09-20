@@ -5,10 +5,10 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using LibraryAccounting.CQRSInfrastructure.Methods.UserMethods;
 using System.Threading;
-using LibraryAccounting.CQRSInfrastructure.Methods.RoleMethods;
 using Microsoft.Extensions.Logging;
+using LibraryAccounting.CQRSInfrastructure.Methods.Queries.Requests;
+using LibraryAccounting.CQRSInfrastructure.Methods.Commands.Requests;
 
 namespace LibraryAccounting.Pages.AdminPages
 {
@@ -29,7 +29,7 @@ namespace LibraryAccounting.Pages.AdminPages
 
         public void ExtractRoles()
         {
-            var command = new GetRolesCommand();
+            var command = new GetRolesQuery();
             var roles = _mediator.Send(command, new CancellationToken(false)).Result;
             Roles = new SelectList(roles, "Id", "Name");
             _logger.LogDebug($"Roles extracted: {DateTime.Now:T}");
