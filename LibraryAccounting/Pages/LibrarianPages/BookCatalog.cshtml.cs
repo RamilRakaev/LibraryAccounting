@@ -69,15 +69,17 @@ namespace LibraryAccounting.Pages.LibrarianPages
             _logger.LogInformation($"Book {book.Title} is removed: {DateTime.Now:T}");
         }
 
-        public async Task OnPost(int? authorId, int? genreId, string publisher)
+        public async Task OnPost(int authorId, int genreId, string publisher)
         {
             Books = await _mediator
-                .Send(new GetBooksQuery(
-                    authorId,
-                    genreId,
-                    publisher));
+                .Send(new GetBooksQuery()
+                {
+                    AuthorId = authorId,
+                    GenreId = genreId,
+                    Publisher = publisher
+                });
             await GetSelectLists();
-            _logger.LogInformation($"Books sorted: {DateTime.Now:T}");
+            _logger.LogInformation($"Books filter out: {DateTime.Now:T}");
         }
 
         public async Task OnPostTransfer(int id)

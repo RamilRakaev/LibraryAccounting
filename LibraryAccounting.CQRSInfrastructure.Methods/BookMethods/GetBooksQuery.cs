@@ -9,22 +9,10 @@ namespace LibraryAccounting.CQRSInfrastructure.Methods.BookMethods
 {
     public class GetBooksQuery : IRequest<List<Book>>
     {
-        public int? GenreId { get; set; }
-        public string Publisher { get; set; }
-        public int? AuthorId { get; set; }
-        public int? BookingId { get; set; }
-
-        public GetBooksQuery()
-        { }
-
-        public GetBooksQuery(int? genreId,
-            int? authorId,
-            string publisher)
-        {
-            GenreId = genreId;
-            AuthorId = authorId;
-            Publisher = publisher;
-        }
+        public int? GenreId { get; set; } = null;
+        public string Publisher { get; set; } = null;
+        public int? AuthorId { get; set; } = null;
+        public int? BookingId { get; set; } = null;
     }
     public class GetBooksQueryHandler : IRequestHandler<GetBooksQuery, List<Book>>
     {
