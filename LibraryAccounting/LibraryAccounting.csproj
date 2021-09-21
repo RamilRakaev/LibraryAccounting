@@ -24,7 +24,9 @@
     <ProjectReference Include="..\Infrastructure\LibraryAccounting.Infrastructure.Tools\LibraryAccounting.Infrastructure.Tools.csproj" />
     <ProjectReference Include="..\Infrastructure\LibraryAccounting.Infrastructure.UnitTests\LibraryAccounting.Infrastructure.UnitTests.csproj" />
     <ProjectReference Include="..\LibraryAccounting.CQRSInfrastructure.EmailManagement\LibraryAccounting.CQRSInfrastructure.Mailing.csproj" />
+    <ProjectReference Include="..\LibraryAccounting.CQRSInfrastructure.LogOutput\LibraryAccounting.CQRSInfrastructure.LogOutput.csproj" />
     <ProjectReference Include="..\LibraryAccounting.CQRSInfrastructure.Methods\LibraryAccounting.CQRSInfrastructure.Methods.csproj" />
+    <ProjectReference Include="..\LibraryAccounting.Services.LogOutput\LibraryAccounting.Services.LogOutput.csproj" />
     <ProjectReference Include="..\Services\LibraryAccounting.Services.ToolInterfaces.csproj" />
     <Content Update="nlog.config" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>

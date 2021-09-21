@@ -1,7 +1,7 @@
 ﻿
 namespace LibraryAccounting.Services.LogOutput
 {
-    public interface ILog
+    public class Log
     {
         public string Date { get; set; }
         public string LogLevel { get; set; }

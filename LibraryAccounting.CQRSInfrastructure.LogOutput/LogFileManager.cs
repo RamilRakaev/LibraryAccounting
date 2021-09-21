@@ -3,19 +3,20 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace LibraryAccounting.CQRSInfrastructure.LogOutput
 {
-    public class LogFileManager : ILogFileManager<Log>
+    public class LogFileManager : ILogFileManager
     {
-        private readonly string _path = Environment.CurrentDirectory + "\\logs";
+        private readonly string _path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\logs";
         private readonly string _logOutput = "nlog-all";
         private readonly string _fileExtension = ".log";
         private readonly string[] _logFiles;
 
         public string ErrorMessage { get; private set; }
-        public bool Successed { get; private set; }
+        public bool Successed { get; private set; } = true;
 
         public LogFileManager(string path, string logOutput, string fileExtension)
         {
@@ -44,7 +45,7 @@ namespace LibraryAccounting.CQRSInfrastructure.LogOutput
                     foreach (var log in logsFromFile)
                     {
                         var message = log.Split('|', StringSplitOptions.RemoveEmptyEntries);
-                        logs.Add(new Log()
+                        logs.Add(new FileLog()
                         {
                             Date = date,
                             LogLevel = message[^3],
@@ -90,7 +91,7 @@ namespace LibraryAccounting.CQRSInfrastructure.LogOutput
                 .ToArray());
         }
 
-        public async Task<Log[]> GetLogsFromServiseAsync(string date, string serviceName)
+        public async Task<Log[]> GetLogsFromServiceAsync(string date, string serviceName)
         {
             return await Task
                 .FromResult(GetLogsAsList(date)

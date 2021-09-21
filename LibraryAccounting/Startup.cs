@@ -18,6 +18,8 @@ using LibraryAccounting.CQRSInfrastructure.Methods;
 using Microsoft.AspNetCore.Identity;
 using LibraryAccounting.Pages.ClientPages;
 using LibraryAccounting.Services.Mailing;
+using LibraryAccounting.Services.LogOutput;
+using LibraryAccounting.CQRSInfrastructure.LogOutput;
 
 namespace LibraryAccounting
 {
@@ -47,6 +49,7 @@ namespace LibraryAccounting
             services.AddHostedService<MigrationManager>();
 
             services.Configure<EmailOptions>(Configuration);
+            services.AddTransient<ILogFileManager, LogFileManager>();
 
             services.AddTransient<UserProperties, UserProperties>();
 

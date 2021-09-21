@@ -2,12 +2,25 @@
 @model LibraryAccounting.Pages.AdminPages.LogsModel
 @{
 }
-<form method="post">
-    <select name="id" asp-items="@Model.TypesSelectList"></select>
-    <button>Выбрать</button>
-</form>
-<table>
-    <tbody>
-        
-    </tbody>
-</table>
+<div class="container">
+    <form class="m-3 form-inline" method="post">
+        <label>Дата:</label>
+        <select class="m-3" name="date" asp-items="@new SelectList(Model.Dates)"></select>
+        <label>Сервисы:</label>
+        <select class="m-3" name="service" asp-items="@new SelectList(Model.Types)">
+            <option value="@string.Empty">Все</option>
+        </select>
+        <button class="btn-dark">Выбрать</button>
+    </form>
+    <ul class="list-group">
+        @foreach (var log in Model.Logs)
+        {
+            <li class="list-group-item">
+                <p>Date: @log.Date</p>
+                <p>Log Level: @log.LogLevel</p>
+                <p>Service Name: @log.ServiceName</p>
+                <p>Message: @log.Message</p>
+            </li>
+        }
+    </ul>
+</div>
