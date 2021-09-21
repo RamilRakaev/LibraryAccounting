@@ -8,6 +8,7 @@ namespace LibraryAccounting.Services.LogOutput
         Task<Log[]> GetLogsAsync(string date);
         Task<Log[]> GetLogsFromServiceAsync(string date, string serviceName);
         Task<string[]> GetDatesAsync();
+        Task<string[]> GetServicesAsync();
 
         public string ErrorMessage { get; }
         public bool Successed { get; }

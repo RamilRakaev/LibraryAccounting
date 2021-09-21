@@ -10,7 +10,7 @@
         <select class="m-3" name="service" asp-items="@new SelectList(Model.Types)">
             <option value="@string.Empty">Все</option>
         </select>
-        <button class="btn-dark">Выбрать</button>
+        <button class="btn btn-dark">Выбрать</button>
     </form>
     <ul class="list-group">
         @foreach (var log in Model.Logs)

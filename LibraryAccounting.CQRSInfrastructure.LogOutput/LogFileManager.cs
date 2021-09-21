@@ -42,9 +42,10 @@ namespace LibraryAccounting.CQRSInfrastructure.LogOutput
                         .ReadAllText(file)
                         .Split(date, StringSplitOptions.RemoveEmptyEntries);
 
-                    foreach (var log in logsFromFile)
+                    foreach (var log in logsFromFile.Where(l => l.Contains('|')))
                     {
                         var message = log.Split('|', StringSplitOptions.RemoveEmptyEntries);
+                        if(message.Length == 4)
                         logs.Add(new FileLog()
                         {
                             Date = date,
@@ -84,6 +85,18 @@ namespace LibraryAccounting.CQRSInfrastructure.LogOutput
             return dates.ToArray();
         }
 
+        private string[] GetServices()
+        {
+            List<string> services = new List<string>();
+            foreach (var date in GetDates())
+            {
+                services
+                    .AddRange(GetLogsAsList(date)
+                    .Select(l => l.ServiceName));
+            }
+            return services.Distinct().ToArray();
+        }
+
         public async Task<Log[]> GetLogsAsync(string date)
         {
             return await Task
@@ -97,6 +110,11 @@ namespace LibraryAccounting.CQRSInfrastructure.LogOutput
                 .FromResult(GetLogsAsList(date)
                 .Where(l => l.ServiceName == serviceName)
                 .ToArray());
+        }
+
+        public async Task<string[]> GetServicesAsync()
+        {
+            return await Task.FromResult(GetServices());
         }
 
         public async Task<string[]> GetDatesAsync()

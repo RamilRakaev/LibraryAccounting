@@ -20,32 +20,30 @@ namespace LibraryAccounting.Pages.AdminPages
         public LogsModel(ILogger<LogsModel> logger, ILogFileManager log)
         {
             LogManager = log;
-            Types = Assembly
-                .GetExecutingAssembly()
-                .GetTypes()
-                .Select(t => t.FullName)
-                .ToArray();
             _logger = logger;
         }
 
         public async Task OnGet()
         {
             Dates = await LogManager.GetDatesAsync();
+            Types = await LogManager.GetServicesAsync();
             Logs = await LogManager.GetLogsAsync(Dates[0]);
         }
 
         public async Task OnPost(string date, string service)
         {
             Dates = await LogManager.GetDatesAsync();
-            if(service == string.Empty)
+            Types = await LogManager.GetServicesAsync();
+            if (service == string.Empty)
             {
                 Logs = await LogManager.GetLogsAsync(date);
-                
+
             }
             else
             {
                 Logs = await LogManager.GetLogsFromServiceAsync(date, service);
             }
+
             if (LogManager.Successed == false)
             {
                 _logger.LogError(LogManager.ErrorMessage);
