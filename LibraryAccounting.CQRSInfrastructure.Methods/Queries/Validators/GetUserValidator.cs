@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using LibraryAccounting.CQRSInfrastructure.Methods.Queries.Requests;
 
-namespace LibraryAccounting.CQRSInfrastructure.Methods.Commands.Validators
+namespace LibraryAccounting.CQRSInfrastructure.Methods.Queries.Validators
 {
     public class GetUserValidator : AbstractValidator<GetUserQuery>
     {

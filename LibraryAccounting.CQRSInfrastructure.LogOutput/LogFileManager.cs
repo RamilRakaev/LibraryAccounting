@@ -45,14 +45,14 @@ namespace LibraryAccounting.CQRSInfrastructure.LogOutput
                     foreach (var log in logsFromFile.Where(l => l.Contains('|')))
                     {
                         var message = log.Split('|', StringSplitOptions.RemoveEmptyEntries);
-                        if(message.Length == 4)
-                        logs.Add(new FileLog()
-                        {
-                            Date = date,
-                            LogLevel = message[^3],
-                            ServiceName = message[^2],
-                            Message = message[^1]
-                        });
+                        if (message.Length == 4)
+                            logs.Add(new FileLog()
+                            {
+                                Date = date,
+                                LogLevel = message[^3],
+                                ServiceName = message[^2],
+                                Message = message[^1]
+                            });
                     }
                 }
                 Successed = true;

@@ -16,19 +16,19 @@ namespace LibraryAccounting.Pages.Account
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
-        private readonly IOptions<EmailOptions> _options;
+        private readonly IMessageSending _emailService;
         public LoginViewModel Login { get; set; }
 
         public LoginModel(UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             ILogger<LoginModel> logger,
-            IOptions<EmailOptions> options)
+            IMessageSending emailService)
         {
             Login = new LoginViewModel() { ReturnUrl = null };
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
-            _options = options;
+            _emailService = emailService;
         }
 
         public void OnGet()
@@ -65,7 +65,7 @@ namespace LibraryAccounting.Pages.Account
                     }
                     else
                     {
-                        await this.SendMessage(user, _userManager, _options);
+                        await this.SendMessage(user, _userManager, _emailService);
                         ModelState.AddModelError(string.Empty, "Вы не подтвердили свой email. " +
                             "Проверьте свою почту и перейдите по ссылке, чтобы подтвердить почту");
                         return Page();

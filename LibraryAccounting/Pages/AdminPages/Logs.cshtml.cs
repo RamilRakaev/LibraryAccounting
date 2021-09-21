@@ -1,10 +1,6 @@
-using System;
-using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
 using LibraryAccounting.Services.LogOutput;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 
 namespace LibraryAccounting.Pages.AdminPages

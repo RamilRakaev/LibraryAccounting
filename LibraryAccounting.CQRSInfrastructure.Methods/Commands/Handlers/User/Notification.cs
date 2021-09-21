@@ -5,12 +5,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Threading.Tasks;
 
-namespace LibraryAccounting.Pages.Account
+namespace LibraryAccounting.CQRSInfrastructure.Methods.Commands.Handlers.User
 {
     public static class Notification
     {
-        public static async Task SendMessage(this PageModel page, 
-            ApplicationUser user, 
+        public static async Task SendMessage(this PageModel page,
+            ApplicationUser user,
             UserManager<ApplicationUser> userManager,
             IMessageSending emailService)
         {
