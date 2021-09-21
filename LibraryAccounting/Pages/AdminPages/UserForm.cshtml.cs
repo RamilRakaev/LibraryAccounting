@@ -32,20 +32,20 @@ namespace LibraryAccounting.Pages.AdminPages
             var command = new GetRolesQuery();
             var roles = _mediator.Send(command, new CancellationToken(false)).Result;
             Roles = new SelectList(roles, "Id", "Name");
-            _logger.LogDebug($"Roles extracted: {DateTime.Now:T}");
+            _logger.LogDebug($"Roles extracted");
         }
 
         public async Task OnGet(int? id)
         {
-            _logger.LogInformation($"UserForm page visited: {DateTime.Now:T}");
+            _logger.LogInformation($"UserForm page visited:");
             if (id != null)
             {
-                _logger.LogDebug($"id is not zero: {DateTime.Now:T}");
+                _logger.LogDebug($"id is not zero");
                 UserInfo = await _mediator.Send(new GetUserQuery() { Id = Convert.ToInt32(id) }, new CancellationToken(false));
             }
             else
             {
-                _logger.LogDebug($"id is zero: {DateTime.Now:T}");
+                _logger.LogDebug($"id is zero:");
                 UserInfo = new ApplicationUser();
             }
         }
@@ -57,7 +57,7 @@ namespace LibraryAccounting.Pages.AdminPages
                 if (userinfo.Id == 0)
                 {
                     await _mediator.Send(new AddUserCommand(userinfo), token);
-                    _logger.LogDebug($"Added user {userinfo.Email}: {DateTime.Now:T}");
+                    _logger.LogDebug($"Added user");
                 }
                 else
                 {
@@ -70,12 +70,12 @@ namespace LibraryAccounting.Pages.AdminPages
                         RoleId = userinfo.RoleId
                     },
                      token);
-                    _logger.LogDebug($"Changing all properties for user {userinfo.Email}: {DateTime.Now:T}");
+                    _logger.LogDebug($"Changing all properties for user");
                 }
-                _logger.LogInformation($"Modelstate is valid: {DateTime.Now:T}");
+                _logger.LogInformation($"Modelstate is valid");
                 return RedirectToPage("/AdminPages/UserList");
             }
-            _logger.LogWarning($"Modelstate is not valid: {DateTime.Now:T}");
+            _logger.LogWarning($"Modelstate is not valid");
             return RedirectToPage("/AdminPages/UserForm");
         }
     }

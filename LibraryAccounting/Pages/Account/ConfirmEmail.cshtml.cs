@@ -25,16 +25,16 @@ namespace LibraryAccounting.Pages.Account
 
         public async Task<IActionResult> OnGet(string userEmail, string code)
         {
-            _logger.LogInformation($"ConfirmEmail page visited: {DateTime.Now:T}");
+            _logger.LogInformation($"ConfirmEmail page visited");
             if (userEmail == null || code == null)
             {
-                _logger.LogError($"Arguments userEmail and code are zero: {DateTime.Now:T}");
+                _logger.LogError($"Arguments userEmail and code are zero");
                 ModelState.AddModelError("", "Arguments are zero");
             }
             var user = await _userManager.FindByEmailAsync(userEmail);
             if (user == null)
             {
-                _logger.LogError($"User is not found: {DateTime.Now:T}");
+                _logger.LogError($"User is not found");
                 ModelState.AddModelError("", "User is not found");
             }
             var result = await _userManager.ConfirmEmailAsync(user, code);
@@ -42,7 +42,7 @@ namespace LibraryAccounting.Pages.Account
             {
                 await _userManager.AddClaimAsync(user, new Claim("roleId", user.RoleId.ToString()));
                 await _userManager.UpdateAsync(user);
-                _logger.LogInformation($"User confirmation was successful: {DateTime.Now:T}");
+                _logger.LogInformation($"User confirmation was successful");
                 return RedirectToPage("/ClientPages/BookCatalog");
             }
             return Page();

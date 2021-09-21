@@ -2,3 +2,12 @@
 @model LibraryAccounting.Pages.AdminPages.LogsModel
 @{
 }
+<form method="post">
+    <select name="id" asp-items="@Model.TypesSelectList"></select>
+    <button>Выбрать</button>
+</form>
+<table>
+    <tbody>
+        
+    </tbody>
+</table>

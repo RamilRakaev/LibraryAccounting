@@ -50,7 +50,7 @@ namespace LibraryAccounting.Pages.LibrarianPages
         {
             await GetSelectLists();
             Books = await _mediator.Send(new GetBooksQuery());
-            _logger.LogInformation($"BookCatalog page visited: {DateTime.Now:T}");
+            _logger.LogInformation($"BookCatalog page visited");
         }
 
         public async Task OnGetRemove(int id)
@@ -61,7 +61,7 @@ namespace LibraryAccounting.Pages.LibrarianPages
             file.Delete();
             await GetSelectLists();
             Books = await _mediator.Send(new GetBooksQuery());
-            _logger.LogInformation($"Book {book.Title} is removed: {DateTime.Now:T}");
+            _logger.LogInformation($"Book {book.Title} is removed");
         }
 
         public async Task OnPost(int authorId, int genreId, string publisher)
@@ -74,7 +74,7 @@ namespace LibraryAccounting.Pages.LibrarianPages
                     Publisher = publisher
                 });
             await GetSelectLists();
-            _logger.LogInformation($"Books filter out: {DateTime.Now:T}");
+            _logger.LogInformation($"Books filter out");
         }
 
         public async Task OnPostTransfer(int id)
@@ -85,7 +85,7 @@ namespace LibraryAccounting.Pages.LibrarianPages
                 CancellationToken.None);
             Books = await _mediator.Send(new GetBooksQuery());
             await GetSelectLists();
-            _logger.LogInformation($"Book transferred: {DateTime.Now:T}");
+            _logger.LogInformation($"Book transferred");
         }
 
         public async Task OnPostReturn(int id)
@@ -96,7 +96,7 @@ namespace LibraryAccounting.Pages.LibrarianPages
                 CancellationToken.None);
             Books = await _mediator.Send(new GetBooksQuery());
             await GetSelectLists();
-            _logger.LogInformation($"Book received: {DateTime.Now:T}");
+            _logger.LogInformation($"Book received");
         }
     }
 }

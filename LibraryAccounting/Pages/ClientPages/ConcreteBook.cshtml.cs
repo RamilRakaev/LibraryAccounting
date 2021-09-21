@@ -28,14 +28,14 @@ namespace LibraryAccounting.Pages.ClientPages
 
         public async Task OnGet(int bookId)
         {
-            _logger.LogInformation($"ConcreteBook page is visited: {DateTime.Now:T}");
+            _logger.LogInformation($"ConcreteBook page is visited");
             Book = await _mediator.Send(new GetBookQuery(bookId));
         }
 
         public async Task OnPost(int userId, int bookId)
         {
             await _mediator.Send(new AddBookingCommand(bookId, userId));
-            _logger.LogInformation($"Added new booking: {DateTime.Now:T}");
+            _logger.LogInformation($"Added new booking");
             Book = await _mediator.Send(new GetBookQuery(bookId) { Id = bookId });
         }
     }

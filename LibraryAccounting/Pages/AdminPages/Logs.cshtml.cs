@@ -1,21 +1,31 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+using LibraryAccounting.Pages.ClientPages;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Extensions.Logging;
 using NLog;
 
 namespace LibraryAccounting.Pages.AdminPages
 {
     public class LogsModel : PageModel
     {
-        public LogsModel()
+
+        public LogsModel(ILogger<LogsModel> logger)
         {
-            LogManager.GetLogger("");
+
         }
-        public void OnGet()
+
+        public async Task OnGet()
         {
+
+        }
+
+        public async Task OnPost(int id)
+        {
+            
         }
     }
 }

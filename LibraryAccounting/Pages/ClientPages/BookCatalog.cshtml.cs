@@ -42,7 +42,7 @@ namespace LibraryAccounting.Pages.ClientPages
 
             var publishers = _mediator.Send(new GetBooksQuery()).Result.Select(b => b.Publisher).Distinct();
             Publishers = new SelectList(publishers);
-            _logger.LogInformation($"BookCatalog page visited: {DateTime.Now:T}");
+            _logger.LogInformation($"BookCatalog page visited");
         }
 
         public async Task OnGet()
@@ -53,7 +53,7 @@ namespace LibraryAccounting.Pages.ClientPages
             }
             await GetSelectLists();
             Books = await _mediator.Send(new GetBooksQuery());
-            _logger.LogInformation($"BookCatalog page visited: {DateTime.Now:T}");
+            _logger.LogInformation($"BookCatalog page visited");
         }
 
         public async Task OnPost(int authorId, int genreId, string publisher)
@@ -66,13 +66,13 @@ namespace LibraryAccounting.Pages.ClientPages
                     Publisher = publisher
                 });
             await GetSelectLists();
-            _logger.LogInformation($"Books filter out: {DateTime.Now:T}");
+            _logger.LogInformation($"Books filter out");
         }
 
         public async Task OnPostBooking(int bookId, int clientId)
         {
             await _mediator.Send(new AddBookingCommand(bookId, clientId));
-            _logger.LogInformation($"Added new booking: {DateTime.Now:T}");
+            _logger.LogInformation($"Added new booking");
             await GetSelectLists();
             Books = await _mediator.Send(new GetBooksQuery());
         }

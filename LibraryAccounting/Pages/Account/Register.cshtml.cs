@@ -29,7 +29,7 @@ namespace LibraryAccounting.Pages.Account
 
         public void OnGet()
         {
-            _logger.LogInformation($"Register page visited: {DateTime.Now:T}");
+            _logger.LogInformation($"Register page visited");
         }
 
         public async Task<IActionResult> OnPost(RegisterViewModel register)
@@ -43,18 +43,18 @@ namespace LibraryAccounting.Pages.Account
                     {
                         ModelState.AddModelError("", "Аккаунт с текущей почтой уже существует. Почта ещё не подтверждена. " +
                             "Чтобы подтвердить email перейдите по ссылке в письме");
-                        _logger.LogInformation($"This account already exists, mail is not verified: {DateTime.Now:T}");
+                        _logger.LogInformation($"This account already exists, mail is not verified");
                         await this.SendMessage(existingUser, _userManager, _options);
                     }
                     else
                     {
-                        _logger.LogInformation($"This account already exists: {DateTime.Now:T}");
+                        _logger.LogInformation($"This account already exists");
                         ModelState.AddModelError("", "Аккаунт с текущей почтой уже существует");
                     }
                 }
                 else
                 {
-                    _logger.LogInformation($"Succeeded register: {DateTime.Now:T}");
+                    _logger.LogInformation($"Succeeded register");
                     await Registration(register);
                 }
             }
@@ -67,7 +67,7 @@ namespace LibraryAccounting.Pages.Account
             var result = await _userManager.CreateAsync(user, register.Password);
             if (result.Succeeded)
             {
-                _logger.LogInformation($"Sending message for user: {DateTime.Now:T}");
+                _logger.LogInformation($"Sending message for user");
                 await this.SendMessage(user, _userManager, _options);
                 ModelState.AddModelError("", "Для завершения регистрации проверьте электронную почту и перейдите по ссылке, указанной в письме");
             }
@@ -75,7 +75,7 @@ namespace LibraryAccounting.Pages.Account
             {
                 foreach (var error in result.Errors)
                 {
-                    _logger.LogError($"{error.Description}: {DateTime.Now:T}");
+                    _logger.LogError($"{error.Description}");
                     ModelState.AddModelError(string.Empty, error.Description);
                 }
             }

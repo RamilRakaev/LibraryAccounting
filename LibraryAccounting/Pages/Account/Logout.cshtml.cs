@@ -22,7 +22,7 @@ namespace LibraryAccounting.Pages.Account
 
         public async Task<IActionResult> OnGet()
         {
-            _logger.LogInformation($"Logout: {DateTime.Now:T}");
+            _logger.LogInformation($"Logout");
             await _signInManager.SignOutAsync();
             return RedirectToPage("/Account/Login");
         }

@@ -37,13 +37,13 @@ namespace LibraryAccounting.Pages.LibrarianPages
 
         public async Task OnGet(int? id)
         {
-            _logger.LogInformation($"BookForm page visited: {DateTime.Now:T}");
+            _logger.LogInformation($"BookForm page visited");
             if (id != null)
             {
-                _logger.LogDebug($"id is not zero: {DateTime.Now:T}");
+                _logger.LogDebug($"id is not zero");
                 Book = await _mediator.Send(new GetBookQuery(Convert.ToInt32(id)));
             }
-            _logger.LogDebug($"id is zero: {DateTime.Now:T}");
+            _logger.LogDebug($"id is zero");
         }
 
         public async Task<IActionResult> OnPost(
@@ -64,12 +64,12 @@ namespace LibraryAccounting.Pages.LibrarianPages
                             await cover.CopyToAsync(fileStream);
                         }
                         await _mediator.Send(new AddBookCommand() { Book = book });
-                        _logger.LogInformation($"Added Book {book.Title}: {DateTime.Now:T}");
+                        _logger.LogInformation($"Added Book {book.Title}");
                     }
                     else
                     {
                         await _mediator.Send(new ChangeAllBookPropertiesCommand(Book));
-                        _logger.LogInformation($"Ñhanged all properties of the book {book.Title}: {DateTime.Now:T}");
+                        _logger.LogInformation($"Ñhanged all properties of the book {book.Title}");
                     }
                     return RedirectToPage("/LibrarianPages/BookCatalog");
                 }

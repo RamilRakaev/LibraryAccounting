@@ -33,7 +33,7 @@ namespace LibraryAccounting.Pages.Account
 
         public void OnGet()
         {
-            _logger.LogInformation($"Login page visited: {DateTime.Now:T}");
+            _logger.LogInformation($"Login page visited");
         }
 
         public async Task<IActionResult> OnPost(LoginViewModel login)
@@ -51,7 +51,7 @@ namespace LibraryAccounting.Pages.Account
                             await _signInManager.SignInAsync(user, false);
                             await _userManager.AddClaimAsync(user, new Claim("roleId", user.RoleId.ToString()));
                             await _userManager.UpdateAsync(user);
-                            _logger.LogInformation($"Succeeded login: {DateTime.Now:T}");
+                            _logger.LogInformation($"Succeeded login");
                             switch (user.RoleId)
                             {
                                 case 1:
@@ -73,7 +73,7 @@ namespace LibraryAccounting.Pages.Account
                 }
             }
             ModelState.AddModelError("", "Неправильный логин и (или) пароль");
-            _logger.LogWarning($"Incorrect username and (or) password: {DateTime.Now:T}");
+            _logger.LogWarning($"Incorrect username and (or) password");
             return Page();
         }
     }
