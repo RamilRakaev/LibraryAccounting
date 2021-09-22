@@ -17,9 +17,7 @@ namespace LibraryAccounting.Pages
         public IActionResult OnGet()
         {
             _logger.LogInformation($"Index page visited");
-            if (!User.Identity.IsAuthenticated)
-                return RedirectToPage("/Account/Register");
-            return RedirectToPage("/Account/Login");
+            return RedirectToPage("/Account/Logout");
         }
     }
 }

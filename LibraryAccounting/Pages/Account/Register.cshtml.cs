@@ -1,10 +1,14 @@
 using System.Threading.Tasks;
+using LibraryAccounting.CQRSInfrastructure.Methods.Commands.Requests.User;
 using LibraryAccounting.Domain.Model;
 using LibraryAccounting.Services.Mailing;
+using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using FluentValidation.TestHelper;
+using LibraryAccounting.CQRSInfrastructure.Methods.Commands.Validators;
 
 namespace LibraryAccounting.Pages.Account
 {
@@ -13,16 +17,19 @@ namespace LibraryAccounting.Pages.Account
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IMessageSending _emailService;
-        public RegisterViewModel Register { get; set; }
+        private readonly IMediator _mediator;
+        public UserRegistrationCommand Register { get; set; }
 
-        public RegisterModel(UserManager<ApplicationUser> userManager, 
+        public RegisterModel(UserManager<ApplicationUser> userManager,
             ILogger<RegisterModel> logger,
-            IMessageSending emailService)
+            IMessageSending emailService,
+            IMediator mediator)
         {
-            Register = new RegisterViewModel();
+            Register = new UserRegistrationCommand();
             _userManager = userManager;
             _logger = logger;
             _emailService = emailService;
+            _mediator = mediator;
         }
 
         public void OnGet()
@@ -30,7 +37,7 @@ namespace LibraryAccounting.Pages.Account
             _logger.LogInformation($"Register page visited");
         }
 
-        public async Task<IActionResult> OnPost(RegisterViewModel register)
+        public async Task<IActionResult> OnPost(UserRegistrationCommand register)
         {
             if (ModelState.IsValid)
             {
@@ -59,24 +66,11 @@ namespace LibraryAccounting.Pages.Account
             return Page();
         }
 
-        private async Task Registration(RegisterViewModel register)
+        private async Task Registration(UserRegistrationCommand register)
         {
-            ApplicationUser user = new() { UserName = register.Name, Email = register.Email, Password = register.Password, RoleId = 1 };
-            var result = await _userManager.CreateAsync(user, register.Password);
-            if (result.Succeeded)
-            {
-                _logger.LogInformation($"Sending message for user");
-                await this.SendMessage(user, _userManager, _emailService);
-                ModelState.AddModelError("", "Для завершения регистрации проверьте электронную почту и перейдите по ссылке, указанной в письме");
-            }
-            else
-            {
-                foreach (var error in result.Errors)
-                {
-                    _logger.LogError($"{error.Description}");
-                    ModelState.AddModelError(string.Empty, error.Description);
-                }
-            }
+            register.Page = this;
+            var message = await _mediator.Send(register);
+            ModelState.AddModelError(string.Empty, message);
         }
     }
 }

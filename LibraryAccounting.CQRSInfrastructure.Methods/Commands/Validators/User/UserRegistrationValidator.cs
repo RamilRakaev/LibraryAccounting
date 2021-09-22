@@ -1,13 +1,14 @@
 ﻿using FluentValidation;
 using LibraryAccounting.CQRSInfrastructure.Methods.Commands.Requests.User;
 
-namespace LibraryAccounting.CQRSInfrastructure.Methods.Commands.Validators.User
+namespace LibraryAccounting.CQRSInfrastructure.Methods.Commands.Validators
 {
-    class UserRegistrationValidator : AbstractValidator<UserRegistrationCommand>
+    public class UserRegistrationValidator : AbstractValidator<UserRegistrationCommand>
     {
         public UserRegistrationValidator()
         {
             RuleFor(u => u.UserName)
+                .NotNull()
                 .NotEmpty()
                 .Length(3, 50)
                 .WithMessage("Неправильно введено имя");
@@ -17,11 +18,17 @@ namespace LibraryAccounting.CQRSInfrastructure.Methods.Commands.Validators.User
                 .WithMessage("Неправильно введёна почта");
 
             RuleFor(u => u.Password)
-                .NotEmpty()
                 .NotNull()
+                .NotEmpty()
                 .MinimumLength(10)
                 .Matches("^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$")
                 .WithMessage("Неправильно введён пароль");
+
+            RuleFor(u => u.PasswordConfirm)
+                .NotNull()
+                .NotEmpty()
+                .Equal(u => u.Password)
+                .WithMessage("Пароли не совпадают");
 
             RuleFor(u => u.RoleId).NotEqual(0);
         }

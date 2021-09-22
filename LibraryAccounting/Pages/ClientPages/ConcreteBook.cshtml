@@ -5,7 +5,7 @@
 <div class="container-fluid">
     <h3 class="text-center d-block mt-3">@Model.Book.Title</h3>
     <div class="row justify-content-center">
-        <img class="col-lg-3 col-md-3 col-12" src="~/img/@(Model.Book.Title).jpg" />
+        <img class="col-lg-3 col-md-3 col-12" alt="@Model.Book.Title" src="~/img/@(Model.Book.Title).jpg" />
         <div class="col-lg-4 col-md-6 col-12 mt-4 concrete-book-property pl-lg-5 pl-md-5">
             <p>Автор: @Model.Book.Author</p>
             <p>Жанр: @Model.Book.Genre</p>

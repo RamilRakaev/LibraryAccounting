@@ -31,7 +31,7 @@
         {
             <div class="col-lg-3 col-md-2 col-12">
                 <a asp-page="/ClientPages/ConcreteBook" asp-route-bookId="@book.Id">
-                    <img class="img-fluid book-cover" src="~/img/@(book.Title).jpg" />
+                    <img class="img-fluid book-cover" alt="@book.Title" src="~/img/@(book.Title).jpg" />
                     <h4>@book.Title</h4>
                     <p>Автор: @book.Author.Name <br />Жанр: @book.Genre.Name <br />Издатель: @book.Publisher</p>
                 </a>

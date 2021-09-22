@@ -9,6 +9,7 @@ using System.Threading;
 using Microsoft.Extensions.Logging;
 using LibraryAccounting.CQRSInfrastructure.Methods.Queries.Requests;
 using LibraryAccounting.CQRSInfrastructure.Methods.Commands.Requests;
+using LibraryAccounting.CQRSInfrastructure.Methods.Commands.Requests.User;
 
 namespace LibraryAccounting.Pages.AdminPages
 {
@@ -56,8 +57,15 @@ namespace LibraryAccounting.Pages.AdminPages
             {
                 if (userinfo.Id == 0)
                 {
-                    await _mediator.Send(new AddUserCommand(userinfo), token);
-                    _logger.LogDebug($"Added user");
+                    var result = await _mediator.Send(new CreateUserCommand(userinfo), token);
+                    if (result.Succeeded)
+                    {
+                        _logger.LogDebug($"Added user");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, result.Errors.ToString());
+                    }
                 }
                 else
                 {

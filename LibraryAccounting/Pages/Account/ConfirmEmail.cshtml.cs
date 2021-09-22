@@ -15,12 +15,15 @@ namespace LibraryAccounting.Pages.Account
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ILogger<ConfirmEmailModel> _logger;
+        private readonly SignInManager<ApplicationUser> _signInManager;
 
         public ConfirmEmailModel(UserManager<ApplicationUser> userManager,
-            ILogger<ConfirmEmailModel> logger)
+            ILogger<ConfirmEmailModel> logger,
+            SignInManager<ApplicationUser> signInManager)
         {
             _userManager = userManager;
             _logger = logger;
+            _signInManager = signInManager;
         }
 
         public async Task<IActionResult> OnGet(string userEmail, string code)
@@ -40,9 +43,23 @@ namespace LibraryAccounting.Pages.Account
             var result = await _userManager.ConfirmEmailAsync(user, code);
             if (result.Succeeded)
             {
-                await _userManager.AddClaimAsync(user, new Claim("roleId", user.RoleId.ToString()));
-                await _userManager.UpdateAsync(user);
                 _logger.LogInformation($"User confirmation was successful");
+                if (_signInManager.PasswordSignInAsync(user.Email, user.Password, false, false).Result.Succeeded)
+                {
+                    await _signInManager.SignInAsync(user, false);
+                    await _userManager.AddClaimAsync(user, new Claim("roleId", user.RoleId.ToString()));
+                    await _userManager.UpdateAsync(user);
+                    _logger.LogInformation($"Succeeded login");
+                    switch (user.RoleId)
+                    {
+                        case 1:
+                            return RedirectToPage("/ClientPages/BookCatalog");
+                        case 2:
+                            return RedirectToPage("/LibrarianPages/BookCatalog");
+                        case 3:
+                            return RedirectToPage("/AdminPages/UserList");
+                    }
+                }
                 return RedirectToPage("/ClientPages/BookCatalog");
             }
             return Page();
