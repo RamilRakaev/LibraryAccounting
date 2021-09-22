@@ -1,17 +1,10 @@
-using System;
-using System.Security.Claims;
-using System.Threading;
 using System.Threading.Tasks;
-using LibraryAccounting.CQRSInfrastructure.Methods.Commands.Requests.User;
-using LibraryAccounting.Domain.Model;
+using LibraryAccounting.CQRSInfrastructure.Methods.Commands.Requests;
 using LibraryAccounting.Pages.ClientPages;
-using LibraryAccounting.Services.Mailing;
 using MediatR;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 
 namespace LibraryAccounting.Pages.Account
 {

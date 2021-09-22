@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Threading.Tasks;
 
-namespace LibraryAccounting.CQRSInfrastructure.Methods.Commands.Handlers.User
+namespace LibraryAccounting.CQRSInfrastructure.Methods.Commands.Handlers
 {
     public static class Notification
     {

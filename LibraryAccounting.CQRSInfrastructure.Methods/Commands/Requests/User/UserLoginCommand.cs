@@ -1,9 +1,7 @@
-﻿using LibraryAccounting.Domain.Model;
-using MediatR;
-using Microsoft.AspNetCore.Identity;
+﻿using MediatR;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace LibraryAccounting.CQRSInfrastructure.Methods.Commands.Requests.User
+namespace LibraryAccounting.CQRSInfrastructure.Methods.Commands.Requests
 {
     public class UserLoginCommand : IRequest<string>
     {

@@ -21,7 +21,6 @@ namespace LibraryAccounting.CQRSInfrastructure.Methods.Commands.Validators
                 .NotNull()
                 .NotEmpty()
                 .MinimumLength(10)
-                .Matches("^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$")
                 .WithMessage("Неправильно введён пароль");
 
             RuleFor(u => u.PasswordConfirm)

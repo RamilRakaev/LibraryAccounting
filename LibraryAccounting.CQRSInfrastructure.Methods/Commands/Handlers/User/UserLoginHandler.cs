@@ -1,17 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Security.Claims;
-using System.Text;
+﻿using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
-using LibraryAccounting.CQRSInfrastructure.Methods.Commands.Requests.User;
+using LibraryAccounting.CQRSInfrastructure.Methods.Commands.Requests;
 using LibraryAccounting.Domain.Model;
 using LibraryAccounting.Services.Mailing;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 
-namespace LibraryAccounting.CQRSInfrastructure.Methods.Commands.Handlers.User
+namespace LibraryAccounting.CQRSInfrastructure.Methods.Commands.Handlers
 {
     public class UserLoginHandler : IRequestHandler<UserLoginCommand, string>
     {
