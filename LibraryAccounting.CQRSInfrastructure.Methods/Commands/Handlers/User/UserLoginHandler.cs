@@ -35,12 +35,12 @@ namespace LibraryAccounting.CQRSInfrastructure.Methods.Commands.Handlers
             {
                 if (await _userManager.IsEmailConfirmedAsync(user))
                 {
-                    var result = await _signInManager.PasswordSignInAsync(request.Email, request.Password, request.RememberMe, false);
+                    var result = await _signInManager.PasswordSignInAsync(user.UserName, request.Password, request.RememberMe, false);
                     if (result.Succeeded)
                     {
                         await _signInManager.SignInAsync(user, true);
                         await _userManager.AddClaimAsync(user, new Claim("roleId", user.RoleId.ToString()));
-                        await _userManager.UpdateAsync(user);
+                        var resultClaim = await _userManager.UpdateAsync(user);
                         _logger.LogInformation("Succeeded login");
                         return "Вход успешно осуществлён";
                     }

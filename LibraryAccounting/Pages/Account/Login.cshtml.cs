@@ -34,9 +34,9 @@ namespace LibraryAccounting.Pages.Account
                     case 1:
                         return RedirectToPage("/ClientPages/BookCatalog");
                     case 2:
-                        return RedirectToPage("/LibrarianPages/BookCatalog");
-                    case 3:
                         return RedirectToPage("/AdminPages/UserList");
+                    case 3:
+                        return RedirectToPage("/LibrarianPages/BookCatalog");
                 }
             return Page();
         }

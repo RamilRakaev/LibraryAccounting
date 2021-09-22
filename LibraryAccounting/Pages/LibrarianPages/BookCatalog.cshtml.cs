@@ -52,7 +52,7 @@ namespace LibraryAccounting.Pages.LibrarianPages
 
         public async Task<IActionResult> OnGet()
         {
-            if (_user.IsAuthenticated == false || _user.RoleId != 2)
+            if (_user.IsAuthenticated == false || _user.RoleId != 3)
             {
                 return RedirectToPage("/Account/Login");
             }

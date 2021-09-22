@@ -23,6 +23,7 @@ namespace LibraryAccounting.CQRSInfrastructure.Methods.Commands.Handlers
             _logger = logger;
             _signInManager = signInManager;
         }
+
         public async Task<ApplicationUser> Handle(ConfirmEmailCommand request, CancellationToken cancellationToken)
         {
             _logger.LogInformation($"ConfirmEmail page visited");

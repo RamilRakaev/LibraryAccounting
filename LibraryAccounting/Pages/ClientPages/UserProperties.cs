@@ -44,6 +44,18 @@ namespace LibraryAccounting.Pages.ClientPages
                 }
             }
         }
+        public string RoleName { get
+            {
+                var result = _httpContext.HttpContext.User.FindFirst(ClaimsIdentity.DefaultRoleClaimType);
+                if(result != null)
+                {
+                    return result.Value;
+                }
+                else
+                {
+                    return string.Empty;
+                }
+            } }
 
         public bool IsAuthenticated
         {
