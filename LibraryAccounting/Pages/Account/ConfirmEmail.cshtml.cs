@@ -1,13 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using LibraryAccounting.CQRSInfrastructure.Methods.Commands.Requests;
-using LibraryAccounting.Domain.Model;
-using LibraryAccounting.Pages.ClientPages;
 using MediatR;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
@@ -39,6 +32,8 @@ namespace LibraryAccounting.Pages.Account
                     return RedirectToPage("/LibrarianPages/BookCatalog");
                 case 3:
                     return RedirectToPage("/AdminPages/UserList");
+                default:
+                    break;
             }
             return RedirectToPage("/Account/Login");
         }

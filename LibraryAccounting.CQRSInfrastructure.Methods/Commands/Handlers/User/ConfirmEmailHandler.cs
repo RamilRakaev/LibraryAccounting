@@ -3,10 +3,7 @@ using LibraryAccounting.Domain.Model;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
 using System.Security.Claims;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -39,17 +36,17 @@ namespace LibraryAccounting.CQRSInfrastructure.Methods.Commands.Handlers
                 user = new ApplicationUser();
                 _logger.LogError($"User is not found");
             }
-            var result = await _userManager.ConfirmEmailAsync(user, request.Code);
-            if (result.Succeeded)
+            var mailConfirmationResult = await _userManager.ConfirmEmailAsync(user, request.Code);
+            if (mailConfirmationResult.Succeeded)
             {
                 _logger.LogInformation($"User confirmation was successful");
-                if (_signInManager.PasswordSignInAsync(user.Email, user.Password, false, false).Result.Succeeded)
+                var signInResult = await _signInManager.PasswordSignInAsync(user.Email, user.Password, false, false);
+                if (signInResult.Succeeded)
                 {
                     await _signInManager.SignInAsync(user, false);
                     await _userManager.AddClaimAsync(user, new Claim("roleId", user.RoleId.ToString()));
                     await _userManager.UpdateAsync(user);
                     _logger.LogInformation($"Succeeded login");
-                    
                 }
                 return user;
             }

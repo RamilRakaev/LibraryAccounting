@@ -26,6 +26,19 @@ namespace LibraryAccounting.CQRSInfrastructure.Methods.Commands.Handlers.User
 
         public async Task<string> Handle(UserRegistrationCommand request, CancellationToken cancellationToken)
         {
+            var existingUser = await _userManager.FindByEmailAsync(request.Email);
+            if (existingUser != null)
+            {
+                return await CheckingExistingAccount(request, existingUser);
+            }
+            else
+            {
+                return await CreateAccount(request);
+            }
+        }
+
+        private async Task<string> CreateAccount(UserRegistrationCommand request)
+        {
             var user = new ApplicationUser()
             {
                 UserName = request.UserName,
@@ -49,6 +62,22 @@ namespace LibraryAccounting.CQRSInfrastructure.Methods.Commands.Handlers.User
                     errorMessages += error.Description + "\n";
                 }
                 return errorMessages;
+            }
+        }
+
+        private async Task<string> CheckingExistingAccount(UserRegistrationCommand request, ApplicationUser existingUser)
+        {
+            if (await _userManager.IsEmailConfirmedAsync(existingUser) == false)
+            {
+                _logger.LogInformation($"This account already exists, mail is not verified");
+                await request.Page.SendMessage(existingUser, _userManager, _emailService);
+                return "Аккаунт с текущей почтой уже существует. Почта ещё не подтверждена. " +
+                    "Чтобы подтвердить email перейдите по ссылке в письме";
+            }
+            else
+            {
+                _logger.LogInformation($"This account already exists");
+                return "Аккаунт с текущей почтой уже существует";
             }
         }
     }
