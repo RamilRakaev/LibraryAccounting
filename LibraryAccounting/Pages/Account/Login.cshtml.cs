@@ -1,8 +1,12 @@
 using System;
 using System.Security.Claims;
+using System.Threading;
 using System.Threading.Tasks;
+using LibraryAccounting.CQRSInfrastructure.Methods.Commands.Requests.User;
 using LibraryAccounting.Domain.Model;
+using LibraryAccounting.Pages.ClientPages;
 using LibraryAccounting.Services.Mailing;
+using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -13,68 +17,52 @@ namespace LibraryAccounting.Pages.Account
 {
     public class LoginModel : PageModel
     {
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
-        private readonly IMessageSending _emailService;
-        public LoginViewModel Login { get; set; }
+        private readonly IMediator _mediator;
+        private readonly UserProperties _userProperties;
+        public UserLoginCommand Login { get; set; }
 
-        public LoginModel(UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager,
+        public LoginModel(IMediator mediator,
             ILogger<LoginModel> logger,
-            IMessageSending emailService)
+            UserProperties userProperties)
         {
-            Login = new LoginViewModel() { ReturnUrl = null };
-            _userManager = userManager;
-            _signInManager = signInManager;
+            Login = new UserLoginCommand();
+            _mediator = mediator;
             _logger = logger;
-            _emailService = emailService;
+            _userProperties = userProperties;
         }
 
-        public void OnGet()
+        public IActionResult OnGet()
         {
             _logger.LogInformation($"Login page visited");
+            if (_userProperties.IsAuthenticated)
+                switch (_userProperties.RoleId)
+                {
+                    case 1:
+                        return RedirectToPage("/ClientPages/BookCatalog");
+                    case 2:
+                        return RedirectToPage("/LibrarianPages/BookCatalog");
+                    case 3:
+                        return RedirectToPage("/AdminPages/UserList");
+                }
+            return Page();
         }
 
-        public async Task<IActionResult> OnPost(LoginViewModel login)
+        public async Task<IActionResult> OnPost(UserLoginCommand login)
         {
             if (ModelState.IsValid)
             {
-                var user = await _userManager.FindByEmailAsync(login.Email);
-                if (user != null)
-                {
-                    if (await _userManager.IsEmailConfirmedAsync(user))
-                    {
-                        var result = await _signInManager.PasswordSignInAsync(login.Email, login.Password, login.RememberMe, false);
-                        if (result.Succeeded)
-                        {
-                            await _signInManager.SignInAsync(user, false);
-                            await _userManager.AddClaimAsync(user, new Claim("roleId", user.RoleId.ToString()));
-                            await _userManager.UpdateAsync(user);
-                            _logger.LogInformation($"Succeeded login");
-                            switch (user.RoleId)
-                            {
-                                case 1:
-                                    return RedirectToPage("/ClientPages/BookCatalog");
-                                case 2:
-                                    return RedirectToPage("/LibrarianPages/BookCatalog");
-                                case 3:
-                                    return RedirectToPage("/AdminPages/UserList");
-                            }
-                        }
-                    }
-                    else
-                    {
-                        await this.SendMessage(user, _userManager, _emailService);
-                        ModelState.AddModelError(string.Empty, "Вы не подтвердили свой email. " +
-                            "Проверьте свою почту и перейдите по ссылке, чтобы подтвердить почту");
-                        return Page();
-                    }
-                }
+                login.Page = this;
+                string message = await _mediator.Send(login);
+                ModelState.AddModelError(string.Empty, message);
+
             }
-            ModelState.AddModelError("", "Неправильный логин и (или) пароль");
-            _logger.LogWarning($"Incorrect username and (or) password");
-            return Page();
+            else
+            {
+                ModelState.AddModelError("", "Неправильный логин и (или) пароль");
+                _logger.LogWarning($"Incorrect username and (or) password");
+            }
+            return RedirectToPage("/Account/Login");
         }
     }
 }

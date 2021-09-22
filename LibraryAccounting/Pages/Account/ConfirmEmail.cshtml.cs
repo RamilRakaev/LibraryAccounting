@@ -32,13 +32,11 @@ namespace LibraryAccounting.Pages.Account
             if (userEmail == null || code == null)
             {
                 _logger.LogError($"Arguments userEmail and code are zero");
-                ModelState.AddModelError("", "Arguments are zero");
             }
             var user = await _userManager.FindByEmailAsync(userEmail);
             if (user == null)
             {
                 _logger.LogError($"User is not found");
-                ModelState.AddModelError("", "User is not found");
             }
             var result = await _userManager.ConfirmEmailAsync(user, code);
             if (result.Succeeded)
@@ -62,7 +60,7 @@ namespace LibraryAccounting.Pages.Account
                 }
                 return RedirectToPage("/ClientPages/BookCatalog");
             }
-            return Page();
+            return RedirectToPage("/Account/Login");
         }
     }
 }

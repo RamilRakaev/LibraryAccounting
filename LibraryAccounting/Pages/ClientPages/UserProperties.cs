@@ -17,7 +17,15 @@ namespace LibraryAccounting.Pages.ClientPages
         {
             get
             {
-                return Convert.ToInt32(_httpContext.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value);
+                var result = _httpContext.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier);
+                if (result != null)
+                {
+                    return Convert.ToInt32(result.Value);
+                }
+                else
+                {
+                    return 0;
+                }
             }
         }
 
@@ -25,7 +33,15 @@ namespace LibraryAccounting.Pages.ClientPages
         {
             get
             {
-                return Convert.ToInt32(_httpContext.HttpContext.User.FindFirst("roleId").Value);
+                var result = _httpContext.HttpContext.User.FindFirst("roleId"); 
+                if (result != null)
+                {
+                    return Convert.ToInt32(result.Value);
+                }
+                else
+                {
+                    return 0;
+                }
             }
         }
 
