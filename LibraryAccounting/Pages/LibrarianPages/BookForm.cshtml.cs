@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using LibraryAccounting.CQRSInfrastructure.Methods.Commands.Requests;
 using LibraryAccounting.CQRSInfrastructure.Methods.Queries.Requests;
 using LibraryAccounting.Domain.Model;
+using LibraryAccounting.Pages.ClientPages;
 using MediatR;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -16,27 +17,34 @@ namespace LibraryAccounting.Pages.LibrarianPages
 {
     public class BookFormModel : PageModel
     {
-        readonly private IWebHostEnvironment _environment;
+        private readonly IWebHostEnvironment _environment;
         private readonly IMediator _mediator;
-        readonly private ILogger<BookCatalogModel> _logger;
+        private readonly ILogger<BookCatalogModel> _logger;
+        private readonly UserProperties _user;
         public Book Book { get; private set; }
         public SelectList Genres { get; set; }
         public SelectList Authors { get; set; }
 
         public BookFormModel(IWebHostEnvironment environment,
             IMediator mediator,
-            ILogger<BookCatalogModel> logger)
+            ILogger<BookCatalogModel> logger,
+            UserProperties userProperties)
         {
             _environment = environment;
             Book = new Book();
             _mediator = mediator;
             _logger = logger;
+            _user = userProperties;
             Genres = new SelectList(_mediator.Send(new GetGenresQuery()).Result, "Id", "Name");
             Authors = new SelectList(_mediator.Send(new GetAuthorsQuery()).Result, "Id", "Name");
         }
 
-        public async Task OnGet(int? id)
+        public async Task<IActionResult> OnGet(int? id)
         {
+            if (_user.IsAuthenticated == false || _user.RoleId != 2)
+            {
+                return RedirectToPage("/Account/Login");
+            }
             _logger.LogInformation($"BookForm page visited");
             if (id != null)
             {
@@ -44,6 +52,7 @@ namespace LibraryAccounting.Pages.LibrarianPages
                 Book = await _mediator.Send(new GetBookQuery(Convert.ToInt32(id)));
             }
             _logger.LogDebug($"id is zero");
+            return Page();
         }
 
         public async Task<IActionResult> OnPost(

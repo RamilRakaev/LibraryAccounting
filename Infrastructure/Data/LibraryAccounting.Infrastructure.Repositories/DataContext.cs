@@ -27,7 +27,7 @@ namespace LibraryAccounting.Infrastructure.Repositories
             mb.Entity<ApplicationUser>().HasData(new ApplicationUser[]
             {
                 new ApplicationUser(){ Id = 1, UserName = "Ivan", Email = "Ivan@gmail.com", 
-                    Password = "sdfgDs23de", RoleId = 2, EmailConfirmed = true},
+                    PasswordHash = "sdfgDs23de", RoleId = 2, EmailConfirmed = true},
                 new ApplicationUser(){ Id = 2, UserName = "Danil", Email = "Danil@gmail.com", 
                     Password = "e23D23df32", RoleId = 3, EmailConfirmed = true},
                 new ApplicationUser(){ Id = 3, UserName = "Denis", Email = "Denis@gmail.com", 

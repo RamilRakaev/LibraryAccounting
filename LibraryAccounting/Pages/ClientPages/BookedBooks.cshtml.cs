@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using System;
 using LibraryAccounting.CQRSInfrastructure.Methods.Commands.Requests;
 using LibraryAccounting.CQRSInfrastructure.Methods.Queries.Requests;
 
@@ -32,6 +31,10 @@ namespace LibraryAccounting.Pages.ClientPages
 
         public async Task OnGet()
         {
+            if (User.IsAuthenticated == false || User.RoleId != 1)
+            {
+                RedirectToPage("/Account/Login");
+            }
             _logger.LogInformation($"BookedBooks page is visited");
             ArmoredBooks = await _mediator.Send(new GetArmoredBooksQuery(User.UserId));
         }

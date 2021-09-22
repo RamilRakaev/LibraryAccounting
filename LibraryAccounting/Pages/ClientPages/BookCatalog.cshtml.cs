@@ -46,7 +46,7 @@ namespace LibraryAccounting.Pages.ClientPages
 
         public async Task OnGet()
         {
-            if(User.IsAuthenticated == false)
+            if(User.IsAuthenticated == false || User.RoleId != 1)
             {
                 RedirectToPage("/Account/Login");
             }

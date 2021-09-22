@@ -9,9 +9,10 @@ using System.Threading.Tasks;
 using MediatR;
 using System.Threading;
 using Microsoft.Extensions.Logging;
-using System;
 using LibraryAccounting.CQRSInfrastructure.Methods.Queries.Requests;
 using LibraryAccounting.CQRSInfrastructure.Methods.Commands.Requests;
+using LibraryAccounting.Pages.ClientPages;
+using Microsoft.AspNetCore.Mvc;
 
 namespace LibraryAccounting.Pages.LibrarianPages
 {
@@ -20,6 +21,7 @@ namespace LibraryAccounting.Pages.LibrarianPages
         readonly private IWebHostEnvironment _environment;
         readonly private IMediator _mediator;
         readonly private ILogger<BookCatalogModel> _logger;
+        private readonly UserProperties _user;
         public List<Book> Books { get; private set; }
         public SelectList Authors { get; private set; }
         public SelectList Genres { get; private set; }
@@ -27,11 +29,13 @@ namespace LibraryAccounting.Pages.LibrarianPages
 
         public BookCatalogModel(IWebHostEnvironment environment,
             IMediator mediator,
-            ILogger<BookCatalogModel> logger)
+            ILogger<BookCatalogModel> logger,
+            UserProperties user)
         {
             _environment = environment;
             _mediator = mediator;
             _logger = logger;
+            _user = user;
         }
 
         private async Task GetSelectLists()
@@ -46,15 +50,24 @@ namespace LibraryAccounting.Pages.LibrarianPages
             Publishers = new SelectList(publishers);
         }
 
-        public async Task OnGet()
+        public async Task<IActionResult> OnGet()
         {
+            if (_user.IsAuthenticated == false || _user.RoleId != 2)
+            {
+                return RedirectToPage("/Account/Login");
+            }
             await GetSelectLists();
             Books = await _mediator.Send(new GetBooksQuery());
             _logger.LogInformation($"BookCatalog page visited");
+            return Page();
         }
 
-        public async Task OnGetRemove(int id)
+        public async Task<IActionResult> OnGetRemove(int id)
         {
+            if (_user.IsAuthenticated == false)
+            {
+                return RedirectToPage("/Account/Login");
+            }
             var book = await _mediator.Send(new RemoveBookCommand(id));
             string path = "/img/" + book.Title + ".jpg";
             FileInfo file = new(_environment.WebRootPath + path);
@@ -62,6 +75,7 @@ namespace LibraryAccounting.Pages.LibrarianPages
             await GetSelectLists();
             Books = await _mediator.Send(new GetBooksQuery());
             _logger.LogInformation($"Book {book.Title} is removed");
+            return Page();
         }
 
         public async Task OnPost(int authorId, int genreId, string publisher)

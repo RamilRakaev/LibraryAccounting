@@ -9,7 +9,7 @@ using System.Threading;
 using Microsoft.Extensions.Logging;
 using LibraryAccounting.CQRSInfrastructure.Methods.Queries.Requests;
 using LibraryAccounting.CQRSInfrastructure.Methods.Commands.Requests;
-using LibraryAccounting.CQRSInfrastructure.Methods.Commands.Requests.User;
+using LibraryAccounting.Pages.ClientPages;
 
 namespace LibraryAccounting.Pages.AdminPages
 {
@@ -17,14 +17,17 @@ namespace LibraryAccounting.Pages.AdminPages
     {
         private readonly IMediator _mediator;
         private readonly ILogger<UserFormModel> _logger;
+        private readonly UserProperties _user;
         public ApplicationUser UserInfo { get; set; }
         public SelectList Roles { get; set; }
 
         public UserFormModel(IMediator mediator,
-            ILogger<UserFormModel> logger)
+            ILogger<UserFormModel> logger,
+            UserProperties userProperties)
         {
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
             _logger = logger;
+            _user = userProperties;
             ExtractRoles();
         }
 
@@ -36,8 +39,12 @@ namespace LibraryAccounting.Pages.AdminPages
             _logger.LogDebug($"Roles extracted");
         }
 
-        public async Task OnGet(int? id)
+        public async Task<IActionResult> OnGet(int? id)
         {
+            if (_user.IsAuthenticated == false || _user.RoleId != 3)
+            {
+                RedirectToPage("/Account/Login");
+            }
             _logger.LogInformation($"UserForm page visited:");
             if (id != null)
             {
@@ -49,6 +56,7 @@ namespace LibraryAccounting.Pages.AdminPages
                 _logger.LogDebug($"id is zero:");
                 UserInfo = new ApplicationUser();
             }
+            return Page();
         }
 
         public async Task<IActionResult> OnPost(ApplicationUser userinfo, CancellationToken token)

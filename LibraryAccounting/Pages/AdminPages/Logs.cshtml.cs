@@ -1,5 +1,7 @@
 using System.Threading.Tasks;
+using LibraryAccounting.Pages.ClientPages;
 using LibraryAccounting.Services.LogOutput;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 
@@ -9,21 +11,30 @@ namespace LibraryAccounting.Pages.AdminPages
     {
         private readonly ILogger<LogsModel> _logger;
         public readonly ILogFileManager LogManager;
+        public new UserProperties User;
         public string[] Dates { get; private set; }
         public Log[] Logs { get; private set; }
         public string[] Types { get; private set; }
 
-        public LogsModel(ILogger<LogsModel> logger, ILogFileManager log)
+        public LogsModel(ILogger<LogsModel> logger, 
+            ILogFileManager log,
+            UserProperties userProperties)
         {
             LogManager = log;
             _logger = logger;
+            User = userProperties;
         }
 
-        public async Task OnGet()
+        public async Task<IActionResult> OnGet()
         {
+            if (User.IsAuthenticated == false || User.RoleId != 3)
+            {
+                return RedirectToPage("/Account/Login");
+            }
             Dates = await LogManager.GetDatesAsync();
             Types = await LogManager.GetServicesAsync();
             Logs = await LogManager.GetLogsAsync(Dates[0]);
+            return Page();
         }
 
         public async Task OnPost(string date, string service)

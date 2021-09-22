@@ -12,7 +12,7 @@ namespace LibraryAccounting.Pages.Account
     {
         private readonly ILogger<LoginModel> _logger;
         private readonly IMediator _mediator;
-        private readonly UserProperties _userProperties;
+        public readonly UserProperties _user;
         public UserLoginCommand Login { get; set; }
 
         public LoginModel(IMediator mediator,
@@ -22,14 +22,14 @@ namespace LibraryAccounting.Pages.Account
             Login = new UserLoginCommand();
             _mediator = mediator;
             _logger = logger;
-            _userProperties = userProperties;
+            _user = userProperties;
         }
 
         public IActionResult OnGet()
         {
             _logger.LogInformation($"Login page visited");
-            if (_userProperties.IsAuthenticated)
-                switch (_userProperties.RoleId)
+            if (_user.IsAuthenticated)
+                switch (_user.RoleId)
                 {
                     case 1:
                         return RedirectToPage("/ClientPages/BookCatalog");
