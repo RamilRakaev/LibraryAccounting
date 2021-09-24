@@ -1,7 +1,5 @@
-﻿using LibraryAccounting.Domain.Interfaces.DataManagement;
-using Microsoft.AspNetCore.Identity;
-using System.Security.Claims;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Identity;
+using System.Collections.Generic;
 
 namespace LibraryAccounting.Domain.Model
 {
@@ -9,7 +7,7 @@ namespace LibraryAccounting.Domain.Model
     {
         public int RoleId { get; set; }
         public ApplicationUserRole Role { get; set; }
-        public Booking Booking { get; set; }
+        public List<Booking> Bookings { get; set; }
         public string Password { get; set; }
 
         public ApplicationUser()

@@ -14,8 +14,8 @@ namespace LibraryAccounting.Infrastructure.Repositories.Configuration
                 .HasForeignKey<Booking>(b => b.BookId);
 
             builder.HasOne(b => b.Client)
-                .WithOne(c => c.Booking)
-                .HasForeignKey<Booking>(b => b.ClientId);
+                .WithMany(c => c.Bookings)
+                .HasForeignKey(b => b.ClientId);
 
             builder.HasData(new Booking[]
             {
