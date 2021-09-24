@@ -18,15 +18,15 @@ namespace LibraryAccounting.Pages.LibrarianPages
 {
     public class BookCatalogModel : PageModel
     {
-        readonly private IWebHostEnvironment _environment;
-        readonly private IMediator _mediator;
-        readonly private ILogger<BookCatalogModel> _logger;
+        private readonly IWebHostEnvironment _environment;
+        private readonly IMediator _mediator;
+        private readonly ILogger<BookCatalogModel> _logger;
         private readonly UserProperties _user;
         public List<Book> Books { get; private set; }
         public SelectList Authors { get; private set; }
         public SelectList Genres { get; private set; }
         public SelectList Publishers { get; private set; }
-
+        private readonly string fileReport_path = Directory.GetCurrentDirectory() + "/Librarian report.xlsx";
         public BookCatalogModel(IWebHostEnvironment environment,
             IMediator mediator,
             ILogger<BookCatalogModel> logger,
@@ -52,6 +52,7 @@ namespace LibraryAccounting.Pages.LibrarianPages
 
         public async Task<IActionResult> OnGet()
         {
+            new FileInfo(fileReport_path).Delete();
             if (_user.IsAuthenticated == false || _user.RoleId != 3)
             {
                 return RedirectToPage("/Account/Login");
@@ -71,21 +72,22 @@ namespace LibraryAccounting.Pages.LibrarianPages
             var book = await _mediator.Send(new RemoveBookCommand(id));
             //TODO: Проверить работу комманды
             await _mediator.Send(new RemoveImageCommand(book.Title));
-            //string path = "/img/" + book.Title + ".jpg";
-            //FileInfo file = new(_environment.WebRootPath + path);
-            //file.Delete();
             await GetSelectLists();
             Books = await _mediator.Send(new GetBooksQuery());
             _logger.LogInformation($"Book {book.Title} is removed");
             return Page();
         }
 
-        public async Task OnGetReporting() 
+        public async Task<IActionResult> OnGetReporting() 
         {
-            await _mediator.Send(new LibrarianExcelReportCommand());
+            
+            // Тип файла - content-type
+            string file_type = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+            await _mediator.Send(new LibrarianExcelReportCommand() {Path = fileReport_path });
             await GetSelectLists();
             Books = await _mediator.Send(new GetBooksQuery());
             _logger.LogInformation($"Excel bookings report");
+            return PhysicalFile(fileReport_path, file_type);
         }
 
         public async Task OnPost(int authorId, int genreId, string publisher)
