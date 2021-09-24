@@ -101,7 +101,7 @@ namespace LibraryAccounting.Pages.LibrarianPages
 
             if (string.IsNullOrEmpty(anotherAuthor) == false)
             {
-                book.Author = new Author(anotherAuthor);
+                book.Author = new BookAuthor(anotherAuthor);
             }
         }
     }

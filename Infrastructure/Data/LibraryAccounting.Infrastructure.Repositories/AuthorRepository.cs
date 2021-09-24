@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace LibraryAccounting.Infrastructure.Repositories
 {
-    public class AuthorRepository : IRepository<Author>
+    public class AuthorRepository : IRepository<BookAuthor>
     {
         readonly private DataContext db;
 
@@ -16,49 +16,49 @@ namespace LibraryAccounting.Infrastructure.Repositories
             db = context;
         }
 
-        public IQueryable<Author> GetAll()
+        public IQueryable<BookAuthor> GetAll()
         {
-            return db.Set<Author>().AsQueryable();
+            return db.Set<BookAuthor>().AsQueryable();
         }
 
-        public List<Author> GetAllAsNoTracking()
+        public List<BookAuthor> GetAllAsNoTracking()
         {
-            return db.Set<Author>()
+            return db.Set<BookAuthor>()
                 .Include(a => a.Books)
                 .Include(a => a.Genres)
                 .AsNoTracking().ToList();
         }
 
-        public async Task<Author> FindNoTrackingAsync(int id)
+        public async Task<BookAuthor> FindNoTrackingAsync(int id)
         {
-            return await db.Set<Author>()
+            return await db.Set<BookAuthor>()
                 .Include(a => a.Books)
                 .Include(a => a.Genres)
                 .FirstOrDefaultAsync(b => b.Id == id);
         }
 
-        public async Task<Author> FindAsync(int id)
+        public async Task<BookAuthor> FindAsync(int id)
         {
-            return await db.Set<Author>()
+            return await db.Set<BookAuthor>()
                 .Include(a => a.Books)
                 .Include(a => a.Genres)
                 .FirstOrDefaultAsync(b => b.Id == id);
         }
 
-        public async Task AddAsync(Author element)
+        public async Task AddAsync(BookAuthor element)
         {
-            await db.Set<Author>().AddAsync(element);
+            await db.Set<BookAuthor>().AddAsync(element);
         }
 
-        public async Task RemoveAsync(Author element)
+        public async Task RemoveAsync(BookAuthor element)
         {
-            if (await db.Set<Author>().ContainsAsync(element))
-                await Task.Run(() => db.Set<Author>().Remove(element));
+            if (await db.Set<BookAuthor>().ContainsAsync(element))
+                await Task.Run(() => db.Set<BookAuthor>().Remove(element));
         }
 
-        public async Task RemoveRangeAsync(IEnumerable<Author> elements)
+        public async Task RemoveRangeAsync(IEnumerable<BookAuthor> elements)
         {
-            await Task.Run(() => db.Set<Author>().RemoveRange(elements));
+            await Task.Run(() => db.Set<BookAuthor>().RemoveRange(elements));
         }
 
         public async Task SaveAsync()

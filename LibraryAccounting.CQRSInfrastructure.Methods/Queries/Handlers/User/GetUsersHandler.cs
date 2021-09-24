@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace LibraryAccounting.CQRSInfrastructure.Methods.Queries.Handlers
 {
@@ -23,7 +24,7 @@ namespace LibraryAccounting.CQRSInfrastructure.Methods.Queries.Handlers
 
         public async Task<List<ApplicationUser>> Handle(GetUsersQuery request, CancellationToken cancellationToken)
         {
-            users = _db.Users.ToList();
+            users = _db.Users.Include(u => u.Role).ToList();
             QueryFilter<ApplicationUser, GetUsersQuery> filter =
                 new QueryFilter<ApplicationUser, GetUsersQuery>(users);
             await Task.Run(() => filter.Filter(request));

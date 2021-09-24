@@ -10,7 +10,7 @@ namespace LibraryAccounting.Domain.Model
 
         public int? AuthorId { get; set; }
         [ForeignKey("AuthorId")]
-        public Author Author { get; set; }
+        public BookAuthor Author { get; set; }
 
         public int? GenreId { get; set; }
         [ForeignKey("GenreId")]

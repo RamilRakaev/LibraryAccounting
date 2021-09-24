@@ -7,17 +7,17 @@ using System.Threading.Tasks;
 
 namespace LibraryAccounting.CQRSInfrastructure.Methods.Commands.Handlers
 {
-    public class AddAuthorHandler : IRequestHandler<AddAuthorCommand, Author>
+    public class AddAuthorHandler : IRequestHandler<AddAuthorCommand, BookAuthor>
     {
-        private readonly IRepository<Author> _db;
+        private readonly IRepository<BookAuthor> _db;
 
-        public AddAuthorHandler(IRepository<Author> db)
+        public AddAuthorHandler(IRepository<BookAuthor> db)
         {
             _db = db;
         }
-        public async Task<Author> Handle(AddAuthorCommand request, CancellationToken cancellationToken)
+        public async Task<BookAuthor> Handle(AddAuthorCommand request, CancellationToken cancellationToken)
         {
-            var author = new Author(request.Name);
+            var author = new BookAuthor(request.Name);
             await _db.AddAsync(author);
             await _db.SaveAsync();
             return author;

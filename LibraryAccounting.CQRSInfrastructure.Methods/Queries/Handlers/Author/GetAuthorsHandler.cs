@@ -8,19 +8,19 @@ using System.Threading.Tasks;
 
 namespace LibraryAccounting.CQRSInfrastructure.Methods.Queries.Handlers
 {
-    public class GetAuthorsHandler : IRequestHandler<GetAuthorsQuery, IEnumerable<Author>>
+    public class GetAuthorsHandler : IRequestHandler<GetAuthorsQuery, IEnumerable<BookAuthor>>
     {
-        private readonly IRepository<Author> _db;
+        private readonly IRepository<BookAuthor> _db;
 
-        public GetAuthorsHandler(IRepository<Author> db)
+        public GetAuthorsHandler(IRepository<BookAuthor> db)
         {
             _db = db;
         }
 
-        public async Task<IEnumerable<Author>> Handle(GetAuthorsQuery request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<BookAuthor>> Handle(GetAuthorsQuery request, CancellationToken cancellationToken)
         {
-            QueryFilter<Author, GetAuthorsQuery> queryFilter =
-                new QueryFilter<Author, GetAuthorsQuery>(_db.GetAllAsNoTracking());
+            QueryFilter<BookAuthor, GetAuthorsQuery> queryFilter =
+                new QueryFilter<BookAuthor, GetAuthorsQuery>(_db.GetAllAsNoTracking());
             return await queryFilter.FilterAsync(request);
         }
     }

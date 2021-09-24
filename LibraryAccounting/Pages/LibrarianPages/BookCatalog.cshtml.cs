@@ -69,9 +69,11 @@ namespace LibraryAccounting.Pages.LibrarianPages
                 return RedirectToPage("/Account/Login");
             }
             var book = await _mediator.Send(new RemoveBookCommand(id));
-            string path = "/img/" + book.Title + ".jpg";
-            FileInfo file = new(_environment.WebRootPath + path);
-            file.Delete();
+            //TODO: Проверить работу комманды
+            await _mediator.Send(new RemoveImageCommand(book.Title));
+            //string path = "/img/" + book.Title + ".jpg";
+            //FileInfo file = new(_environment.WebRootPath + path);
+            //file.Delete();
             await GetSelectLists();
             Books = await _mediator.Send(new GetBooksQuery());
             _logger.LogInformation($"Book {book.Title} is removed");

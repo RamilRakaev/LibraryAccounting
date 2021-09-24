@@ -16,10 +16,12 @@ namespace LibraryAccounting.Infrastructure.Repositories.Configuration
             new ApplicationUser(){ UserName = "Denis", Email = "Denis@gmail.com",
                     RoleId = 1, EmailConfirmed = true},
         };
+
         private static List<string> passwords = new List<string>() 
         {
             "e23D!23df32", "sdfgDs23de#", "Fd3D23d3&2r4"
         };
+
         public static async Task InitializeAsync(UserManager<ApplicationUser> userManager)
         {
             int i = 0;

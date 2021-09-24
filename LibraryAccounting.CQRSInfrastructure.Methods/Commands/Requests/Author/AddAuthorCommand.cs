@@ -3,7 +3,7 @@ using LibraryAccounting.Domain.Model;
 
 namespace LibraryAccounting.CQRSInfrastructure.Methods.Commands.Requests
 {
-    public class AddAuthorCommand : IRequest<Author>
+    public class AddAuthorCommand : IRequest<BookAuthor>
     {
         public string Name { get; set; }
 

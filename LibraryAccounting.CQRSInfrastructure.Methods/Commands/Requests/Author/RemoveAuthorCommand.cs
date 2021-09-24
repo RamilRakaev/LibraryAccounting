@@ -3,7 +3,7 @@ using MediatR;
 
 namespace LibraryAccounting.CQRSInfrastructure.Methods.Commands.Requests
 {
-    public class RemoveAuthorCommand : IRequest<Author>
+    public class RemoveAuthorCommand : IRequest<BookAuthor>
     {
         public int Id { get; set; }
 

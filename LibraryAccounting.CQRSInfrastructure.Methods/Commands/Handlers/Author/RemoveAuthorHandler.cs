@@ -7,16 +7,16 @@ using System.Threading.Tasks;
 
 namespace LibraryAccounting.CQRSInfrastructure.Methods.Commands.Handlers
 {
-    public class RemoveAuthorHandler : IRequestHandler<RemoveAuthorCommand, Author>
+    public class RemoveAuthorHandler : IRequestHandler<RemoveAuthorCommand, BookAuthor>
     {
-        private readonly IRepository<Author> _db;
+        private readonly IRepository<BookAuthor> _db;
 
-        public RemoveAuthorHandler(IRepository<Author> db)
+        public RemoveAuthorHandler(IRepository<BookAuthor> db)
         {
             _db = db;
         }
 
-        public async Task<Author> Handle(RemoveAuthorCommand request, CancellationToken cancellationToken)
+        public async Task<BookAuthor> Handle(RemoveAuthorCommand request, CancellationToken cancellationToken)
         {
             var Author = await _db.FindNoTrackingAsync(request.Id);
             await _db.RemoveAsync(Author);
