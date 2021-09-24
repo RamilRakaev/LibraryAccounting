@@ -25,7 +25,7 @@ namespace LibraryAccounting.Infrastructure.Repositories
         {
             return db.Set<Booking>()
                 .Include(b => b.Book)
-                .Include(b => (ApplicationUser) b.Client)
+                .Include(b => b.Client)
                 .AsNoTracking().ToList();
         }
 

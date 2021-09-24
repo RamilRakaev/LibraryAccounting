@@ -80,6 +80,14 @@ namespace LibraryAccounting.Pages.LibrarianPages
             return Page();
         }
 
+        public async Task OnGetReporting() 
+        {
+            await _mediator.Send(new LibrarianExcelReportCommand());
+            await GetSelectLists();
+            Books = await _mediator.Send(new GetBooksQuery());
+            _logger.LogInformation($"Excel bookings report");
+        }
+
         public async Task OnPost(int authorId, int genreId, string publisher)
         {
             Books = await _mediator

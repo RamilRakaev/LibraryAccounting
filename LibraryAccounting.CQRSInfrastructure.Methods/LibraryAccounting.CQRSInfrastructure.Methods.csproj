@@ -12,6 +12,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Domain\LibraryAccounting.Domain.Model\LibraryAccounting.Domain.Model.csproj" />
     <ProjectReference Include="..\Infrastructure\Data\LibraryAccounting.Infrastructure.Repositories\LibraryAccounting.Infrastructure.Repositories.csproj" />
+    <ProjectReference Include="..\LibraryAccounting.CQRSInfrastructure.LibrarianReports\LibraryAccounting.CQRSInfrastructure.LibrarianReports.csproj" />
     <ProjectReference Include="..\LibraryAccounting.Services.Mailing\LibraryAccounting.Services.Mailing.csproj" />
   </ItemGroup>
 

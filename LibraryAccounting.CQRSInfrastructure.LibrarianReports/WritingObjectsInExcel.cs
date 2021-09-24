@@ -13,6 +13,14 @@ namespace LibraryAccounting.CQRSInfrastructure.LibrarianReports
         private readonly ExcelReport excelReport;
         private readonly List<Row> rows;
 
+        public bool Success
+        {
+            get
+            {
+                return excelReport != null && excelReport.Success;
+            }
+        }
+
         public WritingObjectsInExcel(
             Dictionary<string, string> headers,
             Dictionary<string, string> replacedValues,
