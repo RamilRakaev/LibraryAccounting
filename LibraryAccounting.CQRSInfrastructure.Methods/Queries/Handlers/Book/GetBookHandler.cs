@@ -2,7 +2,7 @@
 using LibraryAccounting.Domain.Interfaces.DataManagement;
 using LibraryAccounting.Domain.Model;
 using MediatR;
-using System.Linq;
+using Microsoft.EntityFrameworkCore;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -21,8 +21,8 @@ namespace LibraryAccounting.CQRSInfrastructure.Methods.Queries.Handlers
             }
             else
             {
-                return _db.GetAll().
-                    FirstOrDefault(b => b.Title == request.Title);
+                return await _db.GetAll()
+                    .FirstOrDefaultAsync(b => b.Title == request.Title);
             }
         }
     }
