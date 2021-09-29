@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using LibraryAccounting.Domain.Model;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -22,11 +21,13 @@ namespace LibraryAccounting.Pages.LibrarianPages
         private readonly IMediator _mediator;
         private readonly ILogger<BookCatalogModel> _logger;
         private readonly UserProperties _user;
+
         public List<Book> Books { get; private set; }
         public SelectList Authors { get; private set; }
         public SelectList Genres { get; private set; }
         public SelectList Publishers { get; private set; }
-        private readonly string fileReport_path = Directory.GetCurrentDirectory() + "/Librarian report.xlsx";
+        private readonly string fileReportPath = Directory.GetCurrentDirectory() + "/Librarian report.xlsx";
+
         public BookCatalogModel(IWebHostEnvironment environment,
             IMediator mediator,
             ILogger<BookCatalogModel> logger,
@@ -46,13 +47,13 @@ namespace LibraryAccounting.Pages.LibrarianPages
             var genres = await _mediator.Send(new GetGenresQuery());
             Genres = new SelectList(genres, "Id", "Name");
 
-            var publishers = _mediator.Send(new GetBooksQuery()).Result.Select(b => b.Publisher).Distinct();
+            var publishers = await _mediator.Send(new GetPublishersQuery());
             Publishers = new SelectList(publishers);
         }
 
         public async Task<IActionResult> OnGet()
         {
-            new FileInfo(fileReport_path).Delete();
+            System.IO.File.Delete(fileReportPath);
             if (_user.IsAuthenticated == false || _user.RoleId != 3)
             {
                 return RedirectToPage("/Account/Login");
@@ -80,14 +81,12 @@ namespace LibraryAccounting.Pages.LibrarianPages
 
         public async Task<IActionResult> OnGetReporting() 
         {
-            
-            // Тип файла - content-type
             string file_type = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-            await _mediator.Send(new LibrarianExcelReportCommand() {Path = fileReport_path });
+            await _mediator.Send(new LibrarianExcelReportCommand() {Path = fileReportPath });
             await GetSelectLists();
             Books = await _mediator.Send(new GetBooksQuery());
             _logger.LogInformation($"Excel bookings report");
-            return PhysicalFile(fileReport_path, file_type);
+            return PhysicalFile(fileReportPath, file_type);
         }
 
         public async Task OnPost(int authorId, int genreId, string publisher)

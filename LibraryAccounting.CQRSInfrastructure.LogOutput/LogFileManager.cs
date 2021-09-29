@@ -85,7 +85,7 @@ namespace LibraryAccounting.CQRSInfrastructure.LogOutput
             return dates.ToArray();
         }
 
-        private string[] GetServices()
+        private Task<string[]> GetServices()
         {
             List<string> services = new List<string>();
             foreach (var date in GetDates())
@@ -94,32 +94,32 @@ namespace LibraryAccounting.CQRSInfrastructure.LogOutput
                     .AddRange(GetLogsAsList(date)
                     .Select(l => l.ServiceName));
             }
-            return services.Distinct().ToArray();
+            return Task.FromResult(services.Distinct().ToArray());
         }
 
         public async Task<Log[]> GetLogsAsync(string date)
         {
             return await Task
-                .FromResult(GetLogsAsList(date)
+                .Run(() => GetLogsAsList(date)
                 .ToArray());
         }
 
         public async Task<Log[]> GetLogsFromServiceAsync(string date, string serviceName)
         {
             return await Task
-                .FromResult(GetLogsAsList(date)
+                .Run(() => GetLogsAsList(date)
                 .Where(l => l.ServiceName == serviceName)
                 .ToArray());
         }
 
         public async Task<string[]> GetServicesAsync()
         {
-            return await Task.FromResult(GetServices());
+            return await GetServices();
         }
 
         public async Task<string[]> GetDatesAsync()
         {
-            return await Task.FromResult(GetDates());
+            return await Task.Run(() => GetDates());
         }
     }
 }

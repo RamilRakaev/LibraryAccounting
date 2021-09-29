@@ -36,8 +36,8 @@ namespace LibraryAccounting.CQRSInfrastructure.Methods.Commands.Handlers
                 new Dictionary<string, string>() { { "True", "да" }, { "False", "нет" } });
 
             excel.CreateSheetHeader();
-            await Task.Run(() => excel.CreateSheetData(list.ToArray()));
-            excel.SaveDocument("Отчёт для библиотекаря");
+            excel.CreateSheetData(list.ToArray());
+            await Task.Run(() => excel.SaveDocument("Отчёт для библиотекаря"));
             return excel.Success;
         }
     }

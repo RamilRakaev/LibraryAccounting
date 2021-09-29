@@ -21,10 +21,10 @@ namespace LibraryAccounting.CQRSInfrastructure.Methods.Commands.Handlers.Role
         public async Task<IEnumerable<ApplicationUserRole>> Handle(GetRolesQuery request, CancellationToken cancellationToken)
         {
             if (request.UserId == 0)
-                return await Task.FromResult(_db.Roles);
+                return await Task.Run(() => _db.Roles);
             else
             {
-                return await Task.FromResult(_db.Roles.
+                return await Task.Run(() => _db.Roles.
                 Where(r => r.Name == request.Name));
             }
         }

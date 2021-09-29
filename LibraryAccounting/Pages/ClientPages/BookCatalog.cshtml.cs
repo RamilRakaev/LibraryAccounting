@@ -15,6 +15,7 @@ namespace LibraryAccounting.Pages.ClientPages
     {
         readonly private IMediator _mediator;
         readonly private ILogger<BookCatalogModel> _logger;
+
         public List<Book> Books { get; private set; }
         public SelectList Authors { get; private set; }
         public SelectList Genres { get; private set; }

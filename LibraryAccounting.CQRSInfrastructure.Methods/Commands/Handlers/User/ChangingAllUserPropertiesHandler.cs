@@ -10,7 +10,7 @@ namespace LibraryAccounting.CQRSInfrastructure.Methods.Commands.Handlers
 {
     public class ChangingAllUserPropertiesHandler : UserHandler, IRequestHandler<ChangingAllPropertiesCommand, ApplicationUser>
     {
-        public ChangingAllUserPropertiesHandler(UserManager<ApplicationUser> _db) : base(_db)
+        public ChangingAllUserPropertiesHandler(UserManager<ApplicationUser> db) : base(db)
         { }
 
         public async Task<ApplicationUser> Handle(ChangingAllPropertiesCommand command, CancellationToken cancellationToken)
