@@ -40,7 +40,7 @@ namespace LibraryAccounting.CQRSInfrastructure.Methods.Commands.Handlers
                     {
                         await _signInManager.SignInAsync(user, true);
                         await _userManager.AddClaimAsync(user, new Claim("roleId", user.RoleId.ToString()));
-                        var resultClaim = await _userManager.UpdateAsync(user);
+                        await _userManager.UpdateAsync(user);
                         _logger.LogInformation("Succeeded login");
                         return "Вход успешно осуществлён";
                     }
