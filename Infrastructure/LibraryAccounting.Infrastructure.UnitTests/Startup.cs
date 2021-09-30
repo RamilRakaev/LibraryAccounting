@@ -11,7 +11,7 @@ namespace LibraryAccounting.Infrastructure.UnitTests
 {
     public class Startup
     {
-        public static DbContextOptions OnConfiguring()
+        public static DbContextOptions DataContextOptions()
         {
             DbContextOptionsBuilder optionsBuilder = new DbContextOptionsBuilder();
             var builder = new ConfigurationBuilder();
@@ -25,21 +25,5 @@ namespace LibraryAccounting.Infrastructure.UnitTests
             return optionsBuilder.Options;
         }
 
-        //public static DbContextOptions<DataContext> TestDbContextOptions()
-        //{
-        //    // Create a new service provider to create a new in-memory database.
-        //    var serviceProvider = new ServiceCollection()
-        //        .AddEntityFrameworkInMemoryDatabase()
-        //        .BuildServiceProvider();
-
-        //    // Create a new options instance using an in-memory database and 
-        //    // IServiceProvider that the context should resolve all of its 
-        //    // services from.
-        //    var builder = new DbContextOptionsBuilder<DataContext>()
-        //        .UseInMemoryDatabase("InMemoryDb")
-        //        .UseInternalServiceProvider(serviceProvider);
-
-        //    return builder.Options;
-        //}
     }
 }

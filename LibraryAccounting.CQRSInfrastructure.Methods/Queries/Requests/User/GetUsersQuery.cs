@@ -1,6 +1,7 @@
 ﻿using LibraryAccounting.Domain.Model;
 using MediatR;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace LibraryAccounting.CQRSInfrastructure.Methods.Queries.Requests
 {

@@ -10,41 +10,70 @@ using Microsoft.Extensions.Options;
 using System.IO;
 using Microsoft.AspNetCore.Identity;
 using LibraryAccounting.Services.ToolInterfaces;
+using Moq;
+using System.Collections.Generic;
+using LibraryAccounting.CQRSInfrastructure.Methods.Queries;
+using LibraryAccounting.CQRSInfrastructure.Methods.Queries.Requests;
+using System.Linq.Expressions;
+using System.Reflection;
 
 namespace LibraryAccounting.Infrastructure.UnitTests
 {
     [TestClass]
     public class RepositoryTests
     {
-        IRepository<Book> _bookRepository;
+        private readonly IRepository<Book> _bookRepository;
         private readonly UserManager<ApplicationUser> _userManager;
-        IRepository<Booking> _bookingRepository;
-        Book book;
+        private readonly IRepository<Booking> _bookingRepository;
+        private readonly DataContext _db;
+
+
+        private readonly BookAuthor author;
+        private readonly Genre genre;
+        private readonly Book book;
         ApplicationUser user;
         Booking booking;
 
-        public RepositoryTests(
-            IRepository<Book> bookRepository,
-            UserManager<ApplicationUser> userManager,
-            IRepository<Booking> bookingRepository)
+        private List<ApplicationUser> _users = new List<ApplicationUser>
+         {
+              new ApplicationUser("User1", "user1@bv.com", "password1", 1) { Id = 1 },
+              new ApplicationUser("User2", "user2@bv.com", "password2", 1) { Id = 2 }
+         };
+
+        public RepositoryTests()
         {
-            _userManager = userManager;
-            _bookRepository = bookRepository;
-            _bookingRepository = bookingRepository;
+            author = new BookAuthor() { Name = "author1" };
+            genre = new Genre() { Name = "genre2" };
+            book = new Book()
+            {
+                Title = "title1",
+                Author = author,
+                Genre = genre,
+                Publisher = "publisher"
+            };
+            _db = new DataContext(Startup.DataContextOptions());
+            _userManager = MockUserManager(_users).Object;
+            _bookRepository = new BookRepository(_db);
+            _bookingRepository = new BookingRepository(_db);
         }
 
+        public static Mock<UserManager<TUser>> MockUserManager<TUser>(List<TUser> ls) where TUser : class
+        {
+            var store = new Mock<IUserStore<TUser>>();
+            var mgr = new Mock<UserManager<TUser>>(store.Object, null, null, null, null, null, null, null, null);
+            mgr.Object.UserValidators.Add(new UserValidator<TUser>());
+            mgr.Object.PasswordValidators.Add(new PasswordValidator<TUser>());
+
+            mgr.Setup(x => x.DeleteAsync(It.IsAny<TUser>())).ReturnsAsync(IdentityResult.Success);
+            mgr.Setup(x => x.CreateAsync(It.IsAny<TUser>(), It.IsAny<string>())).ReturnsAsync(IdentityResult.Success).Callback<TUser, string>((x, y) => ls.Add(x));
+            mgr.Setup(x => x.UpdateAsync(It.IsAny<TUser>())).ReturnsAsync(IdentityResult.Success);
+
+            return mgr;
+        }
 
         [TestMethod]
         public void BookRepositoryTest()
         {
-            using DataContext db = new DataContext(Startup.OnConfiguring());
-            book = new Book()
-            {
-             
-            };
-
-            _bookRepository = new BookRepository(db);
-
             var AllElements = _bookRepository.GetAll();
             Assert.IsNotNull(AllElements);
             int AllElementsCount = AllElements.Count();
@@ -72,7 +101,7 @@ namespace LibraryAccounting.Infrastructure.UnitTests
                 RoleId = 1
             };
 
-            using DataContext db = new DataContext(Startup.OnConfiguring());
+            using DataContext db = new DataContext(Startup.DataContextOptions());
             var AllElements = _userManager.Users;
             Assert.IsNotNull(AllElements);
             int AllElementsCount = AllElements.Count();
@@ -90,8 +119,6 @@ namespace LibraryAccounting.Infrastructure.UnitTests
         [TestMethod]
         public void BookingRepositoryTest()
         {
-            using DataContext db = new DataContext(Startup.OnConfiguring());
-            _bookingRepository = new BookingRepository(db);
             booking = new Booking(1, 1)
             {
                 IsTransmitted = true,
@@ -112,6 +139,28 @@ namespace LibraryAccounting.Infrastructure.UnitTests
             _bookingRepository.RemoveAsync(booking);
             _bookingRepository.SaveAsync();
             Assert.IsTrue(AllElementsCount == _bookingRepository.GetAll().Count());
+        }
+
+        [TestMethod]
+        public void FilterTest()
+        {
+            Func<Book, bool> func = (b) => b.AuthorId == 1 && b.GenreId == 1;
+            _bookRepository
+                .GetAllAsNoTracking()
+                .Where(func);
+        }
+
+        [TestMethod]
+        public void FilterWithExpressionsTest()
+        {
+            Func<Book, bool> func = (b) => b.AuthorId == 1 && b.GenreId == 1;
+            Type enumerableType = typeof(IQueryable);
+            var methods = enumerableType
+                .GetMethods(BindingFlags.Public | BindingFlags.Static);
+            var selectedMethods = methods.Where(m => m.Name == "Where");
+
+            var method = selectedMethods.FirstOrDefault();
+            method = method.MakeGenericMethod(typeof)
         }
     }
 }
