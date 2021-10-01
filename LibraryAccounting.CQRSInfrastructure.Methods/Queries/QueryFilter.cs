@@ -16,13 +16,18 @@ namespace LibraryAccounting.CQRSInfrastructure.Methods.Queries
         }
         public List<Element> Filter(Query query)
         {
-            var queryProperties = typeof(Query).GetProperties().Where(p => p.GetValue(query) != null
-            && p.GetValue(query).ToString() != "0"
-            && p.GetValue(query).ToString() != string.Empty);
+            var queryProperties = typeof(Query)
+                .GetProperties()
+                .Where(p =>
+                p.GetValue(query) != null &&
+                p.GetValue(query).ToString() != "0" &&
+                p.GetValue(query).ToString() != string.Empty);
+
+            var queryPropertyNames = queryProperties
+                .Select(p => p.Name);
             var elementProperties = typeof(Element)
                 .GetProperties()
-                .Where(g => queryProperties
-                .Select(p => p.Name)
+                .Where(g => queryPropertyNames
                 .Contains(g.Name));
 
             foreach (var elementProperty in elementProperties)
