@@ -12,6 +12,6 @@ namespace LibraryAccounting.Domain.Interfaces.DataManagement
 
         public IQueryable<Element> GetAll();
 
-        public List<Element> GetAllAsNoTracking();
+        public IQueryable<Element> GetAllAsNoTracking();
     }
 }

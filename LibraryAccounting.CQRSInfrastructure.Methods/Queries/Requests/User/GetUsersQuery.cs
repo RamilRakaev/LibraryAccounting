@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace LibraryAccounting.CQRSInfrastructure.Methods.Queries.Requests
 {
-    public class GetUsersQuery : IRequest<List<ApplicationUser>>
+    public class GetUsersQuery : IRequest<IQueryable<ApplicationUser>>
     {
         public string Name { get; set; }
         public int? RoleId { get; set; }

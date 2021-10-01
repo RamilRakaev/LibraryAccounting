@@ -22,13 +22,13 @@ namespace LibraryAccounting.Infrastructure.Repositories
             return db.Set<Book>().Include(b => new { b.Genre, b.Author }).AsQueryable();
         }
 
-        public List<Book> GetAllAsNoTracking()
+        public IQueryable<Book> GetAllAsNoTracking()
         {
             return db.Set<Book>()
                 .Include(b => b.Author)
                 .Include(b => b.Genre)
                 .Include(b => b.Booking).Include(b => b.Booking.Client)
-                .AsNoTracking().ToList();
+                .AsNoTracking();
         }
 
         public async Task<Book> FindNoTrackingAsync(int id)

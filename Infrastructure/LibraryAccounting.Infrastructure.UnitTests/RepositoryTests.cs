@@ -145,22 +145,93 @@ namespace LibraryAccounting.Infrastructure.UnitTests
         public void FilterTest()
         {
             Func<Book, bool> func = (b) => b.AuthorId == 1 && b.GenreId == 1;
-            _bookRepository
-                .GetAllAsNoTracking()
-                .Where(func);
+            _bookRepository.GetAll().Where(func);
         }
 
         [TestMethod]
-        public void FilterWithExpressionsTest()
+        public void FilterExpressionTest()
         {
-            Func<Book, bool> func = (b) => b.AuthorId == 1 && b.GenreId == 1;
-            Type enumerableType = typeof(IQueryable);
-            var methods = enumerableType
+            ParameterExpression targetExp = Expression.Parameter(typeof(Book), "target");
+            var property = typeof(Book).GetProperty("AuthorId");
+            var parameter = Expression.MakeMemberAccess(targetExp, property);
+            var condition = Expression.Equal(parameter, Expression.Constant(1, typeof(int?)));
+
+            var source = _bookRepository.GetAll();
+            Type queryableType = typeof(Queryable);
+
+            var methods = queryableType
                 .GetMethods(BindingFlags.Public | BindingFlags.Static);
             var selectedMethods = methods.Where(m => m.Name == "Where");
-
             var method = selectedMethods.FirstOrDefault();
-            method = method.MakeGenericMethod(typeof)
+            method = method.MakeGenericMethod(typeof(Book));
+
+            var lambda = Expression.Lambda<Func<Book, bool>>(condition, targetExp);
+            var result = (IQueryable<Book>)method.Invoke(queryableType, new object[] { source, lambda });
+        }
+
+        [TestMethod]
+        public void ContainsTest()
+        {
+            var result = _bookRepository
+                .GetAllAsNoTracking()
+                .Where(b => b.Title.ToLower()
+            .Contains("סולüהוסÿע במדאעûנוי"));
+        }
+
+        [TestMethod]
+        public void ContainsExpressionTest()
+        {
+            var targetExp = Expression.Parameter(typeof(Book), "target");
+            var property = typeof(Book).GetProperty("Title");
+            var parameter = Expression.MakeMemberAccess(targetExp, property);
+
+            var stringType = typeof(string);
+
+            var toUpperMethod = stringType.GetMethod("ToLower", Type.EmptyTypes);
+            var tuLowerCall = Expression.Call(parameter, toUpperMethod);
+
+            var containsMethod = stringType.GetMethod("Contains", new Type[] { typeof(string) });
+            var containsCall = Expression.Call(tuLowerCall,
+                containsMethod, Expression.Constant("סולüהוסÿע במדאעûנוי"));
+
+            var source = _bookRepository.GetAllAsNoTracking();
+            Type queryableType = typeof(Queryable);
+
+            var methods = queryableType
+                .GetMethods(BindingFlags.Public | BindingFlags.Static);
+            var whereMethod = methods.FirstOrDefault(m => m.Name == "Where");
+            whereMethod = whereMethod.MakeGenericMethod(typeof(Book));
+
+            var lambda = Expression.Lambda<Func<Book, bool>>(containsCall, targetExp);
+            var result = (IQueryable<Book>)whereMethod.Invoke(queryableType, new object[] { source, lambda });
+        }
+
+        [TestMethod]
+        public void FilterPropertiesTest()
+        {
+            Type queryableType = typeof(Enumerable);
+
+            var methods = queryableType
+                .GetMethods(BindingFlags.Public | BindingFlags.Static);
+
+            var selectMethod = methods.FirstOrDefault(m => m.Name == "Select");
+            selectMethod = selectMethod.MakeGenericMethod(typeof(Book));
+
+            var targetPropeprty = Expression.Parameter(typeof(PropertyInfo), "target");
+            var property = typeof(PropertyInfo).GetProperty("Name");
+            var parameter = Expression.MakeMemberAccess(targetPropeprty, property);
+
+            var selectCall = Expression.Call(parameter, selectMethod);
+
+            var stringType = typeof(string);
+            var containsMethod = stringType.GetMethod("Contains", new Type[] { typeof(string) });
+            var containsCall = Expression.Call(tuLowerCall,
+                containsMethod, Expression.Constant("סולüהוסÿע במדאעûנוי"));
+
+            var whereMethod = methods.FirstOrDefault(m => m.Name == "Where");
+            whereMethod = whereMethod.MakeGenericMethod(typeof(Book));
+
+            var lambda = Expression.Lambda<Func<Book, bool>>(containsCall, targetExp);
         }
     }
 }

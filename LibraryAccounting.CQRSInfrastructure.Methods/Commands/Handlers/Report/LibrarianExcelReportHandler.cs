@@ -4,6 +4,7 @@ using LibraryAccounting.Domain.Interfaces.DataManagement;
 using LibraryAccounting.Domain.Model;
 using MediatR;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -21,7 +22,7 @@ namespace LibraryAccounting.CQRSInfrastructure.Methods.Commands.Handlers
         public async Task<bool> Handle(LibrarianExcelReportCommand request, CancellationToken cancellationToken)
         {
             List<object> list = new List<object>();
-            foreach (var booking in _db.GetAllAsNoTracking().ToArray())
+            foreach (var booking in _db.GetAllAsNoTracking())
             {
                 var obj = new { booking.BookingDate, booking.Book.Title, booking.Client.UserName, booking.Client.Email, booking.IsTransmitted };
                 list.Add(obj);
