@@ -26,6 +26,7 @@
     <ProjectReference Include="..\LibraryAccounting.CQRSInfrastructure.EmailManagement\LibraryAccounting.CQRSInfrastructure.Mailing.csproj" />
     <ProjectReference Include="..\LibraryAccounting.CQRSInfrastructure.LogOutput\LibraryAccounting.CQRSInfrastructure.LogOutput.csproj" />
     <ProjectReference Include="..\LibraryAccounting.CQRSInfrastructure.Methods\LibraryAccounting.CQRSInfrastructure.Methods.csproj" />
+    <ProjectReference Include="..\LibraryAccounting.CQRSInfrastructure.TelegramMailingReceiving\LibraryAccounting.CQRSInfrastructure.TelegramMailingReceiving.csproj" />
     <ProjectReference Include="..\LibraryAccounting.Services.LogOutput\LibraryAccounting.Services.LogOutput.csproj" />
     <ProjectReference Include="..\Services\LibraryAccounting.Services.ToolInterfaces.csproj" />
     <Content Update="nlog.config" CopyToOutputDirectory="PreserveNewest" />

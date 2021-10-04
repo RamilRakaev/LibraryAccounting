@@ -43,7 +43,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibraryAccounting.Services.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibraryAccounting.CQRSInfrastructure.LibrarianReports", "LibraryAccounting.CQRSInfrastructure.LibrarianReports\LibraryAccounting.CQRSInfrastructure.LibrarianReports.csproj", "{C7FBA879-9DE6-4AA9-AEEA-A9E7707C629D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibraryAccounting.CQRSInfrastructure.TelegramMailingReceiving", "LibraryAccounting.CQRSInfrastructure.TelegramMailingReceiving\LibraryAccounting.CQRSInfrastructure.TelegramMailingReceiving.csproj", "{814BD28A-1584-41FC-839E-76B002CBA165}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibraryAccounting.CQRSInfrastructure.TelegramMailingReceiving", "LibraryAccounting.CQRSInfrastructure.TelegramMailingReceiving\LibraryAccounting.CQRSInfrastructure.TelegramMailingReceiving.csproj", "{814BD28A-1584-41FC-839E-76B002CBA165}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

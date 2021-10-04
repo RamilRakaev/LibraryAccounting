@@ -1,5 +1,4 @@
-﻿using LibraryAccounting.Domain.Model;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -14,7 +13,7 @@ namespace LibraryAccounting.CQRSInfrastructure.TelegramMailingReceiving
     public class TelegramReceiving
     {
         private readonly TelegramBotClient botClient;
-        private readonly CancellationTokenSource cts;
+        private CancellationTokenSource cts;
         private readonly ILogger _logger;
         private event MessageOutputHandler _receive;
         private event ReceiveCommandHandler _addBooking;
@@ -64,12 +63,6 @@ namespace LibraryAccounting.CQRSInfrastructure.TelegramMailingReceiving
         {
             _logger = logger;
             botClient = new TelegramBotClient(token);
-
-            cts = new CancellationTokenSource();
-
-            botClient.StartReceiving(
-                new DefaultUpdateHandler(HandleUpdateAsync, HandleErrorAsync),
-                cts.Token);
         }
 
         public async Task<User> Me()
@@ -77,9 +70,21 @@ namespace LibraryAccounting.CQRSInfrastructure.TelegramMailingReceiving
             return await botClient.GetMeAsync();
         }
 
+        public void Start()
+        {
+            cts = new CancellationTokenSource();
+            botClient.StartReceiving(
+                new DefaultUpdateHandler(HandleUpdateAsync, HandleErrorAsync),
+                cts.Token);
+        }
+
         public void Stop()
         {
-            cts.Cancel();
+            if (cts != null)
+            {
+                cts.Cancel();
+                cts = null;
+            }
         }
 
         Task HandleErrorAsync(
@@ -87,16 +92,18 @@ namespace LibraryAccounting.CQRSInfrastructure.TelegramMailingReceiving
             Exception exception,
             CancellationToken cancellationToken)
         {
-            var ErrorMessage = exception switch
+            var errorMessage = exception switch
             {
                 ApiRequestException apiRequestException => $"Telegram API Error:\n[{apiRequestException.ErrorCode}]\n{apiRequestException.Message}",
                 _ => exception.ToString()
             };
-            _logger.LogError(ErrorMessage);
+            _logger.LogError(errorMessage);
+            _receive?.Invoke(errorMessage);
             return Task.CompletedTask;
         }
 
-        async Task HandleUpdateAsync(ITelegramBotClient botClient,
+        async Task HandleUpdateAsync(
+            ITelegramBotClient botClient,
             Update update,
             CancellationToken cancellationToken)
         {
@@ -118,31 +125,35 @@ namespace LibraryAccounting.CQRSInfrastructure.TelegramMailingReceiving
             _receive?.Invoke($"Sending message {text}");
         }
 
-        private string Answer(string message)
+        private string Answer(string command)
         {
-            message = message.ToLower();
+            command = command.ToLower();
 
-            if (message == "/start" && message == "/help")
+            if (command == "/start" || command == "/help")
             {
                 return "Список комманд:\n" +
                     "Добавить бронировку: /add {Id книги} {Почта}\n" +
                     "Вывести список книг: /books {Автор}";
             }
-            else if (message.Contains("/add"))
+            else if (command.Contains("/add"))
             {
-                var answer = _addBooking?.Invoke(message);
+                var answer = _addBooking?.Invoke(command);
                 return answer == null ? "Пусто" : answer;
             }
-            else if (message.Contains("books"))
+            else if (command.Contains("/books"))
             {
                 var answer = "Список книг:\n";
-                answer += _getBooks?.Invoke(message);
+                answer += _getBooks?.Invoke(command);
                 return answer;
             }
             else
             {
                 return "Введите команду";
             }
+        }
+        private async Task<string> AnswerAsync(string command)
+        {
+            return await Task.Run(() => Answer(command));
         }
     }
 }
