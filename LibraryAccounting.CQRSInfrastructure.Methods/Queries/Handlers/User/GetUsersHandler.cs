@@ -11,10 +11,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LibraryAccounting.CQRSInfrastructure.Methods.Queries.Handlers
 {
-    public class GetUsersHandler : IRequestHandler<GetUsersQuery, IQueryable<ApplicationUser>>
+    public class GetUsersHandler : IRequestHandler<GetUsersQuery, List<ApplicationUser>>
     {
-        private IQueryable<ApplicationUser> users;
-
         private readonly UserManager<ApplicationUser> _db;
 
         public GetUsersHandler(UserManager<ApplicationUser> db)
@@ -22,13 +20,13 @@ namespace LibraryAccounting.CQRSInfrastructure.Methods.Queries.Handlers
             _db = db ?? throw new ArgumentNullException(nameof(UserManager<ApplicationUser>));
         }
 
-        public async Task<IQueryable<ApplicationUser>> Handle(GetUsersQuery request, CancellationToken cancellationToken)
+        public async Task<List<ApplicationUser>> Handle(GetUsersQuery request, CancellationToken cancellationToken)
         {
-            users = _db.Users.Include(u => u.Role);
+            var users = _db.Users.Include(u => u.Role).AsNoTracking();
             QueryFilter<ApplicationUser, GetUsersQuery> filter =
                 new QueryFilter<ApplicationUser, GetUsersQuery>(users);
             await Task.Run(() => filter.Filter(request));
-            return users;
+            return users.ToList();
         }
     }
 }

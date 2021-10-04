@@ -232,20 +232,16 @@ namespace LibraryAccounting.Infrastructure.UnitTests
 
             var elementProperties = typeof(Book)
                 .GetProperties().AsEnumerable();
-            elementProperties = elementProperties
-                .Where(g => queryPropertyNames
-                .Contains(g.Name));
+            Expression<Func<PropertyInfo, bool>> whereExpLambda = g => queryPropertyNames.Contains(g.Name);
 
-            var propertyInfoExp = Expression.Parameter(typeof(PropertyInfo), "y");
-            var property = typeof(PropertyInfo).GetProperty("Name");
-            var parameter = Expression.MakeMemberAccess(propertyInfoExp, property);
+            var y = Expression.Parameter(typeof(PropertyInfo), "y");
 
-            var stringType = typeof(string);
+            var whereMethod = methods.FirstOrDefault(m => m.Name == "Where");
+            whereMethod = whereMethod.MakeGenericMethod(typeof(PropertyInfo));
 
-            var containsMethod = stringType.GetMethods().FirstOrDefault(m => m.Name == "Contains");
-            var containsCall = Expression.Call(
-                containsMethod, parameter);
-
+            elementProperties = (IEnumerable<PropertyInfo>)whereMethod
+                .Invoke(typeof(IEnumerable<PropertyInfo>), 
+                new object[] { elementProperties, whereExpLambda.Compile() });
         }
     }
 }

@@ -23,12 +23,34 @@ namespace LibraryAccounting.CQRSInfrastructure.Methods.Queries
                 p.GetValue(query).ToString() != "0" &&
                 p.GetValue(query).ToString() != string.Empty);
 
-            var queryPropertyNames = queryProperties
-                .Select(p => p.Name);
+            var parameterExp = Expression.Parameter(typeof(PropertyInfo), "x");
+            var propertyExp = Expression.Property(parameterExp, "Name");
+            var resultExp = Expression.Lambda(propertyExp, parameterExp);
+
+            var selectLambda = resultExp.Compile();
+
+            Type enumerableType = typeof(Enumerable);
+            var methods = enumerableType
+                .GetMethods(BindingFlags.Public | BindingFlags.Static);
+
+            var selectMethod = methods.FirstOrDefault(m => m.Name == "Select" && m.GetParameters().Count() == 2);
+            selectMethod = selectMethod.MakeGenericMethod(typeof(PropertyInfo), propertyExp.Type);
+
+            var queryPropertyNames = (IEnumerable<string>)selectMethod.Invoke(null,
+                new object[] { queryProperties, selectLambda });
+
             var elementProperties = typeof(Element)
-                .GetProperties()
-                .Where(g => queryPropertyNames
-                .Contains(g.Name));
+                .GetProperties().AsEnumerable();
+            Expression<Func<PropertyInfo, bool>> whereExpLambda = g => queryPropertyNames.Contains(g.Name);
+
+            var y = Expression.Parameter(typeof(PropertyInfo), "y");
+
+            var whereMethod = methods.FirstOrDefault(m => m.Name == "Where");
+            whereMethod = whereMethod.MakeGenericMethod(typeof(PropertyInfo));
+
+            elementProperties = (IEnumerable<PropertyInfo>)whereMethod
+                .Invoke(typeof(IEnumerable<PropertyInfo>),
+                new object[] { elementProperties, whereExpLambda.Compile() });
 
             foreach (var elementProperty in elementProperties)
             {
