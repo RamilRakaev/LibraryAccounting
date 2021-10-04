@@ -149,7 +149,7 @@ namespace LibraryAccounting.Infrastructure.UnitTests
         }
 
         [TestMethod]
-        public void FilterExpressionTest()
+        public void ExpressionFilterTest()
         {
             ParameterExpression targetExp = Expression.Parameter(typeof(Book), "target");
             var property = typeof(Book).GetProperty("AuthorId");
@@ -179,7 +179,7 @@ namespace LibraryAccounting.Infrastructure.UnitTests
         }
 
         [TestMethod]
-        public void ContainsExpressionTest()
+        public void ExpressionContainsTest()
         {
             var targetExp = Expression.Parameter(typeof(Book), "target");
             var property = typeof(Book).GetProperty("Title");
@@ -207,7 +207,7 @@ namespace LibraryAccounting.Infrastructure.UnitTests
         }
 
         [TestMethod]
-        public void FilterPropertiesTest()
+        public void ExpressionFilterPropertiesTest()
         {
             var query = new GetBooksQuery() { AuthorId = 1 };
             var queryProperties = typeof(GetBooksQuery).GetProperties().Where(p => p.GetValue(query) != null
@@ -240,7 +240,7 @@ namespace LibraryAccounting.Infrastructure.UnitTests
             whereMethod = whereMethod.MakeGenericMethod(typeof(PropertyInfo));
 
             elementProperties = (IEnumerable<PropertyInfo>)whereMethod
-                .Invoke(typeof(IEnumerable<PropertyInfo>), 
+                .Invoke(typeof(IEnumerable<PropertyInfo>),
                 new object[] { elementProperties, whereExpLambda.Compile() });
         }
     }
