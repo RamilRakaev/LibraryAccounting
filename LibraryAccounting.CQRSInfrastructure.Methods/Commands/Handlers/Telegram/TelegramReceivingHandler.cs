@@ -32,10 +32,10 @@ namespace LibraryAccounting.CQRSInfrastructure.Methods.Commands.Handlers
 
         public async Task<TelegramReceiving> Handle(TelegramCommand request, CancellationToken cancellationToken)
         {
-            var telegram = new TelegramReceiving(request.Logger, request.Token);
-            telegram.AddBooking += AddBooking;
-            telegram.GetBooks += GetBooks;
-            return await Task.FromResult(telegram);
+            Telegram = new TelegramReceiving(request.Logger, request.Token, _userManager, _bookingRepository, _bookRepository);
+            Telegram.AddBooking += AddBooking;
+            Telegram.GetBooks += GetBooks;
+            return await Task.FromResult(Telegram);
         }
 
         private string AddBooking(string message)
@@ -55,10 +55,10 @@ namespace LibraryAccounting.CQRSInfrastructure.Methods.Commands.Handlers
                 return "Неправильно введён id";
             }
             var email = operands[2];
-            var user = _userManager.FindByEmailAsync(email).Result;
+            var user = Telegram.UserManager.FindByEmailAsync(email).Result;
             if (user != null)
             {
-                _bookingRepository.AddAsync(new Booking(bookId, user.Id));
+                Telegram.BookingRepository.AddAsync(new Booking(bookId, user.Id));
             }
             else
             {
@@ -69,7 +69,7 @@ namespace LibraryAccounting.CQRSInfrastructure.Methods.Commands.Handlers
 
         private string GetBooks(string message)
         {
-            var books = _bookRepository.GetAllAsNoTracking();
+            var books = Telegram.BookRepository.GetAllAsNoTracking();
             string[] operands = message.Split(' ', StringSplitOptions.RemoveEmptyEntries);
             if (operands.Length < 2)
             {

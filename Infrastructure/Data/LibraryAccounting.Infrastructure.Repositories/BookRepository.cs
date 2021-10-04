@@ -26,7 +26,8 @@ namespace LibraryAccounting.Infrastructure.Repositories
             return db.Set<Book>()
                 .Include(b => b.Author)
                 .Include(b => b.Genre)
-                .Include(b => b.Booking).Include(b => b.Booking.Client)
+                .Include(b => b.Booking)
+                .Include(b => b.Booking.Client)
                 .AsNoTracking();
         }
 
@@ -36,6 +37,7 @@ namespace LibraryAccounting.Infrastructure.Repositories
                 .Include(b => b.Author)
                 .Include(b => b.Genre)
                 .Include(b => b.Booking)
+                .AsNoTracking()
                 .FirstOrDefaultAsync(b => b.Id == id);
         }
 

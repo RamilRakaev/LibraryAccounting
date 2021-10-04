@@ -1,4 +1,7 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using LibraryAccounting.Domain.Interfaces.DataManagement;
+using LibraryAccounting.Domain.Model;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -18,6 +21,10 @@ namespace LibraryAccounting.CQRSInfrastructure.TelegramMailingReceiving
         private event MessageOutputHandler _receive;
         private event ReceiveCommandHandler _addBooking;
         private event ReceiveCommandHandler _getBooks;
+
+        public UserManager<ApplicationUser> UserManager;
+        public IRepository<Booking> BookingRepository;
+        public IRepository<Book> BookRepository;
 
         public delegate void MessageOutputHandler(string message);
 
@@ -59,10 +66,18 @@ namespace LibraryAccounting.CQRSInfrastructure.TelegramMailingReceiving
             }
         }
 
-        public TelegramReceiving(ILogger logger, string token)
+        public TelegramReceiving(
+            ILogger logger, 
+            string token,
+            UserManager<ApplicationUser> userManager,
+            IRepository<Booking> bookingRepository,
+            IRepository<Book> bookRepository)
         {
             _logger = logger;
             botClient = new TelegramBotClient(token);
+            UserManager = userManager;
+            BookingRepository = bookingRepository;
+            BookRepository = bookRepository;
         }
 
         public async Task<User> Me()
