@@ -45,6 +45,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibraryAccounting.CQRSInfra
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibraryAccounting.CQRSInfrastructure.TelegramMailingReceiving", "LibraryAccounting.CQRSInfrastructure.TelegramMailingReceiving\LibraryAccounting.CQRSInfrastructure.TelegramMailingReceiving.csproj", "{814BD28A-1584-41FC-839E-76B002CBA165}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibraryAccounting.Services.TelegramMailingReceiving", "LibraryAccounting.Services.TelegramMailingReceiving\LibraryAccounting.Services.TelegramMailingReceiving.csproj", "{F8408B96-24F5-4BD8-9245-4A439E3FB6B8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -115,6 +117,10 @@ Global
 		{814BD28A-1584-41FC-839E-76B002CBA165}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{814BD28A-1584-41FC-839E-76B002CBA165}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{814BD28A-1584-41FC-839E-76B002CBA165}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F8408B96-24F5-4BD8-9245-4A439E3FB6B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F8408B96-24F5-4BD8-9245-4A439E3FB6B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F8408B96-24F5-4BD8-9245-4A439E3FB6B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F8408B96-24F5-4BD8-9245-4A439E3FB6B8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -136,6 +142,7 @@ Global
 		{23693BF7-552F-49B5-8DC0-D8D178232117} = {2F80554F-246D-4DDD-AF39-3D033405AF48}
 		{C7FBA879-9DE6-4AA9-AEEA-A9E7707C629D} = {8AE390A4-B698-4472-86F0-5A3671822E43}
 		{814BD28A-1584-41FC-839E-76B002CBA165} = {8AE390A4-B698-4472-86F0-5A3671822E43}
+		{F8408B96-24F5-4BD8-9245-4A439E3FB6B8} = {2F80554F-246D-4DDD-AF39-3D033405AF48}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9A6DB750-B3A5-4DD4-8A2D-4E1402A57B01}

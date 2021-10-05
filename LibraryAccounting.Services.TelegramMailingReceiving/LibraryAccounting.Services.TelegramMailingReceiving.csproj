@@ -6,12 +6,8 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="5.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="5.0.0" />
     <PackageReference Include="Telegram.Bot.Extensions.Polling" Version="0.2.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Domain\LibraryAccounting.Domain.Model\LibraryAccounting.Domain.Model.csproj" />
-    <ProjectReference Include="..\LibraryAccounting.Services.TelegramMailingReceiving\LibraryAccounting.Services.TelegramMailingReceiving.csproj" />
   </ItemGroup>
 
 </Project>

@@ -3,172 +3,78 @@ using LibraryAccounting.Domain.Model;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Threading;
-using System.Threading.Tasks;
-using Telegram.Bot;
-using Telegram.Bot.Exceptions;
-using Telegram.Bot.Extensions.Polling;
-using Telegram.Bot.Types;
-using Telegram.Bot.Types.Enums;
+using System.Linq;
+using LibraryAccounting.Services.TelegramMailingReceiving;
+using Microsoft.Extensions.Options;
 
 namespace LibraryAccounting.CQRSInfrastructure.TelegramMailingReceiving
 {
-    public class TelegramReceiving
+    public class TelegramReceiving : AbstractTelegramReceiving
     {
-        private readonly TelegramBotClient botClient;
-        private CancellationTokenSource cts;
-        private readonly ILogger _logger;
-        private event MessageOutputHandler _receive;
-        private event ReceiveCommandHandler _addBooking;
-        private event ReceiveCommandHandler _getBooks;
 
         public UserManager<ApplicationUser> UserManager;
-        public IRepository<Booking> BookingRepository;
-        public IRepository<Book> BookRepository;
-
-        public delegate void MessageOutputHandler(string message);
-
-        public event MessageOutputHandler Receive
-        {
-            add
-            {
-                _receive += value;
-            }
-            remove
-            {
-                _receive -= value;
-            }
-        }
-
-        public delegate string ReceiveCommandHandler(string parameter);
-
-        public event ReceiveCommandHandler AddBooking
-        {
-            add
-            {
-                _addBooking += value;
-            }
-            remove
-            {
-                _addBooking -= value;
-            }
-        }
-
-        public event ReceiveCommandHandler GetBooks
-        {
-            add
-            {
-                _getBooks += value;
-            }
-            remove
-            {
-                _getBooks -= value;
-            }
-        }
+        public IRepository<Booking> Bookings;
+        public IRepository<Book> BooksRepository;
 
         public TelegramReceiving(
-            ILogger logger, 
-            string token,
+            ILogger<AbstractTelegramReceiving> logger,
+            IOptions<TelegramOptions> options,
             UserManager<ApplicationUser> userManager,
-            IRepository<Booking> bookingRepository,
-            IRepository<Book> bookRepository)
+            IRepository<Booking> bookings,
+            IRepository<Book> books) : base(logger, options)
         {
-            _logger = logger;
-            botClient = new TelegramBotClient(token);
             UserManager = userManager;
-            BookingRepository = bookingRepository;
-            BookRepository = bookRepository;
+            Bookings = bookings;
+            BooksRepository = books;
         }
 
-        public async Task<User> Me()
+        protected override string GetBooks(string message)
         {
-            return await botClient.GetMeAsync();
-        }
-
-        public void Start()
-        {
-            cts = new CancellationTokenSource();
-            botClient.StartReceiving(
-                new DefaultUpdateHandler(HandleUpdateAsync, HandleErrorAsync),
-                cts.Token);
-        }
-
-        public void Stop()
-        {
-            if (cts != null)
+            string[] operands = message.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+            if (operands.Length < 2)
             {
-                cts.Cancel();
-                cts = null;
+                return "Неправильно введена команда";
             }
-        }
-
-        Task HandleErrorAsync(
-            ITelegramBotClient botClient,
-            Exception exception,
-            CancellationToken cancellationToken)
-        {
-            var errorMessage = exception switch
+            var books = BooksRepository.GetAllAsNoTracking().Where(b => b.Author.Name == operands[1]).ToArray();
+            if (books == null)
             {
-                ApiRequestException apiRequestException => $"Telegram API Error:\n[{apiRequestException.ErrorCode}]\n{apiRequestException.Message}",
-                _ => exception.ToString()
-            };
-            _logger.LogError(errorMessage);
-            _receive?.Invoke(errorMessage);
-            return Task.CompletedTask;
-        }
-
-        async Task HandleUpdateAsync(
-            ITelegramBotClient botClient,
-            Update update,
-            CancellationToken cancellationToken)
-        {
-            if (update.Type != UpdateType.Message)
-                return;
-            if (update.Message.Type != MessageType.Text)
-                return;
-
-            var chatId = update.Message.Chat.Id;
-
-            _logger.LogInformation($"Received a '{update.Message.Text}' message in chat {chatId}.");
-            _receive?.Invoke($"Received a '{update.Message.Text}' message in chat {chatId}.");
-
-            var text = Answer(update.Message.Text);
-            await botClient.SendTextMessageAsync(
-                chatId: chatId,
-                text: text
-            );
-            _receive?.Invoke($"Sending message {text}");
-        }
-
-        private string Answer(string command)
-        {
-            command = command.ToLower();
-
-            if (command == "/start" || command == "/help")
-            {
-                return "Список комманд:\n" +
-                    "Добавить бронировку: /add {Id книги} {Почта}\n" +
-                    "Вывести список книг: /books {Автор}";
+                return "Книг данного автора нет в наличии";
             }
-            else if (command.Contains("/add"))
+            string answer = "";
+            foreach (var book in books)
             {
-                var answer = _addBooking?.Invoke(command);
-                return answer == null ? "Пусто" : answer;
+                answer += $"\nId:{book.Id} {book.Title}, " + book.Booking == null ? "в наличии;" : "забронировано;";
             }
-            else if (command.Contains("/books"))
+            return answer;
+        }
+
+        protected override string AddBooking(string message)
+        {
+            string[] operands = message.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+            if (operands.Length < 3)
             {
-                var answer = "Список книг:\n";
-                answer += _getBooks?.Invoke(command);
-                return answer;
+                return "Неправильно введена команда";
+            }
+            int bookId;
+            try
+            {
+                bookId = Convert.ToInt32(operands[1]);
+            }
+            catch
+            {
+                return "Неправильно введён id";
+            }
+            var email = operands[2];
+            var user = UserManager.FindByEmailAsync(email).Result;
+            if (user != null)
+            {
+                Bookings.AddAsync(new Booking(bookId, user.Id));
             }
             else
             {
-                return "Введите команду";
+                return "Такого пользователя не существует";
             }
-        }
-        private async Task<string> AnswerAsync(string command)
-        {
-            return await Task.Run(() => Answer(command));
+            return "Книга успешно забронирована";
         }
     }
 }

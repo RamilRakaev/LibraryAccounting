@@ -1,5 +1,6 @@
 using LibraryAccounting.CQRSInfrastructure.Methods.Commands.Requests;
 using LibraryAccounting.CQRSInfrastructure.TelegramMailingReceiving;
+using LibraryAccounting.Services.TelegramMailingReceiving;
 using MediatR;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
@@ -9,41 +10,28 @@ namespace LibraryAccounting.Pages.LibrarianPages
 {
     public class TelegramBotModel : PageModel
     {
-        private readonly IMediator _mediator;
         private ILogger<TelegramBotModel> _logger;
 
-        public TelegramReceiving Telegram { get; set; }
+        private readonly AbstractTelegramReceiving _telegram;
 
-        public TelegramBotModel(IMediator mediator, ILogger<TelegramBotModel> logger)
+        public TelegramBotModel(AbstractTelegramReceiving telegram, ILogger<TelegramBotModel> logger)
         {
-            _mediator = mediator;
+            _telegram = telegram;
             _logger = logger;
         }
 
-        public async Task OnGet()
+        public void OnGet()
         {
         }
 
         public void OnGetStart()
         {
-            Telegram = _mediator.Send(
-                new TelegramCommand()
-                {
-                    Logger = _logger,
-                    Token = "2006724722:AAEl8DPl_JuDmhXdDeAEEciguf73abZtEws"
-                }).Result;
-            Telegram.Start();
+            _telegram.Start();
         }
 
-        public async Task OnGetStop()
+        public void OnGetStop()
         {
-            Telegram = await _mediator.Send(
-                new TelegramCommand()
-                {
-                    Logger = _logger,
-                    Token = "2006724722:AAEl8DPl_JuDmhXdDeAEEciguf73abZtEws"
-                });
-            Telegram.Stop();
+            _telegram.Stop();
         }
     }
 }

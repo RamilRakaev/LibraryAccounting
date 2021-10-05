@@ -22,6 +22,7 @@ using LibraryAccounting.Services.LogOutput;
 using LibraryAccounting.CQRSInfrastructure.LogOutput;
 using LibraryAccounting.CQRSInfrastructure.Mailing;
 using LibraryAccounting.CQRSInfrastructure.TelegramMailingReceiving;
+using LibraryAccounting.Services.TelegramMailingReceiving;
 
 namespace LibraryAccounting
 {
@@ -51,9 +52,10 @@ namespace LibraryAccounting
             services.AddHostedService<MigrationManager>();
 
             services.Configure<EmailOptions>(Configuration);
-            services.AddTransient<ILogFileManager, LogFileManager>();
             services.AddTransient<IMessageSending, MessageSending>();
-            //services.AddTransient<TelegramReceiving, TelegramReceiving>();
+            services.AddTransient<ILogFileManager, LogFileManager>();
+            services.Configure<TelegramOptions>(Configuration.GetSection(TelegramOptions.Telegram));
+            services.AddTransient<AbstractTelegramReceiving, TelegramReceiving>();
 
             services.AddTransient<UserProperties, UserProperties>();
 
