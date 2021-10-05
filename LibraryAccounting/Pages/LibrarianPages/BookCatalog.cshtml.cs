@@ -12,6 +12,8 @@ using LibraryAccounting.CQRSInfrastructure.Methods.Queries.Requests;
 using LibraryAccounting.CQRSInfrastructure.Methods.Commands.Requests;
 using LibraryAccounting.Pages.ClientPages;
 using Microsoft.AspNetCore.Mvc;
+using LibraryAccounting.Domain.Interfaces.DataManagement;
+using System.Linq;
 
 namespace LibraryAccounting.Pages.LibrarianPages
 {
@@ -31,12 +33,13 @@ namespace LibraryAccounting.Pages.LibrarianPages
         public BookCatalogModel(IWebHostEnvironment environment,
             IMediator mediator,
             ILogger<BookCatalogModel> logger,
-            UserProperties user)
+            UserProperties user, IRepository<Book> repository)
         {
             _environment = environment;
             _mediator = mediator;
             _logger = logger;
             _user = user;
+            var books = repository.GetAllAsNoTracking().ToArray();
         }
 
         private async Task GetSelectLists()

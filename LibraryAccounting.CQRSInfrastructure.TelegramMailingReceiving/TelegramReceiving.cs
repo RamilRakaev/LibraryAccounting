@@ -11,7 +11,6 @@ namespace LibraryAccounting.CQRSInfrastructure.TelegramMailingReceiving
 {
     public class TelegramReceiving : AbstractTelegramReceiving
     {
-
         public UserManager<ApplicationUser> UserManager;
         public IRepository<Booking> Bookings;
         public IRepository<Book> BooksRepository;
@@ -35,7 +34,7 @@ namespace LibraryAccounting.CQRSInfrastructure.TelegramMailingReceiving
             {
                 return "Неправильно введена команда";
             }
-            var books = BooksRepository.GetAllAsNoTracking().Where(b => b.Author.Name == operands[1]).ToArray();
+            var books = BooksRepository.GetAllAsNoTracking().Where(b => b.Author.Name == operands[1]);
             if (books == null)
             {
                 return "Книг данного автора нет в наличии";
