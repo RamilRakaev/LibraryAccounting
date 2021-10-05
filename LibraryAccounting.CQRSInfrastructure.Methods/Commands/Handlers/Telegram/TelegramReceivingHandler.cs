@@ -78,7 +78,7 @@ namespace LibraryAccounting.CQRSInfrastructure.Methods.Commands.Handlers
             books = books.Where(b => b.Author.Name == operands[1]);
             if (books == null)
             {
-                return "Книги данного автора нет в наличии";
+                return "Книг данного автора нет в наличии";
             }
             string answer = "";
             foreach (var book in books)
