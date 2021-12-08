@@ -11,20 +11,9 @@ namespace LibraryAccounting.CQRSInfrastructure.TelegramMailingReceiving
 {
     public class TelegramReceiving : AbstractTelegramReceiving
     {
-        public UserManager<ApplicationUser> UserManager;
-        public IRepository<Booking> Bookings;
-        public IRepository<Book> BooksRepository;
 
-        public TelegramReceiving(
-            ILogger<AbstractTelegramReceiving> logger,
-            IOptions<TelegramOptions> options,
-            UserManager<ApplicationUser> userManager,
-            IRepository<Booking> bookings,
-            IRepository<Book> books) : base(logger, options)
+        public TelegramReceiving(IOptions<TelegramOptions> options) : base(options)
         {
-            UserManager = userManager;
-            Bookings = bookings;
-            BooksRepository = books;
         }
 
         protected override string GetBooks(string message)
@@ -63,11 +52,10 @@ namespace LibraryAccounting.CQRSInfrastructure.TelegramMailingReceiving
             {
                 return "Неправильно введён id";
             }
-            var email = operands[2];
-            var user = UserManager.FindByEmailAsync(email).Result;
+            var bookings = new Booking(bookId, )
             if (user != null)
             {
-                Bookings.AddAsync(new Booking(bookId, user.Id));
+                Bookings.Add(message);
             }
             else
             {

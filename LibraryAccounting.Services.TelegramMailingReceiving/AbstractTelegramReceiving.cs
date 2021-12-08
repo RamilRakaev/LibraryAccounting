@@ -1,6 +1,6 @@
-﻿using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Options;
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Telegram.Bot;
@@ -15,17 +15,14 @@ namespace LibraryAccounting.Services.TelegramMailingReceiving
     {
         private readonly TelegramBotClient botClient;
         private CancellationTokenSource cts;
-        private readonly ILogger<AbstractTelegramReceiving> _logger;
 
-        public AbstractTelegramReceiving(ILogger<AbstractTelegramReceiving> logger, IOptions<TelegramOptions> options)
+        public List<TelegramBookingRequest> Books { get; protected set; }
+        public List<TelegramBookingRequest> Bookings { get; protected set; }
+
+        public AbstractTelegramReceiving(IOptions<TelegramOptions> options)
         {
-            _logger = logger;
             botClient = new TelegramBotClient(options.Value.TelegramToken);
         }
-
-        protected abstract string AddBooking(string parameter);
-
-        protected abstract string GetBooks(string parameter);
 
         public async Task<User> Me()
         {
@@ -59,7 +56,6 @@ namespace LibraryAccounting.Services.TelegramMailingReceiving
                 ApiRequestException apiRequestException => $"Telegram API Error:\n[{apiRequestException.ErrorCode}]\n{apiRequestException.Message}",
                 _ => exception.ToString()
             };
-            _logger.LogError(errorMessage);
             return Task.CompletedTask;
         }
 
@@ -75,16 +71,33 @@ namespace LibraryAccounting.Services.TelegramMailingReceiving
 
             var chatId = update.Message.Chat.Id;
 
-            _logger.LogInformation($"Received a '{update.Message.Text}' message in chat {chatId}.");
-
-            var text = await AnswerAsync(update.Message.Text);
+            var text = await AnswerAsync(update.Message.Text, update.Message.Chat.Id);
             await botClient.SendTextMessageAsync(
                 chatId: chatId,
                 text: text
             );
         }
 
-        private string Answer(string command)
+        private string AddBooking(string message)
+        {
+            string[] operands = message.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+            if (operands.Length < 3)
+            {
+                return "Неправильно введена команда";
+            }
+            int bookId;
+            try
+            {
+                bookId = Convert.ToInt32(operands[1]);
+            }
+            catch
+            {
+                return "Неправильно введён id";
+            }
+            return "Запрос на бронировку книги отправлен";
+        }
+
+        private string Answer(string command, long chatId)
         {
             command = command.ToLower();
 
@@ -96,8 +109,8 @@ namespace LibraryAccounting.Services.TelegramMailingReceiving
             }
             else if (command.Contains("/add"))
             {
-                var answer = AddBooking(command);
-                return answer ?? "Пусто";
+                
+                return AddBooking(command);
             }
             else if (command.Contains("/books"))
             {
@@ -111,9 +124,9 @@ namespace LibraryAccounting.Services.TelegramMailingReceiving
             }
         }
 
-        private async Task<string> AnswerAsync(string command)
+        private async Task<string> AnswerAsync(string command, long chatId)
         {
-            return await Task.Run(() => Answer(command));
+            return await Task.Run(() => Answer(command, chatId));
         }
     }
 }
